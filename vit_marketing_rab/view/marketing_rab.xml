@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tree view -->
+        <record id="view_vit_marketing_rab_tree" model="ir.ui.view">
+            <field name="name">vit_marketing_rab_tree</field>
+            <field name="model">vit.marketing_rab</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Marketing rab">
+                    <field name="name" />
+                    <field name="project" />
+                    <field name="rab_no" />
+                    <field name="date" />
+                    <field name="total_rab" />
+                    <field name="qty" />
+                    <field name="satuan" />
+                    <field name="total_price" />
+                    <field name="gross" />
+                    <field name="note" />
+                    <field name="state" />
+                    <field name="due_date" />
+                    <field name="total_weight" />
+                    <field name="excepted_gross" />
+                    <field name="inquery_id" />
+                </tree>
+            </field>
+        </record>
+        <!-- form view -->
+        <record id="view_vit_marketing_rab_form" model="ir.ui.view">
+            <field name="name">vit_marketing_rab_form</field>
+            <field name="model">vit.marketing_rab</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Marketing rab">
+                    <header>
+                        <button string="Confirm" type="object" name="action_confirm" states="draft" />
+                        <button string="Mark as Done" type="object" name="action_done" states="open" />
+                        <button string="Reset to Draft" type="object" name="action_draft" states="open,done" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+                                <!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+                                <!--field name="detail_ids" invisible="1"/-->
+                            <!--/button-->
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Marketing rab Name"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project" />
+                                <field name="rab_no" />
+                                <field name="date" />
+                                <field name="total_rab" />
+                                <field name="qty" />
+                                <field name="satuan" />
+                                <field name="total_price" />
+                                <field name="gross" />
+                                <field name="note" />
+                                <field name="due_date" />
+                                <field name="total_weight" />
+                                <field name="excepted_gross" />
+                            </group>
+                            <group>
+                                <field name="inquery_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lines">
+                                <field name="line_ids"/>
+                            </page>
+                            <page string="Rab products">
+                                <field name="rab_product_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_vit_marketing_rab_search" model="ir.ui.view">
+            <field name="name">vit_marketing_rab</field>
+            <field name="model">vit.marketing_rab</field>
+            <field name="arch" type="xml">
+                <search string="Marketing rab">
+
+                    <filter string="Name" name="filter_by_name" domain="[('name','=','')]" />
+                    <filter string="Project" name="filter_by_project" domain="[('project','=','')]" />
+                    <filter string="Rab no" name="filter_by_rab_no" domain="[('rab_no','=','')]" />
+                    <filter string="Date" name="filter_by_date" domain="[('date','=','')]" />
+                    <filter string="Total rab" name="filter_by_total_rab" domain="[('total_rab','=','')]" />
+                    <filter string="Qty" name="filter_by_qty" domain="[('qty','=','')]" />
+                    <filter string="Satuan" name="filter_by_satuan" domain="[('satuan','=','')]" />
+                    <filter string="Total price" name="filter_by_total_price" domain="[('total_price','=','')]" />
+                    <filter string="Gross" name="filter_by_gross" domain="[('gross','=','')]" />
+                    <filter string="Note" name="filter_by_note" domain="[('note','=','')]" />
+                    <filter string="State" name="filter_by_state" domain="[('state','=','')]" />
+                    <filter string="Due date" name="filter_by_due_date" domain="[('due_date','=','')]" />
+                    <filter string="Total weight" name="filter_by_total_weight" domain="[('total_weight','=','')]" />
+                    <filter string="Excepted gross" name="filter_by_excepted_gross" domain="[('excepted_gross','=','')]" />
+                    <field name="name" select="True"/>
+                    <field name="project" select="True"/>
+                    <field name="rab_no" select="True"/>
+                    <field name="date" select="True"/>
+                    <field name="total_rab" select="True"/>
+                    <field name="qty" select="True"/>
+                    <field name="satuan" select="True"/>
+                    <field name="total_price" select="True"/>
+                    <field name="gross" select="True"/>
+                    <field name="note" select="True"/>
+                    <field name="state" select="True"/>
+                    <field name="due_date" select="True"/>
+                    <field name="total_weight" select="True"/>
+                    <field name="excepted_gross" select="True"/>
+                    <field name="inquery_id" select="True"/>
+                    <group string="Group By..">
+                        <filter string="Inquery" domain="[]" name="group_by_inquery_id" context="{'group_by':'inquery_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- kanban , to show image, please add image_small in the model -->
+        <record id="view_vit_marketing_rab_kanban" model="ir.ui.view" >
+            <field name="name">vit_marketing_rab</field>
+            <field name="model">vit.marketing_rab</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0">
+                    <field name="id" />
+                    <field name="name" />
+                    <field name="project" />
+                    <field name="rab_no" />
+                    <field name="date" />
+                    <field name="total_rab" />
+                    <field name="qty" />
+                    <field name="satuan" />
+                    <field name="total_price" />
+                    <field name="gross" />
+                    <field name="note" />
+                    <field name="state" />
+                    <field name="due_date" />
+                    <field name="total_weight" />
+                    <field name="excepted_gross" />
+                    <field name="inquery_id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            Field1: <field name="name"></field>
+                                        </li>
+                                        <li>
+                                            Field2: <field name="name"></field>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- calendar if a date field exists -->
+        <record id="view_vit_marketing_rab_cal" model="ir.ui.view">
+            <field name="name">vit_marketing_rab_cal</field>
+            <field name="model">vit.marketing_rab</field>
+            <field name="arch" type="xml">
+                <calendar string="Marketing rab" date_start="due_date">
+                    <field name="name" />
+                </calendar>
+            </field>
+        </record>
+        <!-- graph -->
+        <record id="view_vit_marketing_rab_graph" model="ir.ui.view">
+            <field name="name">vit_marketing_rab</field>
+            <field name="model">vit.marketing_rab</field>
+            <field name="arch" type="xml">
+                <graph string="Marketing rab" type="bar">
+                    <field name="inquery_id"/>
+                </graph>
+            </field>
+        </record>
+        <!-- action window -->
+        <record id="action_vit_marketing_rab" model="ir.actions.act_window">
+            <field name="name">Marketing rab</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.marketing_rab</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Marketing rab
+                </p><p>
+                Click the Create button to add a new Marketing rab
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_vit_marketing_rab" name="Marketing rab" parent="vit_marketing_rab_sub_menu" action="action_vit_marketing_rab" sequence="20"/>
+    </data>
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- report qweb view -->
+        <report id="report_vit_rap_line_menu" string="Vit - Rap line"
+         model="vit.rap_line" report_type="qweb-pdf" 
+         file="vit.rap_line"  name="vit_marketing_rap.vit_rap_line_report" />
+
+        <!-- document template -->
+        <template id="vit_marketing_rap.vit_rap_line_report_document" >
+            <t t-call="web.external_layout">
+                <t t-set="doc" t-value="doc.with_context({'lang': lang})"/>
+                <div class="page">
+                    <h2>
+                        Rap line: <span t-field="doc.name"/>
+                    </h2>
+                    <div class="row mt32 mb32">
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Code</strong>
+                            <p class="m-0" t-field="doc.code" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Cost rap</strong>
+                            <p class="m-0" t-field="doc.cost_rap" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Cost rab</strong>
+                            <p class="m-0" t-field="doc.cost_rab" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Total weight</strong>
+                            <p class="m-0" t-field="doc.total_weight" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Rap</strong>
+                            <p class="m-0" t-field="doc.rap_id"/>
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Master rap</strong>
+                            <p class="m-0" t-field="doc.master_rap_id"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+                <h2>Product rap lines</h2>
+                <table class="table table-sm o_main_table" name="product_rap_line_ids_table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Weight</td>
+                            <td>Qty</td>
+                            <td>Satuan</td>
+                            <td>Sub total</td>
+                            <td>Kode akun</td>
+                            <td>Total weight</td>
+                            <td>Rap line</td>
+                            <td>Uom</td>
+                            <td>Product</td>
+                            <td>Account</td>
+                        </tr>
+                    </thead>
+                    <tbody class="product_rap_line_ids_tbody">
+                        <tr t-foreach="doc.product_rap_line_ids" t-as="line">
+                            <td><span t-field="line.name" /></td>
+                            <td><span t-field="line.weight" /></td>
+                            <td><span t-field="line.qty" /></td>
+                            <td><span t-field="line.satuan" /></td>
+                            <td><span t-field="line.sub_total" /></td>
+                            <td><span t-field="line.kode_akun" /></td>
+                            <td><span t-field="line.total_weight" /></td>
+                            <td><span t-field="line.rap_line_id" /></td>
+                            <td><span t-field="line.uom_id" /></td>
+                            <td><span t-field="line.product_id" /></td>
+                            <td><span t-field="line.account_id" /></td>
+                        </tr> <!-- foreach-->
+                    </tbody>
+                </table>
+                <div class="oe_structure"/>
+            </t>
+        </template>
+
+        <!-- main template -->
+        <template id="vit_marketing_rap.vit_rap_line_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="lang" t-value="doc.create_uid.lang"/>
+                    <t t-call="vit_marketing_rap.vit_rap_line_report_document" />
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

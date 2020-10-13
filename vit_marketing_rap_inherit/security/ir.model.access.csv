@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_all_vit_wizard_rap,access_all_vit_wizard_rap,model_vit_wizard_rap,,1,0,0,0
+access_admin_vit_wizard_rap,access_admin_vit_wizard_rap,model_vit_wizard_rap,base.group_system,1,1,1,1
+access_all_vit_document_rap_line,access_all_vit_document_rap_line,model_vit_document_rap_line,,1,0,0,0
+access_admin_vit_document_rap_line,access_admin_vit_document_rap_line,model_vit_document_rap_line,base.group_system,1,1,1,1
+

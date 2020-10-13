@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vit_marketing_inquery_tier_vit_marketing_inquery_tier,vit_marketing_inquery_tier.vit_marketing_inquery_tier,model_vit_marketing_inquery_tier_vit_marketing_inquery_tier,,1,0,0,0

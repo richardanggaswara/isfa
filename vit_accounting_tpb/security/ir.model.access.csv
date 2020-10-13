@@ -1,0 +1,7 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_all_vit_accounting_tpb,access_all_vit_accounting_tpb,model_vit_accounting_tpb,,1,0,0,0
+access_admin_vit_accounting_tpb,access_admin_vit_accounting_tpb,model_vit_accounting_tpb,base.group_system,1,1,1,1
+access_all_vit_accounting_tpb_line,access_all_vit_accounting_tpb_line,model_vit_accounting_tpb_line,,1,0,0,0
+access_admin_vit_accounting_tpb_line,access_admin_vit_accounting_tpb_line,model_vit_accounting_tpb_line,base.group_system,1,1,1,1
+access_all_vit_doc_tpb_line,access_all_vit_doc_tpb_line,model_vit_doc_tpb_line,,1,0,0,0
+access_admin_vit_doc_tpb_line,access_admin_vit_doc_tpb_line,model_vit_doc_tpb_line,base.group_system,1,1,1,1

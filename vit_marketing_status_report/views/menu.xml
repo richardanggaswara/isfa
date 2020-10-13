@@ -1,0 +1,5 @@
+<odoo>
+  <data>
+    <menuitem id="vit_marketing_sub_menu_status_report" name="Status Report" sequence="50" parent="vit_marketing.vit_marketing_top_menu"/>
+  </data>
+</odoo>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+	<data>
+
+		<report 
+			id="doc_report_marketing_sph"
+			string="Vit - Report Marketing SPH"
+			model="vit.marketing_sph"
+			report_type="qweb-pdf"
+			paperformat="vit_marketing_sph_inherit.paperformat_report_sph"
+			file="vit_marketing_sph_inherit.report_marketing_sph" 
+			name="vit_marketing_sph_inherit.data_report_sph"/>
+
+		<!-- document template -->
+		<template id="vit_marketing_sph_inherit.data_report_sph_document" >
+			<t t-call="vit_marketing_sph_inherit.external_layout_sph">
+				<div class="header">
+					<table>
+						<tbody>
+							<tr>
+								<td style="padding-right:200px;"><img t-att-src="'/vit_marketing_sph_inherit/static/logo isfa.png'" /></td>
+								<td style="text-align:right;"><h4>Engineering and Steel Fabricator</h4></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			<t t-foreach="docs" t-as="doc">
+				<!-- <t t-set="doc" t-value="doc.with_context({'lang': lang})"/> -->
+				
+				<div class="page" style="font-size:12px;padding-top:100px;">
+					<div>Purwakarta, <span t-field="doc.date"/> </div>
+					<br />
+					<table class="table o_main_table table-borderless table-sm" style="width: 100%">
+					<tbody style="font-size:12px;">
+						<tr style="font-size:12px;">
+							<td style="font-size:12px;">No</td>
+							<td style="font-size:12px;">:</td>
+							<td style="font-size:12px;"><span t-field="doc.name"/></td>
+						</tr>
+						<tr style="font-size:12px;">
+							<td style="font-size:12px;">Hal</td>
+							<td style="font-size:12px;">:</td>
+							<td style="font-size:12px;">Penawaran Harga <span t-field="doc.project"/></td>
+						</tr>
+					</tbody>
+					</table>
+					<div>Kepada Yth,</div>
+					<div><span t-field="doc.partner_id"/></div>
+					<div><span t-field="doc.partner_id.street"/></div>
+					<div><span t-field="doc.partner_id.city"/> <span t-field="doc.partner_id.state_id"/> <span t-field="doc.partner_id.zip"/></div>
+					<div><span t-field="doc.partner_id.country_id"/></div>
+					<br />
+					<br />
+					<div>Dengan Hormat,</div>
+					<div>Terima kasih sebelumnya kami sampaikan atas Inquiry perihal Pengadaan  <span t-field="doc.project"/></div>
+					<div>Sehubungan dengan hal tersebut, bersama ini kami PT INDO SADANG FABRIKATOR menawarkan untuk pekerjaan tersebut seperti berikut ini:</div>
+					<br />
+					<table class="table table-sm o_main_table table-bordered" name="boq_ids_table">
+						<thead>
+							<tr class="bg-info" style="font-size:12px; border: 1px solid black;">
+								<td style="font-size:12px; border: 1px solid black;"><b>PROJECT DESCRIPTION</b></td>
+								<td style="font-size:12px; border: 1px solid black;"><b>QUANTITY</b></td>
+								<td style="font-size:12px; border: 1px solid black;"><b>SATUAN</b></td>
+								<td style="font-size:12px; border: 1px solid black;"><b>TOTAL WEIGHT (Kg)</b></td>
+								<td style="font-size:12px; border: 1px solid black;"><b>UNIT PRICE</b></td>
+								<td style="font-size:12px; border: 1px solid black;"><b>TOTAL PRICE (Rp.)</b></td>
+							</tr>
+						</thead>
+						<tbody class="boq_ids_tbody">
+							<tr t-foreach="doc.boq_ids" t-as="line" style="font-size:12px; border: 1px solid black;">
+								<td style="font-size:12px; border: 1px solid black;"><span t-field="line.product_id" /></td>
+								<td style="font-size:12px; border: 1px solid black;text-align:right;"><span t-esc="'{:,}'.format(round(line.qty))" /></td>
+								<td style="font-size:12px; border: 1px solid black;text-align:center;"><span t-field="line.uom_id" /></td>
+								<td style="font-size:12px; border: 1px solid black;text-align:right;"><span t-esc="'{:,}'.format(round(line.total_weight_sph))" /></td>
+								<td style="font-size:12px; border: 1px solid black;text-align:right;"><span t-esc="'{0:,.2f}'.format(line.unit_price)" /></td>
+								<td style="font-size:12px; border: 1px solid black;text-align:right;"><span t-esc="'{0:,.2f}'.format(line.total)" /></td>
+							</tr> <!-- foreach-->
+							<tr style="font-size:12px; border: 1px solid black;">
+								<td style="font-size:12px; border: 1px solid black;"><b>Total</b></td>
+								<td style="font-size:12px; border: 1px solid black;text-align:right;"><b><t t-esc="'{:,}'.format(round(sum(l.qty for l in doc.boq_ids)))"/></b></td>
+								<td style="font-size:12px; border: 1px solid black;"><b></b></td>
+								<td style="font-size:12px; border: 1px solid black;text-align:right;"><b><t t-esc="'{:,}'.format(round(sum(l.total_weight_sph for l in doc.boq_ids)))"/></b></td>
+								<td style="font-size:12px; border: 1px solid black;"><b></b></td>
+								<td style="font-size:12px; border: 1px solid black;text-align:right;"><b><t t-esc="'{0:,.2f}'.format(sum(l.total for l in doc.boq_ids))"/></b></td>
+							</tr> <!-- foreach-->
+						</tbody>
+					</table>
+
+					<!-- <div class="mt-4">Keterangan</div>
+					<div>- </div>
+					<div></div> -->
+					<div class="mt-4"><p>Cara Pembayaran : </p></div>
+					<div t-foreach="doc.term_ids" t-as="line">
+						<div>- <span t-field="line.name" /> <span t-esc="'{0:,.2f}'.format(line.persen)" /> <span t-field="line.description_term" /></div>
+					</div>
+					<div></div>
+					<div>Demikian surat penawaran harga ini kami ajukan, besar harapan kami dapat sesuai dengan anggaran Bapak/Ibu.</div>
+					<div>Atas perhatian dan kebijaksanaannya kami ucapkan terima kasih.</div>
+					<br />
+					<div><p>Hormat Kami,</p></div>
+					<div><p>PT. INDO SADANG FABRIKATOR</p></div>
+					<br />
+					<br />
+					<br />
+					<!-- <div><t t-set="record_collection.name" t-value="doc.get_data()"/></div> -->
+					<div><p>GENERAL MANAGER</p></div>
+				</div>
+				<div class="footer">
+					<table>
+						<tbody>
+							<td colspan="4"><p style="font-size:12px;"><span t-field="res_company.partner_id.street"/></p></td>
+							<tr>
+								<td style="padding-right:60px;font-size:12px;">Phone</td>
+								<td style="padding-right:60px;font-size:12px;">: <span t-field="res_company.partner_id.phone"/></td>
+								<td style="padding-right:60px;font-size:12px;">Email</td>
+								<td style="padding-right:60px;font-size:12px;">: <span t-field="res_company.partner_id.email"/></td>
+							</tr>
+							<tr>
+								<td style="padding-right:60px;font-size:12px;">Fax</td>
+								<td style="padding-right:60px;font-size:12px;">: <span t-field="res_company.partner_id.phone"/></td>
+								<td style="padding-right:60px;font-size:12px;">Web</td>
+								<td style="padding-right:60px;font-size:12px;">: <span t-field="res_company.partner_id.website"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</t>
+			</t>
+		</template>
+
+		<!-- main template -->
+		<template id="vit_marketing_sph_inherit.data_report_sph">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-set="lang" t-value="doc.create_uid.lang"/>
+					<t t-call="vit_marketing_sph_inherit.data_report_sph_document" />
+				</t>
+			</t>
+		</template>
+
+		<template id="external_layout_sph">
+			<div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+				<t t-call="web.address_layout"/>
+				<t t-raw="0"/>
+			 <!--    <t t-call="report.external_layout_footer"/> -->
+			</div>
+		</template>
+	</data>
+</odoo>

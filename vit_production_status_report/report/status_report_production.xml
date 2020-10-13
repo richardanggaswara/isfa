@@ -1,0 +1,149 @@
+<odoo>
+	<data>
+		<record model="report.paperformat" id="paperformat_production_status_report">
+            <field name="name">paperformat.production.status.report</field>
+            <field name="default" eval="True"/>
+            <field name="format">A3</field>
+            <field name="page_width">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">30</field>
+            <field name="margin_right">5</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+        <report id="report_production_status_report"
+                model="vit.wizard_production_status_report"
+                string="Status Report - Production"
+                report_type="qweb-pdf"
+                name="vit_production_status_report.status_view"
+                paperformat="paperformat_production_status_report"
+                menu="False"/>
+
+        <template id="status_view">
+            <t t-call="web.html_container">
+                <div class="header" style="border-bottom: 2px solid black">
+                    <h3 class="text-right">
+                        <tr>
+                            <td><strong>Production Report</strong></td>
+                        </tr>
+                    </h3>
+                    <h4 class="text-right">
+                        <tr>
+                            <td>
+                                <strong>Periode :</strong> 
+                                <t t-if="selection_status == 'date'">
+                                    <t t-esc="periode_date_start"/>
+                                    <strong>/</strong>
+                                    <t t-esc="periode_date_start"/>
+                                </t>
+                                <t t-if="selection_status == 'all_date'">
+                                    <t>Seluruh Pekerjaan</t>
+                                </t>
+                                <t t-if="selection_status == 'year'">
+                                    <t t-esc="periode_year"/>
+                                </t>
+                            </td>
+                            <td>
+                                <strong>Date-Time</strong>
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                            </td>
+                        </tr>
+                    </h4>
+                </div>
+                <div class="article">
+                	<table class="table table-condensed table-bordered" style="width: 100%;">
+                        <thead style="border: 1px solid black;">
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Date</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Shift</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">WO No.</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Proses</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Material</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Bdl No.</th>
+                        	<th class="text-center" style="width: 4%;border: 1px solid black;">Qty</th>
+                        	<th class="text-center" style="width: 4%;border: 1px solid black;">Weight</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Start</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Finish</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Total</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Man Power</th>
+                        	<th class="text-center" style="width: 7%;border: 1px solid black;">Remarks</th>
+                        </thead>
+                        <tbody style="border: 1px solid black;">
+                        	<t t-foreach="request.env['vit.schedule_line'].search([])" t-as="doc">
+                        		<tr>
+                        			<td style="border: 1px solid black;">
+                        				<span t-esc="doc.date_cut"/>		
+                        			</td>
+                        			<td style="border: 1px solid black;">
+                        				<span t-esc="doc.shift"/>		
+                        			</td>
+                                    <!-- <td style="border: 1px solid black;">
+                                        <t t-foreach="request.env['vit.ppic_schedule'].search([('id','=',doc.schedule_id)])" t-as="ppic">
+                                            <t t-foreach="request.env['vit.work_order'].search(['schedule_id','=',ppic.id])" t-as="dox">
+                                                <div><span t-esc="dox.name"/></div>
+                                            </t>
+                                        </t>
+                                    </td> -->
+                        			<td style="border: 1px solid black;">
+                        				<span t-esc="doc.proses_id"/>		
+                        			</td>
+                        			<td style="border: 1px solid black;">
+                        				<t t-foreach="request.env['vit.product_jo_line'].search(['product_id','=',doc.product_id])" t-as="dox">
+                        					<div><span t-esc="dox.product_id.name"/></div>
+                        				</t>
+                        			</td>
+                                    <!-- <td style="border: 1px solid black;">
+                                        <t t-foreach="request.env['vit.ppic_schedule'].search([('id','=',doc.schedule_id)])" t-as="ppic">
+                                            <t t-foreach="request.env['vit.work_order'].search(['schedule_id','=',ppic.id])" t-as="dox">
+                                                <div><span t-esc="dox.bundle_id.name"/></div>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="border: 1px solid black;">
+                                        <t t-foreach="request.env['vit.ppic_schedule'].search([('id','=',doc.schedule_id)])" t-as="ppic">
+                                            <t t-foreach="request.env['vit.work_order'].search(['schedule_id','=',ppic.id])" t-as="dox">
+                                                <div><span t-esc="dox.qty_material"/></div>
+                                            </t>
+                                        </t>
+                                    </td> -->
+                                    <!-- <td style="border: 1px solid black;">
+                                        <t t-foreach="request.env['vit.ppic_schedule'].search([('id','=',doc.schedule_id)])" t-as="ppic">
+                                            <t t-foreach="request.env['vit.work_order'].search(['schedule_id','=',ppic.id])" t-as="dox">
+                                                <div><span t-esc="dox.weight"/></div>
+                                            </t>
+                                        </t>
+                                    </td> -->
+                                    <td style="border: 1px solid black;">
+                                        <span t-esc="doc.enginering_start"/>
+                                    </td>
+                                    <td style="border: 1px solid black;">
+                                        <span t-esc="doc.enginering_finish"/>
+                                    </td>
+                        		</tr>
+                        	</t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <div class="row text-center" style="border-top: 1px solid black;">
+                        <div class="col col-3 offset-9 text-right">
+                            <ul class="list-inline mt-2">
+                                <li class="list-inline-item">Page:</li>
+                                <li class="list-inline-item">
+                                    <span class="page"/>
+                                </li>
+                                <li class="list-inline-item">/</li>
+                                <li class="list-inline-item">
+                                    <span class="topage"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+	</data>
+</odoo>

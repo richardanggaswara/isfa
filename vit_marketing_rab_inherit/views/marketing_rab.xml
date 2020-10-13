@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- inherit form marketing rab-->
+        <record id="view_vit_marketing_rab_form_inherit" model="ir.ui.view">
+            <field name="name">vit_marketing_rab_form_inherit</field>
+            <field name="model">vit.marketing_rab</field>
+            <field name="inherit_id" ref="vit_marketing_rab.view_vit_marketing_rab_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Marketing RAB">
+                        <header>
+                            <button string="Confirm" type="object" name="action_confirm" states="draft" />
+                            <button string="Validate" type="object" name="action_done" states="open" />
+                            <button string="Reset to Draft" type="object" name="action_draft" states="open" />
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                            </div>
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only" string="RAB No :"/>
+                                <h1><field name="name"/></h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="partner_id" domain="[('customer','=',True)]"/>
+                                    <field name="inquery_id" domain="[('state','=','done'),('partner_id','=',partner_id)]"/>
+                                    <field name="project" />
+                                    <field name="date" />
+                                    <field name="due_date" />
+                                </group>
+                                <group>
+                                    <field name="total_rab" />
+                                    <field name="total_weight" />
+                                    <field name="satuan" />
+                                    <field name="total_price" />
+                                    <p><label for="total_rab" invisible="1"/></p>
+                                    <field name="gross" />
+                                    <label for="excepted_gross" class="oe_inline"/>
+                                        <div class="o_col">
+                                            <field name="excepted_gross" class="oe_inline"/>
+                                            <span class="oe_inline">%</span>
+                                        </div>
+                                    <field name="note" />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="RAB Detail">
+                                    <field name="line_ids">
+                                        <tree string="RAB Detail">
+                                            <field name="code"/>
+                                            <field name="name"/>
+                                            <field name="cost"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Product Detail">
+                                    <field name="rab_product_ids">
+                                        <tree string="Rab product line" editable="bottom" >
+                                            <field name="product_id" />
+                                            <field name="uom_id" />
+                                            <field name="qty_product"/>
+                                            <!-- <field name="qty_product" sum="Total Product"/> -->
+                                            <field name="unit_weight" />
+                                            <field name="total_weight" sum="Total Weight"/>
+                                            <field name="unit_price" />
+                                            <field name="total_price" sum="Total Price"/>
+                                        </tree>
+                                    </field>
+                                    <!-- <group class="oe_subtotal_footer oe_right" colspan="2">
+                                        <field name="total_weight"/>
+                                    </group> -->
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- inherit rab line tree -->
+        <record id="view_vit_rab_line_tree_new" model="ir.ui.view">
+            <field name="name">vit_rab_line_tree_new</field>
+            <field name="model">vit.rab_line</field>
+            <field name="inherit_id" ref="vit_marketing_rab.view_vit_rab_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="rab_id" position="replace">
+                    <field name="rab_id" invisible="1"/>
+                </field>
+                <field name="material_utama_id" position="replace">
+                    <field name="material_utama_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- inherit master rab line tree -->
+        <record id="view_vit_master_rab_line_tree_new" model="ir.ui.view">
+            <field name="name">view_vit_master_rab_line_tree</field>
+            <field name="model">vit.master_rab_line</field>
+            <field name="inherit_id" ref="vit_marketing_rab.view_vit_master_rab_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="source" position="after">
+                    <field name="relat" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- inherit master rab line form -->
+        <record id="view_vit_master_rab_line_form_new" model="ir.ui.view">
+            <field name="name">view_vit_master_rab_line_form</field>
+            <field name="model">vit.master_rab_line</field>
+            <field name="inherit_id" ref="vit_marketing_rab.view_vit_master_rab_line_form"/>
+            <field name="arch" type="xml">
+                <field name="source" position="after">
+                    <field name="relat" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="inherit_product_template_tree_view" model="ir.ui.view">
+            <field name="name">product.template.inherit.tree</field>
+            <field name="model">product.template</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Contacts">
+                    <field name="default_code"/>
+                    <field name="name"/>
+                    <field name="categ_id"/>
+                    <field name="type"/>
+                    <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- inherit rab line form -->
+        <record id="view_vit_rab_line_form_new" model="ir.ui.view">
+            <field name="name">vit_rab_line_form_new</field>
+            <field name="model">vit.rab_line</field>
+            <field name="inherit_id" ref="vit_marketing_rab.view_vit_rab_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Rab line">
+                        <header>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                            </div>
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only" string="Rab line Name"/>
+                                <h1><field name="name"/></h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="code" />
+                                    <field name="cost" />
+                                </group>
+                                <group>
+                                    <field name="rab_id" invisible="1"/>
+                                    <field name="material_utama_id" invisible="1"/>
+                                    <field name="categ_id" />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Lines">
+                                    <field name="line_ids">
+                                        <tree string="Lines" editable="bottom">
+                                            <field name="product_id" attrs="{'readonly': [('rel', '!=', 'Product')]}" domain="[('categ_id','ilike', 'material')]" context="{'tree_view_ref': 'inherit_product_template_tree_view'}"/>
+                                            <field name="account_id" attrs="{'readonly': [('rel', '!=', 'Account')]}" />
+                                            <field name="kode_akun" attrs="{'readonly': [('rel', '!=', 'Account')]}" invisible="1" />
+                                            <field name="qty"/>
+                                            <field name="weight" />
+                                            <field name="uom_id" />
+                                            <field name="tot_weight" sum="Total Weight"/>
+                                            <field name="rel" invisible="1"/>
+                                            <field name="satuan_uom"/>
+                                            <field name="satuan" />
+                                            <field name="sub_total" sum="Total Price"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- inherit product line tree -->
+        <record id="view_vit_product_line_tree_new" model="ir.ui.view">
+            <field name="name">view_vit_product_line_tree_new</field>
+            <field name="model">vit.product_line</field>
+            <field name="inherit_id" ref="vit_marketing_rab.view_vit_product_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="rab_line_id" position="replace">
+                    <field name="rab_line_id" invisible="1"/>
+                </field>
+                <field name="product_id" position="after">
+                    <field name="rel" invisible="1"/>
+                </field>
+                <field name="sub_total" position="replace">
+                    <field name="sub_total" />
+                </field>
+            </field>
+        </record>
+
+        <!-- inherit product line form -->
+        <record id="view_vit_product_line_form_new" model="ir.ui.view">
+            <field name="name">view_vit_product_line_form_new</field>
+            <field name="model">vit.product_line</field>
+            <field name="inherit_id" ref="vit_marketing_rab.view_vit_product_line_form"/>
+            <field name="arch" type="xml">
+                <field name="rab_line_id" position="replace">
+                    <field name="rab_line_id" invisible="1"/>
+                </field>
+                <field name="product_id" position="after">
+                    <field name="rel" invisible="1"/>
+                </field>
+                <field name="sub_total" position="replace">
+                    <field name="sub_total" />
+                </field>
+            </field>
+        </record>
+
+        <!-- inherit act window marketing rab -->
+        <record id="vit_marketing_rab.action_vit_marketing_rab" model="ir.actions.act_window">
+            <field name="name">Rencana Anggaran Biaya (RAB)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.marketing_rab</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Marketing rab
+                </p><p>
+                Click the Create button to add a new Marketing rab
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_rab.menu_vit_marketing_rab" name="Rencana Anggaran Biaya (RAB)" parent="vit_marketing.vit_marketing_sub_menu" sequence="30"/>
+
+        <!-- inherit act window rab line -->
+        <record id="vit_marketing_rab.action_vit_rab_line" model="ir.actions.act_window">
+            <field name="name">Rab line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.rab_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Rab line
+                </p><p>
+                Click the Create button to add a new Rab line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_rab.menu_vit_rab_line" name="Rab line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="30"/>
+
+        <!-- inherit act window product line -->
+        <record id="vit_marketing_rab.action_vit_product_line" model="ir.actions.act_window">
+            <field name="name">Product line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.product_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Product line
+                </p><p>
+                Click the Create button to add a new Product line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_rab.menu_vit_product_line" name="Product line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="40"/>
+
+        <!-- inherit act window Master Rab line -->
+        <record id="vit_marketing_rab.action_vit_master_rab_line" model="ir.actions.act_window">
+            <field name="name">Master rab line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.master_rab_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Master rab line
+                </p><p>
+                Click the Create button to add a new Master rab line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_rab.menu_vit_master_rab_line" name="Master rab line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="50"/>
+
+        <!-- action window -->
+        <record id="vit_marketing_rab.action_vit_rab_product_line" model="ir.actions.act_window">
+            <field name="name">Rab product line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.rab_product_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Rab product line
+                </p><p>
+                Click the Create button to add a new Rab product line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_rab.menu_vit_rab_product_line" name="Rab product line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="20"/>
+
+        <record id="view_vit_marketing_rab_kanban2" model="ir.ui.view" >
+            <field name="name">vit_marketing_rab</field>
+            <field name="model">vit.marketing_rab</field>
+            <field name="inherit_id" ref="vit_marketing_rab.view_vit_marketing_rab_kanban" />
+            <field name="arch" type="xml">
+                <templates position="replace">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            <span class='text-muted'>Date</span> <field name="date"></field>
+                                        </li>
+                                        <li>
+                                            <span class='text-muted'>Customer</span> <field name="partner_id"></field>
+                                        </li>
+                                        <li>
+                                            <span class='text-muted'>Project</span> <field name="project"></field>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </templates>
+            </field>
+        </record>
+
+    </data>
+</odoo>

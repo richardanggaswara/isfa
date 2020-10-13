@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tree view -->
+        <record id="view_vit_marketing_sph_tree" model="ir.ui.view">
+            <field name="name">vit_marketing_sph_tree</field>
+            <field name="model">vit.marketing_sph</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Marketing sph">
+                    <field name="name" />
+                    <field name="sph_no" />
+                    <field name="date" />
+                    <field name="project" />
+                    <field name="description" />
+                    <field name="state" />
+                    <field name="revisi" />
+                    <field name="partner_id" />
+                    <field name="inquery_id" />
+                    <field name="rab_id" />
+                </tree>
+            </field>
+        </record>
+        <!-- form view -->
+        <record id="view_vit_marketing_sph_form" model="ir.ui.view">
+            <field name="name">vit_marketing_sph_form</field>
+            <field name="model">vit.marketing_sph</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Marketing sph">
+                    <header>
+                        <button string="Confirm" type="object" name="action_confirm" states="draft" />
+                        <button string="Mark as Done" type="object" name="action_done" states="open" />
+                        <button string="Reset to Draft" type="object" name="action_draft" states="open,done" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+                                <!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+                                <!--field name="detail_ids" invisible="1"/-->
+                            <!--/button-->
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Marketing sph Name"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="sph_no" />
+                                <field name="date" />
+                                <field name="project" />
+                                <field name="description" />
+                                <field name="revisi" />
+                            </group>
+                            <group>
+                                <field name="partner_id" />
+                                <field name="inquery_id" />
+                                <field name="rab_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Boqs">
+                                <field name="boq_ids"/>
+                            </page>
+                            <page string="Terms">
+                                <field name="term_ids"/>
+                            </page>
+                            <page string="Docs">
+                                <field name="doc_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_vit_marketing_sph_search" model="ir.ui.view">
+            <field name="name">vit_marketing_sph</field>
+            <field name="model">vit.marketing_sph</field>
+            <field name="arch" type="xml">
+                <search string="Marketing sph">
+
+                    <filter string="Name" name="filter_by_name" domain="[('name','=','')]" />
+                    <filter string="Sph no" name="filter_by_sph_no" domain="[('sph_no','=','')]" />
+                    <filter string="Date" name="filter_by_date" domain="[('date','=','')]" />
+                    <filter string="Project" name="filter_by_project" domain="[('project','=','')]" />
+                    <filter string="Description" name="filter_by_description" domain="[('description','=','')]" />
+                    <filter string="State" name="filter_by_state" domain="[('state','=','')]" />
+                    <filter string="Revisi" name="filter_by_revisi" domain="[('revisi','=','')]" />
+                    <field name="name" select="True"/>
+                    <field name="sph_no" select="True"/>
+                    <field name="date" select="True"/>
+                    <field name="project" select="True"/>
+                    <field name="description" select="True"/>
+                    <field name="state" select="True"/>
+                    <field name="revisi" select="True"/>
+                    <field name="partner_id" select="True"/>
+                    <field name="inquery_id" select="True"/>
+                    <field name="rab_id" select="True"/>
+                    <group string="Group By..">
+                        <filter string="Partner" domain="[]" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
+                        <filter string="Inquery" domain="[]" name="group_by_inquery_id" context="{'group_by':'inquery_id'}"/>
+                        <filter string="Rab" domain="[]" name="group_by_rab_id" context="{'group_by':'rab_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- kanban , to show image, please add image_small in the model -->
+        <record id="view_vit_marketing_sph_kanban" model="ir.ui.view" >
+            <field name="name">vit_marketing_sph</field>
+            <field name="model">vit.marketing_sph</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0">
+                    <field name="id" />
+                    <field name="name" />
+                    <field name="sph_no" />
+                    <field name="date" />
+                    <field name="project" />
+                    <field name="description" />
+                    <field name="state" />
+                    <field name="revisi" />
+                    <field name="partner_id" />
+                    <field name="inquery_id" />
+                    <field name="rab_id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            Field1: <field name="name"></field>
+                                        </li>
+                                        <li>
+                                            Field2: <field name="name"></field>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- calendar if a date field exists -->
+        <record id="view_vit_marketing_sph_cal" model="ir.ui.view">
+            <field name="name">vit_marketing_sph_cal</field>
+            <field name="model">vit.marketing_sph</field>
+            <field name="arch" type="xml">
+                <calendar string="Marketing sph" date_start="date">
+                    <field name="name" />
+                </calendar>
+            </field>
+        </record>
+        <!-- graph -->
+        <record id="view_vit_marketing_sph_graph" model="ir.ui.view">
+            <field name="name">vit_marketing_sph</field>
+            <field name="model">vit.marketing_sph</field>
+            <field name="arch" type="xml">
+                <graph string="Marketing sph" type="bar">
+                    <field name="partner_id"/>
+                </graph>
+            </field>
+        </record>
+        <!-- action window -->
+        <record id="action_vit_marketing_sph" model="ir.actions.act_window">
+            <field name="name">Marketing sph</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.marketing_sph</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Marketing sph
+                </p><p>
+                Click the Create button to add a new Marketing sph
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_vit_marketing_sph" name="Marketing sph" parent="vit_marketing_sph_sub_menu" action="action_vit_marketing_sph" sequence="20"/>
+    </data>
+</odoo>

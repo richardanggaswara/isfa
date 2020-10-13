@@ -1,0 +1,259 @@
+<odoo>
+	<data>
+		<record model="report.paperformat" id="paperformat_enginering_status_report">
+			<field name="name">paperformat.enginering.status.report</field>
+			<field name="default" eval="True"/>
+			<field name="format">A3</field>
+			<field name="page_width">0</field>
+			<field name="page_width">0</field>
+			<field name="orientation">Landscape</field>
+			<field name="margin_top">30</field>
+			<field name="margin_right">5</field>
+			<field name="margin_bottom">10</field>
+			<field name="margin_left">5</field>
+			<field name="header_line" eval="False"/>
+			<field name="header_spacing">20</field>
+			<field name="dpi">90</field>
+		</record>
+
+		<report id="enginering_status_report"
+				model="vit.wizard_enginering_status_report"
+				string="Enginering Data Report"
+				report_type="qweb-pdf"
+				name="vit_enginering_status_report.enginering_view"
+				paperformat="paperformat_enginering_status_report"
+				menu="False"/>
+
+		<template id="enginering_view">
+			<t t-call="web.html_container">
+				<div class="header" style="border-bottom: 2px solid black">
+					<h3 class="text-right">
+						<tr>
+							<td><strong>Engineering Data Report</strong></td>
+						</tr>
+						</h3>
+					<h4 class="text-right">
+						<tr>
+							<td>
+								<strong>Periode :</strong> 
+								<t t-if="selection_status == 'date'">
+									<t t-esc="periode_date_start"/>
+									<strong>/</strong>
+									<t t-esc="periode_date_start"/>
+								</t>
+								<t t-if="selection_status == 'all_date'">
+									<t>Seluruh Pekerjaan</t>
+								</t>
+								<t t-if="selection_status == 'year'">
+									<t t-esc="periode_year"/>
+								</t>
+							</td>
+							<td>
+								<strong>Date-Time</strong>
+								<span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+							</td>
+						</tr>
+					</h4>
+				</div>
+				<div class="article">
+					<table class="table table-condensed table-bordered" style="width: 100%;">
+						<thead style="border: 1px solid black;">
+							<tr>
+								<th rowspan="2" class="text-center" style="width: 4%;border: 1px solid black;">JO No.</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Customer</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Project</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Product ID</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Product Type</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Stamp Code</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Qty</th>
+								<th colspan="4" class="text-center" style="width: 5%;border: 1px solid black;">PO/Kontrak</th>
+								<th colspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Design DWG Approval</th>
+								<th colspan="6" class="text-center" style="width: 5%;border: 1px solid black;">MTO</th>
+								<th colspan="4" class="text-center" style="width: 5%;border: 1px solid black;">Part List Fabrikasi</th>
+								<th colspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Waste</th>
+								<th colspan="4" class="text-center" style="width: 5%;border: 1px solid black;">Packing List Finish Good</th>
+								<th colspan="2" class="text-center" style="width: 5%;border: 1px solid black;">PO Balance Weight</th>
+							</tr>
+							<tr>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">PO No.</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Rev</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Unit Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Total Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Date</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Status</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Date</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Rev</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Fab Unit Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Fab Total</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Bolt Unit Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Bolt Total</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Date</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Rev</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Unit Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Total Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">%</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Date</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Rev</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Unit Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Total Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Unit Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Total Weight</th>
+							</tr>
+						</thead>
+						<tbody style="border: 1px solid black;">
+							<t t-if="selection_status == 'all_date'">
+								<t t-foreach="request.env['vit.marketing_jo'].search([],order='id asc')" t-as="doc">
+									<tr>
+								 		<td style="border: 1px solid black;">
+								 			<span t-esc="doc.name"/>
+								 		</td>
+								 		<td style="border: 1px solid black;">
+								 			<span t-esc="doc.partner_id.name"/>
+								 		</td>
+								 		<td style="border: 1px solid black;">
+								 			<span t-esc="doc.project_name"/>
+								 		</td>
+								 		<td style="border: 1px solid black;">
+								 			<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+								 				<div style="border-bottom: 1px solid black;">
+								 					<span t-esc="document.name"/>
+								 				</div>
+								 			</t>
+								 		</td>
+								 		<td style="border:1px solid black;">
+								 			<t t-if="doc.type_tower == true">
+	                                            <div>
+	                                            	<span>Tower</span>
+	                                            </div>
+                                        	</t>
+	                                        <t t-if="doc.type_bridge == true">
+	                                            <div>
+	                                            	<span>Bridge</span>
+	                                            </div>
+	                                        </t>
+	                                        <t t-if="doc.type_steel == true">
+	                                            <div>
+	                                            	<span>General Steel Structure</span>
+	                                            </div>
+	                                        </t>
+	                                        <t t-if="doc.type_others == true">
+	                                            <div>
+	                                            	<span>Others</span>
+	                                            </div>
+	                                        </t>
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black;">
+								 			<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+								 				<div style="border-bottom: 1px solid black;">
+								 					<span t-esc="document.set"/>
+								 				</div>
+								 			</t>
+								 		</td>
+								 	</tr>
+								</t>
+							</t>
+							<t t-if="selection_status == 'date'">
+								 <t t-foreach="request.env['vit.marketing_jo'].search([('date','&gt;=',periode_date_start),('date','&lt;=',periode_date_end)], order='id asc')" t-as="doc">
+								 	<tr>
+								 		<td style="border: 1px solid black;">
+								 			<span t-esc="doc.name"/>
+								 		</td>
+								 		<td style="border: 1px solid black;">
+								 			<span t-esc="doc.partner_id.name"/>
+								 		</td>
+								 		<td style="border: 1px solid black;">
+								 			<span t-esc="doc.project_name"/>
+								 		</td>
+								 		<td style="border: 1px solid black;">
+								 			<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+								 				<div style="border-bottom: 1px solid black;">
+								 					<span t-esc="document.name"/>
+								 				</div>
+								 			</t>
+								 		</td>
+								 		<td style="border:1px solid black;">
+								 			<t t-if="doc.type_tower == true">
+	                                            <div>
+	                                            	<span>Tower</span>
+	                                            </div>
+                                        	</t>
+	                                        <t t-if="doc.type_bridge == true">
+	                                            <div>
+	                                            	<span>Bridge</span>
+	                                            </div>
+	                                        </t>
+	                                        <t t-if="doc.type_steel == true">
+	                                            <div>
+	                                            	<span>General Steel Structure</span>
+	                                            </div>
+	                                        </t>
+	                                        <t t-if="doc.type_others == true">
+	                                            <div>
+	                                            	<span>Others</span>
+	                                            </div>
+	                                        </t>
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black;">
+								 			<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+								 				<div style="border-bottom: 1px solid black;">
+								 					<span t-esc="document.set"/>
+								 				</div>
+								 			</t>
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 			<t t-foreach="request.env['vit.enginering_mto'].search([('jo_id','=',doc.id)])" t-as="document">
+								 				<div>
+								 					<span t-esc="document.mto_date"/>
+								 				</div>
+								 			</t>
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 			<t t-foreach="request.env['vit.enginering_partlist'].search([('jo_id','=',doc.id)])" t-as="document">
+								 				<div>
+								 					<span t-esc="document.partlist_date"/>
+								 				</div>
+								 			</t>
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 		<td style="border: 1px solid black">
+								 		</td>
+								 	</tr>
+								 </t>
+							</t>
+						</tbody>
+					</table>
+				</div>
+			</t>
+		</template>
+	</data>
+</odoo>

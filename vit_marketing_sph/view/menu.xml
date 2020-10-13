@@ -1,0 +1,6 @@
+<odoo>
+	<data>
+		<menuitem id="vit_marketing_sph_top_menu" name="Vit marketing sph" sequence="20" web_icon="vit_marketing_sph,static/description/icon.png" />
+		<menuitem id="vit_marketing_sph_sub_menu" name="Vit marketing sph" sequence="40" parent="vit_marketing_sph_top_menu" web_icon="vit_marketing_sph,static/description/icon.png" />
+	</data>
+</odoo>

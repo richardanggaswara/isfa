@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_wizard_project_status_report">
+            <field name="name">Project Status Report</field>
+            <field name="model">vit.wizard_project_status_report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Project Status Report">
+                    <group>
+                        <field name="marketing_jo_id"/>
+                        <field name="project_desc"/>
+                        <field name="project_owner"/>
+                        <field name="customer"/>
+                        <field name="contract_no"/>
+                        <field name="selection_status"/>
+                        <field name="periode_year" attrs="{'invisible': [('selection_status', 'in', ['date','all_date'])]}"/>
+                        <field name="periode_date_start" attrs="{'invisible': [('selection_status', 'in', ['year','all_date'])]}"/>
+                        <field name="periode_date_end" attrs="{'invisible': [('selection_status', 'in', ['year','all_date'])]}"/>
+                        <field name="delivery"/>
+                    </group>
+                    <footer>
+                        <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_project_status_report" name="Project Status Report" res_model="vit.wizard_project_status_report" view_mode="form" target="new"/>
+
+        <menuitem action="action_wizard_project_status_report" name="Project Status Report" id="menu_wizard_project_sub_menu_status_report" sequence="20" parent="vit_ppic_sub_menu_status_report"/>
+    </data>
+</odoo>

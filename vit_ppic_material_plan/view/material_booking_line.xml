@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tree view -->
+        <record id="view_vit_material_booking_line_tree" model="ir.ui.view">
+            <field name="name">vit_material_booking_line_tree</field>
+            <field name="model">vit.material_booking_line</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Material booking line">
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="item_mto" />
+                    <field name="booking_id" />
+                    <field name="material_booking_id" />
+                </tree>
+            </field>
+        </record>
+        <!-- form view -->
+        <record id="view_vit_material_booking_line_form" model="ir.ui.view">
+            <field name="name">vit_material_booking_line_form</field>
+            <field name="model">vit.material_booking_line</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Material booking line">
+                    <header>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+                                <!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+                                <!--field name="detail_ids" invisible="1"/-->
+                            <!--/button-->
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Material booking line Name"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" />
+                                <field name="item_mto" />
+                            </group>
+                            <group>
+                                <field name="booking_id" />
+                                <field name="material_booking_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_vit_material_booking_line_search" model="ir.ui.view">
+            <field name="name">vit_material_booking_line</field>
+            <field name="model">vit.material_booking_line</field>
+            <field name="arch" type="xml">
+                <search string="Material booking line">
+
+                    <filter string="Name" name="filter_by_name" domain="[('name','=','')]" />
+                    <filter string="Date" name="filter_by_date" domain="[('date','=','')]" />
+                    <filter string="Item mto" name="filter_by_item_mto" domain="[('item_mto','=','')]" />
+                    <field name="name" select="True"/>
+                    <field name="date" select="True"/>
+                    <field name="item_mto" select="True"/>
+                    <field name="booking_id" select="True"/>
+                    <field name="material_booking_id" select="True"/>
+                    <group string="Group By..">
+                        <filter string="Booking" domain="[]" name="group_by_booking_id" context="{'group_by':'booking_id'}"/>
+                        <filter string="Material booking" domain="[]" name="group_by_material_booking_id" context="{'group_by':'material_booking_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- kanban , to show image, please add image_small in the model -->
+        <record id="view_vit_material_booking_line_kanban" model="ir.ui.view" >
+            <field name="name">vit_material_booking_line</field>
+            <field name="model">vit.material_booking_line</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0">
+                    <field name="id" />
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="item_mto" />
+                    <field name="booking_id" />
+                    <field name="material_booking_id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            Field1: <field name="name"></field>
+                                        </li>
+                                        <li>
+                                            Field2: <field name="name"></field>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- calendar if a date field exists -->
+        <record id="view_vit_material_booking_line_cal" model="ir.ui.view">
+            <field name="name">vit_material_booking_line_cal</field>
+            <field name="model">vit.material_booking_line</field>
+            <field name="arch" type="xml">
+                <calendar string="Material booking line" date_start="date">
+                    <field name="name" />
+                </calendar>
+            </field>
+        </record>
+        <!-- graph -->
+        <record id="view_vit_material_booking_line_graph" model="ir.ui.view">
+            <field name="name">vit_material_booking_line</field>
+            <field name="model">vit.material_booking_line</field>
+            <field name="arch" type="xml">
+                <graph string="Material booking line" type="bar">
+                    <field name="booking_id"/>
+                </graph>
+            </field>
+        </record>
+        <!-- action window -->
+        <record id="action_vit_material_booking_line" model="ir.actions.act_window">
+            <field name="name">Material booking line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.material_booking_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Material booking line
+                </p><p>
+                Click the Create button to add a new Material booking line
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_vit_material_booking_line" name="Material booking line" parent="vit_ppic_material_plan_sub_menu" action="action_vit_material_booking_line" sequence="20"/>
+    </data>
+</odoo>

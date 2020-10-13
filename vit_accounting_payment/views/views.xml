@@ -1,0 +1,152 @@
+<odoo>
+	<data>
+		<record id="view_vit_accounting_payment_tree" model="ir.ui.view">
+			<field name="name">vit_accounting_payment_tree</field>
+			<field name="model">account.payment</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Account Payment">
+					<field name="name" string="Invoice Payment ID"/>
+					<field name="invoice_ids" widget="many2many_tags" string="Invoice ID"/>
+					<!-- <field name="invoice_rekanan_no" string="Invoice Rekanan No"/> -->
+					<!-- <field name="tpb_id" string="TPB No"/> -->
+					<field name="po_id" string="PO ID"/>
+					<field name="payment_date" string="Delivery Term"/>
+					<field name="jo_id" string="Job Order Number"/>
+					<field name="jo_project" string="Project"/>
+					<field name="amount" string="Total Invoice"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_vit_accounting_payment_form" model="ir.ui.view">
+			<field name="name">vit_accounting_payment_form</field>
+			<field name="model">account.payment</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Accounting Payment">
+					<header>
+						<button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>
+						<button name="action_draft" class="oe_highlight" states="cancelled" string="Set To Draft" type="object"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,posted,reconciled,cancelled"/>
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<button class="oe_stat_button" name="button_journal_entries"
+									string="Journal Items" type="object"
+									groups="account.group_account_user"
+									attrs="{'invisible':[('move_line_ids','=',[])]}" icon="fa-bars"/>
+							<field name="move_line_ids" invisible="1"/>
+							<button class="oe_stat_button" name="button_invoices"
+									string="Invoices" type="object"
+									attrs="{'invisible':[('has_invoices','=',False)]}" icon="fa-bars"/>
+							<button class="oe_stat_button" name="open_payment_matching_screen"
+									string="Payment Matching" type="object"
+									attrs="{'invisible':[('move_reconciled','=',True)]}" icon="fa-university"/>
+							<field name="has_invoices" invisible="1"/>
+							<field name="move_reconciled" invisible="1"/>
+						</div>
+						<field name="id" invisible="1"/>
+						<div class="oe_title" attrs="{'invisible': [('state', '=', 'draft')]}">
+							<h1><field name="name"/></h1>
+						</div>
+						<group>
+							<group>
+								<field name="invoice_ids" readonly="0" widget="many2many_tags" string="Invoice ID" domain="[('state','=','open'),('type','=','out_invoice')]" />
+								<field name="payment_date" string="Inv Payment Date"/>
+								<!-- <field name="invoice_rekanan_no" string="Inv Rekanan No"/>
+								<field name="invoice_rekanan_date" string="Inv Rekanan Date"/>
+								<field name="tpb_id" string="TPB No"/>
+								<field name="tpb_date" string="TPB Date"/> -->
+								<field name="po_id" string="PO No"/>
+								<field name="po_date" string="PO Date"/>
+								<field name="jo_id" string="Job Order No"/>
+								<field name="jo_project" string="JO Project"/>
+								<field name="vendor_code" string="Vendor Code"/>
+								<field name="partner_id" string="Vendor Name"/>
+							</group>
+							<group>
+								<field name="payment_type"/>
+								<field name="payment_method_id"/>
+								<field name="journal_id"/>
+								<field name="term_payment_ids" string="Term Of Payment" widget="many2many_tags"/>
+								<field name="total_po" string="Total PO"/>
+								<field name="amount" string="Invoice"/>
+								<field name="ppn" string="PPN"/>
+								<field name="total" string="Total Invoice"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Document">
+								<field name="doc_payment_ids"/>		
+							</page>	
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_vit_doc_payment_line_tree" model="ir.ui.view">
+			<field name="name">vit_doc_payment_line_tree</field>
+			<field name="model">vit.doc_payment_line</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Doc ap line" editable="bottom">
+					<field name="data" invisible="1"/>
+					<field name="name" widget="binary" filename="data"/>
+					<field name="date" readonly="1"/>
+					<field name="desc" />
+					<field name="payment_id" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+		<record id="action_vit_doc_payment_line" model="ir.actions.act_window">
+			<field name="name">Doc payment line</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.doc_payment_line</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="context">{"search_default_fieldname":1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Doc payment line
+				</p><p>
+				Click the Create button to add a new Doc payment line
+				</p>
+			</field>
+		</record>
+		<record id="action_vit_accounting_payment" model="ir.actions.act_window">
+			<field name="name">Account Payment</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.payment</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field eval="False" name="view_id"/>
+			<field name="context">{'default_payment_type': 'inbound', 'default_partner_type': 'customer', 'search_default_inbound_filter': 1}</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Account Payment
+				</p><p>
+				Click the Create button to add a new Account Payment
+				</p>
+			</field>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_accounting_payment_tree_view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_vit_accounting_payment_tree"/>
+			<field name="act_window_id" ref="action_vit_accounting_payment"/>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_accounting_payment_form_view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_vit_accounting_payment_form"/>
+			<field name="act_window_id" ref="action_vit_accounting_payment"/>
+		</record>
+		<menuitem id="menu_vit_accounting_payment" name="Payment" parent="vit_accounting_tpb_inherit.menu_account_transaction" action="action_vit_accounting_payment" sequence="308"/>
+		<!-- <menuitem id="menu_vit_accounting_payment_doc" name="Accounting DOC" action="action_vit_doc_payment_line" sequence="40"/> -->
+	</data>
+</odoo>

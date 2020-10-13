@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+		<data>
+
+				<record id="paperformat_report_jo_project_requirement" model="report.paperformat">
+						<field name="name">F4 new</field>
+						<field name="default" eval="True" />
+						<field name="format">Folio</field>
+						<field name="page_height">0</field>
+						<field name="page_width">0</field>
+						<field name="orientation">Portrait</field>
+						<field name="margin_top">2</field>
+						<field name="margin_bottom">2</field>
+						<field name="margin_left">2</field>
+						<field name="margin_right">2</field>
+						<field name="header_line" eval="False" />
+						<field name="header_spacing">0</field>
+						<field name="dpi">90</field>
+				</record>
+
+				<report 
+						id="doc_report_jo_project_requirement"
+						string="Vit - Marketing JO Report Project Requirement"
+						model="vit.marketing_jo"
+						report_type="qweb-pdf"
+						paperformat="vit_marketing_jo_report_project_requirement.paperformat_report_jo_project_requirement"
+						file="vit_marketing_jo_report_project_requirement.report_marketing_jo_project_requirement" 
+						name="vit_marketing_jo_report_project_requirement.data_report_jo_project_requirement"/>
+
+
+				<template id="external_layout_jo_project_requirement">
+					<t t-if="not o" t-set="o" t-value="doc"/>
+
+					<t t-if="not company">
+
+							<t t-if="company_id">
+									<t t-set="company" t-value="company_id"/>
+							</t>
+							<t t-elif="o and 'company_id' in o">
+									<t t-set="company" t-value="o.company_id.sudo()"/>
+							</t>
+							<t t-else="else">
+									<t t-set="company" t-value="res_company"/>
+							</t>
+					</t>
+					<t t-call="vit_marketing_jo_report_project_requirement.external_layout_standard_jo_project_requirement"><t t-raw="0"/></t>
+				</template>
+
+				<template id="external_layout_standard_jo_project_requirement">
+					<div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+						<t t-call="web.address_layout"/>
+						<t t-raw="0"/>
+					</div>
+				</template>
+
+
+				<template id="doc_report_marketing_jo_project_requirement">
+					<t t-call="vit_marketing_jo_report_project_requirement.external_layout_jo_project_requirement">
+					<div class="page">
+						<t t-foreach="docs" t-as="doc">
+							<table class="table table-condensed" style="width:100%;">
+								<thead>
+									<tr>
+										<td colspan="1" style="width:47%;font-size:12px;border: 1px solid black;" rowspan="1">
+											<img class="text-center" t-att-src="'/vit_marketing_jo_report_project_requirement/static/logo isfa.png'" />
+										</td>
+										<td colspan="3" style="text-align:left;border: 1px solid black;" rowspan="1" >
+											<h3>PROJECT REQUIREMENT</h3>
+											<h6>JOB ORDER</h6>
+											<div style="font-size:13px;font-weight:bold;">No : <span t-field="doc.name"/></div>
+											<div style="font-size:13px;font-weight:bold;">Date : <span t-field="doc.date"/></div>
+										</td>
+									</tr>	
+								</thead>
+								<tbody>
+									<tr>
+										<td style="border: 1px solid black;text-align:left;">
+											<h6>PROJECT</h6>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.project_name"/></div>
+										</td>
+										<td colspan="3" style="border: 1px solid black;text-align:left;">
+											<h6>CONTRACT/PO NO :</h6>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.po_id"/></div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="4" style="border: 1px solid black;text-align:left;">
+											<h6>CUSTOMER</h6>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.partner_id"/></div>
+										</td>
+									</tr>
+									<tr class="text-center" style="font-size:12px; border: 1px solid black;">
+										<td>
+											<t t-if="doc.type_tower == True">
+												<input type="checkbox" checked="True"/> Tower
+											</t>
+											<t t-elif="doc.type_tower == False">
+												<input type="checkbox"/> Tower
+											</t>
+										</td>
+										<td class="text-left">
+											<t t-if="doc.type_bridge == True">
+												<input type="checkbox" checked="True"/> Bridge
+											</t>
+											<t t-elif="doc.type_bridge == False">
+												<input type="checkbox"/> Bridge
+											</t>
+										</td>
+										<td class="text-left">
+											<t t-if="doc.type_steel == True">
+												<input type="checkbox" checked="True"/> General Steel Structure
+											</t>
+											<t t-elif="doc.type_steel == False">
+												<input type="checkbox"/> General Steel Structure
+											</t>
+										</td>
+										<td class="text-left">
+											<t t-if="doc.type_others == True">
+												<input type="checkbox" checked="True"/> Others
+											</t>
+											<t t-elif="doc.type_others == False">
+												<input type="checkbox"/> Others
+											</t>
+										</td>
+									</tr>
+									<tr style="border: 1px solid black;">
+										<td style="text-align:left;border: 1px solid black;">
+											<h6>PRODUCT DESCRIPTION</h6>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.project_desc"/></div>
+										</td>
+										<td style="text-align:left;border: 1px solid black;">
+											<h6>QUANTITY</h6>
+											<h6>WEIGHT (Kg)</h6>
+										</td>
+										<td style="text-align:left;border: 1px solid black;" colspan="2">
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.qty"/> Set</div>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.weight"/> Kg</div>
+										</td>
+									</tr>
+								</tbody>	
+							</table>
+							<table class="table table-sm o_main_table table-bordered" style="width: 100%;">
+								<thead style="border: 1px solid black;">
+									<tr class="bg-info">
+										<td style="text-align:center;border: 1px solid black;">
+											<h6>PROJECT REQUIREMENT</h6>
+										</td>
+										<td style="text-align:center;border: 1px solid black;">
+											<h6>YES</h6>
+										</td>
+										<td style="text-align:center;border: 1px solid black;">
+											<h6>NO</h6>
+										</td>
+									</tr>
+								</thead>
+								<tbody style="border: 1px solid black;">
+									<t t-foreach="docs.project_requirment_ids" t-as="line" style="border: 1px solid black;">
+										<tr>
+											<td style="font-size:13px; border: 1px solid black;" class="text-left"><span t-field="line.project_req_id"/></td>
+											<td style="font-size:13px; border: 1px solid black;">
+												<t t-if="line.yes == True">
+													<input type="checkbox" checked="True"/>
+												</t>
+												<t t-elif="line.yes == False">
+													<input type="checkbox"/>
+												</t>
+											</td>
+											<td style="font-size:13px; border: 1px solid black;">
+												<t t-if="line.no == True">
+													<input type="checkbox" checked="True"/>
+												</t>
+												<t t-elif="line.no == False">
+													<input type="checkbox"/>
+												</t>
+											</td>
+										</tr>
+									</t>
+								</tbody>
+							</table>
+						</t>
+					</div>
+					</t>
+				</template>
+				<template id="data_report_jo_project_requirement">
+					<t t-call="web.html_container">
+						<t t-call="vit_marketing_jo_report_project_requirement.doc_report_marketing_jo_project_requirement"/>
+					</t>
+				</template>
+		</data>
+</odoo>

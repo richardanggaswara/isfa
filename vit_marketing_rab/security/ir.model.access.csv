@@ -1,0 +1,11 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_all_vit_marketing_rab,access_all_vit_marketing_rab,model_vit_marketing_rab,,1,0,0,0
+access_admin_vit_marketing_rab,access_admin_vit_marketing_rab,model_vit_marketing_rab,base.group_system,1,1,1,1
+access_all_vit_rab_line,access_all_vit_rab_line,model_vit_rab_line,,1,0,0,0
+access_admin_vit_rab_line,access_admin_vit_rab_line,model_vit_rab_line,base.group_system,1,1,1,1
+access_all_vit_product_line,access_all_vit_product_line,model_vit_product_line,,1,0,0,0
+access_admin_vit_product_line,access_admin_vit_product_line,model_vit_product_line,base.group_system,1,1,1,1
+access_all_vit_master_rab_line,access_all_vit_master_rab_line,model_vit_master_rab_line,,1,0,0,0
+access_admin_vit_master_rab_line,access_admin_vit_master_rab_line,model_vit_master_rab_line,base.group_system,1,1,1,1
+access_all_vit_rab_product_line,access_all_vit_rab_product_line,model_vit_rab_product_line,,1,0,0,0
+access_admin_vit_rab_product_line,access_admin_vit_rab_product_line,model_vit_rab_product_line,base.group_system,1,1,1,1

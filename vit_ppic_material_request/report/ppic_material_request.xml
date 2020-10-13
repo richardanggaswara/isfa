@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- report qweb view -->
+        <report id="report_vit_ppic_material_request_menu" string="Vit - Ppic material request"
+         model="vit.ppic_material_request" report_type="qweb-pdf" 
+         file="vit.ppic_material_request"  name="vit_ppic_material_request.vit_ppic_material_request_report" />
+
+        <!-- document template -->
+        <template id="vit_ppic_material_request.vit_ppic_material_request_report_document" >
+            <t t-call="web.external_layout">
+                <t t-set="doc" t-value="doc.with_context({'lang': lang})"/>
+                <div class="page">
+                    <h2>
+                        Ppic material request: <span t-field="doc.name"/>
+                    </h2>
+                    <div class="row mt32 mb32">
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Project des</strong>
+                            <p class="m-0" t-field="doc.project_des" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Product des</strong>
+                            <p class="m-0" t-field="doc.product_des" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Date</strong>
+                            <p class="m-0" t-field="doc.date" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Note</strong>
+                            <p class="m-0" t-field="doc.note" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>State</strong>
+                            <p class="m-0" t-field="doc.state" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Jo</strong>
+                            <p class="m-0" t-field="doc.jo_id"/>
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Product</strong>
+                            <p class="m-0" t-field="doc.product_id"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+                <h2>Material request lines</h2>
+                <table class="table table-sm o_main_table" name="material_request_line_ids_table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Code</td>
+                            <td>Mto</td>
+                            <td>Nesting</td>
+                            <td>Mr</td>
+                            <td>Material request</td>
+                            <td>Wo</td>
+                            <td>Product</td>
+                        </tr>
+                    </thead>
+                    <tbody class="material_request_line_ids_tbody">
+                        <tr t-foreach="doc.material_request_line_ids" t-as="line">
+                            <td><span t-field="line.name" /></td>
+                            <td><span t-field="line.code" /></td>
+                            <td><span t-field="line.mto" /></td>
+                            <td><span t-field="line.nesting" /></td>
+                            <td><span t-field="line.mr" /></td>
+                            <td><span t-field="line.material_request_id" /></td>
+                            <td><span t-field="line.wo_id" /></td>
+                            <td><span t-field="line.product_id" /></td>
+                        </tr> <!-- foreach-->
+                    </tbody>
+                </table>
+                <div class="oe_structure"/>
+            </t>
+        </template>
+
+        <!-- main template -->
+        <template id="vit_ppic_material_request.vit_ppic_material_request_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="lang" t-value="doc.create_uid.lang"/>
+                    <t t-call="vit_ppic_material_request.vit_ppic_material_request_report_document" />
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

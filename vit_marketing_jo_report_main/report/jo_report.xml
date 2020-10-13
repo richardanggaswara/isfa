@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+		<data>
+
+				<record id="paperformat_report_jo_main" model="report.paperformat">
+						<field name="name">F4 new</field>
+						<field name="default" eval="True" />
+						<field name="format">Folio</field>
+						<field name="page_height">0</field>
+						<field name="page_width">0</field>
+						<field name="orientation">Portrait</field>
+						<field name="margin_top">2</field>
+						<field name="margin_bottom">2</field>
+						<field name="margin_left">2</field>
+						<field name="margin_right">2</field>
+						<field name="header_line" eval="False" />
+						<field name="header_spacing">0</field>
+						<field name="dpi">90</field>
+				</record>
+
+				<report 
+						id="doc_report_jo_main"
+						string="Vit - Marketing JO Report"
+						model="vit.marketing_jo"
+						report_type="qweb-pdf"
+						paperformat="vit_marketing_jo_report_main.paperformat_report_jo_main"
+						file="vit_marketing_jo_report_main.report_marketing_jo_main" 
+						name="vit_marketing_jo_report_main.data_report_jo_main"/>
+
+
+				<template id="external_layout_jo_main">
+					<t t-if="not o" t-set="o" t-value="doc"/>
+
+					<t t-if="not company">
+
+							<t t-if="company_id">
+									<t t-set="company" t-value="company_id"/>
+							</t>
+							<t t-elif="o and 'company_id' in o">
+									<t t-set="company" t-value="o.company_id.sudo()"/>
+							</t>
+							<t t-else="else">
+									<t t-set="company" t-value="res_company"/>
+							</t>
+					</t>
+					<t t-call="vit_marketing_jo_report_main.external_layout_standard_jo_main"><t t-raw="0"/></t>
+				</template>
+
+				<template id="external_layout_standard_jo_main">
+					<div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+						<t t-call="web.address_layout"/>
+						<t t-raw="0"/>
+					</div>
+				</template>
+
+
+				<template id="doc_report_marketing_jo_main">
+					<t t-call="vit_marketing_jo_report_main.external_layout_jo_main">
+					<div class="page">
+						<t t-foreach="docs" t-as="doc">
+							<table class="table table-condensed" style="width:100%;">
+								<thead>
+									<tr>
+										<td colspan="4" style="width:47%;font-size:12px;border: 1px solid black;" rowspan="1">
+											<img class="text-center" t-att-src="'/vit_marketing_jo_report_main/static/logo isfa.png'" />
+										</td>
+										<td colspan="6" style="text-align:left;border: 1px solid black;" rowspan="1" >
+											<h3 class="text-center">JOB ORDER</h3>
+											<div style="font-size:13px;font-weight:bold;">No : <span t-field="doc.name"/></div>
+											<div style="font-size:13px;font-weight:bold;">Date : <span t-field="doc.date"/></div>
+										</td>
+									</tr>	
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="4" style="border: 1px solid black;text-align:left;">
+											<h6>PROJECT</h6>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.project_name"/></div>
+										</td>
+										<td colspan="6" style="border: 1px solid black;text-align:left;">
+											<h6>CONTRACT/PO NO :</h6>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.po_id"/></div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="10" style="border: 1px solid black;text-align:left;">
+											<h6>CUSTOMER</h6>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.partner_id"/></div>
+										</td>
+									</tr>
+									<tr class="text-center" style="font-size:12px; border: 1px solid black;">
+										<td colspan="2" >
+											<t t-if="doc.type_tower == True">
+												<input type="checkbox" checked="True"/> Tower
+											</t>
+											<t t-elif="doc.type_tower == False">
+												<input type="checkbox"/> Tower
+											</t>
+										</td>
+										<td colspan="2" class="text-left">
+											<t t-if="doc.type_bridge == True">
+												<input type="checkbox" checked="True"/> Bridge
+											</t>
+											<t t-elif="doc.type_bridge == False">
+												<input type="checkbox"/> Bridge
+											</t>
+										</td>
+										<td colspan="3" class="text-left">
+											<t t-if="doc.type_steel == True">
+												<input type="checkbox" checked="True"/> General Steel Structure
+											</t>
+											<t t-elif="doc.type_steel == False">
+												<input type="checkbox"/> General Steel Structure
+											</t>
+										</td>
+										<td colspan="3" class="text-left">
+											<t t-if="doc.type_others == True">
+												<input type="checkbox" checked="True"/> Others
+											</t>
+											<t t-elif="doc.type_others == False">
+												<input type="checkbox"/> Others
+											</t>
+										</td>
+									</tr>
+									<tr style="border: 1px solid black;">
+										<td colspan="4" style="text-align:left;border: 1px solid black;">
+											<h6>PRODUCT DESCRIPTION</h6>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.project_desc"/></div>
+										</td>
+										<td colspan="3" style="text-align:left;border: 1px solid black;">
+											<h6>QUANTITY</h6>
+											<h6>WEIGHT (Kg)</h6>
+										</td>
+										<td colspan="3" style="text-align:left;border: 1px solid black;">
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.qty"/> Set</div>
+											<div style="font-size:13px;text-align:center;"><span t-field="doc.weight"/> Kg</div>
+										</td>
+									</tr>
+									<tr style="border: 1px solid black;">
+										<td colspan="10" style="text-align:center;border: 1px solid black;">
+											<div style="font-size:13px;text-align:center;font-style:italic;">Note : See Attachment for Detail</div>
+										</td>
+									</tr>
+									<tr style="border: 1px solid black;">
+										<td colspan="10" style="padding: 0 !important;margin: 10px;">
+											<h6>SCOPE OF WORK</h6>
+											<table style="width:100%;">
+												<!-- <t t-set="j" t-value="1"/> -->
+												<tr>
+													<!-- <t t-if="j != 5"> -->
+														<t t-foreach="docs.sow_ids" t-as="line">
+															<td style="border:none;font-size:13px;padding: 0 !important;margin: 10px;">
+																<span style="margin-left:30px;" t-field="line.scope_id"/>
+																<!-- <t t-set="i" t-value="j+1"/> -->
+															</td>
+														</t>
+													<!-- </t> -->
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<tr style="border: 1px solid black;">
+									<td colspan="4" style="padding: 0 !important;margin: 10px;">
+									<table style="width:100%;">
+									<tr>
+										<td style="border: 1px solid black;margin: 10px;">
+											<h6>PROJECT REQUIREMENT</h6>
+										</td>
+										<td style="border: 1px solid black;margin: 10px;">
+											<h6>YES</h6>
+										</td>
+										<td style="border: 1px solid black;margin: 10px;">
+											<h6>NO</h6>
+										</td>
+										
+									</tr>
+									<t t-foreach="docs.project_requirment_ids" t-as="line">
+										<tr>
+											<td style="border:none;margin: 10px;"><span t-field="line.project_req_id"/></td>
+											<td style="border:none;margin: 10px;">
+												<t t-if="line.yes == True">
+													<input type="checkbox" checked="True"/> 
+												</t>
+												<t t-elif="line.yes == False">
+													<input type="checkbox"/>
+												</t>
+											</td>
+											<td style="border:none;margin: 10px;">
+												<t t-if="line.no == True">
+													<input type="checkbox" checked="True"/> 
+												</t>
+												<t t-elif="line.no == False">
+													<input type="checkbox"/>
+												</t>
+											</td>
+										</tr>
+									</t>
+									</table>
+									</td>
+									<td colspan="6" style="padding: 0 !important;margin: 10px;">
+									<table style="width:100%;">
+										<tr>
+											<td colspan="6" style="border: 1px solid black;margin: 10px;">
+												<h6>TERM AND CONDITION OF PAYMENT</h6>
+											</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black;border-right-style:none;border-top-style:none;border-bottom-style:none;"></td>
+											<td style="border:none;font-size:13px;text-align:left;">CONTRACT VALUE</td>
+											<td style="border:none;"></td><td style="border:none;"></td>
+											<td style="border:none;font-size:13px;text-align:right;"><t t-esc="'{0:,.2f}'.format(docs.contract_value)"/></td>
+											<td style="border:none;font-size:13px;text-align:center;">IDR</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black;border-right-style:none;border-top-style:none;border-bottom-style:none;"></td>
+											<td style="border:none;font-size:13px;text-align:left;">ADDITIONAL PO</td>
+											<td style="border:none;"></td><td style="border:none;"></td>
+											<td style="border:none;font-size:13px;text-align:right;"><t t-esc="'{0:,.2f}'.format(docs.additional_po)"/></td>
+											<td style="border:none;font-size:13px;text-align:center;">IDR</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black;border-right-style:none;border-top-style:none;border-bottom-style:none;"></td>
+											<td style="border:none;font-size:13px;text-align:left;">TOTAL CONTRACT</td>
+											<td style="border:none;"></td><td style="border:none;"></td>
+											<td style="border:none;font-size:13px;text-align:right;"><t t-esc="'{0:,.2f}'.format(docs.total_contract)"/></td>
+											<td style="border:none;font-size:13px;text-align:center;">IDR</td>
+										</tr>
+										<tr></tr>
+										<t t-foreach="docs.termofpayment_ids" t-as="lines">
+											<tr>
+												<td style="border: 1px solid black;border-right-style:none;border-top-style:none;border-bottom-style:none;"></td>
+												<td style="border:none;font-size:13px;text-align:left;"><span t-field="lines.name"/></td>
+												<td style="border:none;"></td>
+												<td style="border:none;font-size:13px;text-align:center;"><t t-esc="'{:,}'.format(round(lines.persen))"/></td>
+												<td style="border:none;font-size:13px;text-align:left;">%</td>
+											</tr>
+										</t>
+										<tr></tr>
+										<tr style="border: 1px solid black;">
+											<td style="border: 1px solid black;border-right-style:none;border-left-style:none;"></td>
+											<td style="border: 1px solid black;border-right-style:none;border-left-style:none;font-size:13px;text-align:left;">DELIVERY DATE(RFD)</td>
+											<td style="border: 1px solid black;border-right-style:none;border-left-style:none;"></td>
+											<td style="border: 1px solid black;border-right-style:none;border-left-style:none;"></td>
+											<t t-foreach="docs.delivery_ids" t-as="dec">
+												<td style="border: 1px solid black;border-right-style:none;border-left-style:none;font-size:13px;text-align:left;"><span t-field="dec.delivery_time" t-options='{"format": "MM/dd/yyyy"}'/></td>
+											</t>
+											<td style="border: 1px solid black;border-right-style:none;border-left-style:none;"></td>
+										</tr>
+										<tr></tr>
+										<tr>
+											<td style="border: 1px solid black;border-right-style:none;border-top-style:none;border-bottom-style:none;"></td>
+											<td style="border:none;font-size:13px;text-align:left;">Project Manager/Engineer</td>
+										</tr>
+										<tr>
+											<td style="border: 1px solid black;border-right-style:none;border-top-style:none;border-bottom-style:none;"></td>
+											<td style="border:none;font-size:13px;text-align:left;"><span t-field="docs.project_manager"/></td>
+										</tr>
+									</table>
+									</td>
+								</tr>
+									<tr style="border: 1px solid black;">
+										<td colspan="10" style="border: 1px solid black;">
+											<div style="font-size:13px;text-align:left;font-style:italic;">
+												<h6>NOTES : </h6></div>
+											<div style="font-size:13px;padding-left:20px;"><span t-field="doc.note"/></div>
+										</td>
+									</tr>
+									<tr style="border: 1px solid black;">
+										<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+										<td colspan="3" class="text-left">
+											<div style="font-size:13px;">Approved By</div>
+											<div style="font-size:13px;">Date : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/> </div>
+											<br></br>
+											<br></br>
+											<br></br>
+											<div style="font-size:13px;">GM Direktur</div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="text-center" style="border: 1px solid black;">
+											<h6>Distribution</h6>
+										</td>
+										<td class="text-center" style="font-size:13px;border: 1px solid black;">
+											<h6>DIR</h6>
+											<div><input type="checkbox"/></div>
+										</td>
+										<td class="text-center" style="font-size:13px;border: 1px solid black;">
+											<h6>PM</h6>
+											<div><input type="checkbox"/></div>
+										</td>
+										<td class="text-center" style="font-size:13px;border: 1px solid black;">
+											<h6>ENG</h6>
+											<div><input type="checkbox"/></div>
+										</td>
+										<td class="text-center" style="font-size:13px;border: 1px solid black;">
+											<h6>PPIC</h6>
+											<div><input type="checkbox"/></div>
+										</td>
+										<td class="text-center" style="font-size:13px;border: 1px solid black;">
+											<h6>PROD</h6>
+											<div><input type="checkbox"/></div>
+										</td>
+										<td class="text-center" style="font-size:13px;border: 1px solid black;">
+											<h6>QAQC</h6>
+											<div><input type="checkbox"/></div>
+										</td>
+										<td class="text-center" style="font-size:13px;border: 1px solid black;">
+											<h6>PROC</h6>
+											<div><input type="checkbox"/></div>
+										</td>
+										<td class="text-center" style="font-size:13px;border: 1px solid black;">
+											<h6>FIN/ACC</h6>
+											<div><input type="checkbox"/></div>
+										</td>
+									</tr>
+								</tbody>	
+							</table>
+						</t>
+					</div>
+					</t>
+				</template>
+				<template id="data_report_jo_main">
+					<t t-call="web.html_container">
+						<t t-call="vit_marketing_jo_report_main.doc_report_marketing_jo_main"/>
+					</t>
+				</template>
+		</data>
+</odoo>

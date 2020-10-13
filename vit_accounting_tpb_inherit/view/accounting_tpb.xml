@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- tree view -->
+		<record id="view_vit_accounting_tpb_tree_inherit" model="ir.ui.view">
+			<field name="name">vit_accounting_tpb_tree_inherit</field>
+			<field name="model">vit.accounting_tpb</field>
+			<field name="inherit_id" ref="vit_accounting_tpb.view_vit_accounting_tpb_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//tree" position="replace">
+					<tree string="Tanda Penerimaan Barang(TPB)">
+						<field name="name" />
+						<field name="status" />
+						<field name="date" />
+						<field name="notes" />
+						<field name="jo_id" />
+						<field name="product_id" />
+						<field name="vendor_id" />
+						<field name="po_id" />
+					</tree>
+				</xpath>
+			</field>
+		</record>
+		<!-- form view -->
+		<record id="view_vit_accounting_tpb_form_inherit" model="ir.ui.view">
+			<field name="name">vit_accounting_tpb_form</field>
+			<field name="model">vit.accounting_tpb</field>
+			<field name="inherit_id" ref="vit_accounting_tpb.view_vit_accounting_tpb_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//form" position="replace">
+					<form string="Tanda Penerimaan Barang(TPB)">
+						<header>
+							<button string="Confirm" type="object" name="action_confirm" states="draft" />
+							<!-- <button string="Mark as Done" type="object" name="action_done" states="open" />
+							<button string="Reset to Draft" type="object" name="action_draft" states="open,done" /> -->
+							<field name="state" widget="statusbar" />
+						</header>
+						<sheet>
+							<div class="oe_button_box" name="button_box">
+								<!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+									<!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+									<!--field name="detail_ids" invisible="1"/-->
+								<!--/button-->
+							</div>
+							<div class="oe_title">
+								<label for="name" class="oe_edit_only" string="TPB No"/>
+								<h1><field name="name"/></h1>
+							</div>
+							<group>
+								<group>
+									<field name="po_id" string="PO No" domain="[('tipe','=','biasa')]"/>
+									<field name="jo_id" string="JO No" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="date" string="Date"/>
+									<field name="customer_id" string="Customer"/>
+									<field name="is_qc_tpb" invisible="1"/>
+									<field name="is_qc_tpb_valid" invisible="1"/>
+								</group>
+								<group>
+									<field name="code_vendor" string="Vendor Code"/>
+									<field name="vendor_id" string="Vendor Name" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="surat_jalan"/>
+									<field name="date_srt_jalan"/>
+									<field name="warehouse"/>
+									<field name="status" string="Status" invisible="1"/>
+									<field name="notes" string="Notes"/>
+								</group>
+							</group>
+							<notebook>
+								<page string="Material">
+									<field name="accounting_tpb_line_ids"/>
+								</page>
+								<page string="Document">
+									<field name="doc_tpb_ids"/>
+								</page>
+							</notebook>
+						</sheet>
+					</form>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="view_vit_accounting_qc_tpb_tree_inherit" model="ir.ui.view">
+			<field name="name">vit_accounting_tpb_tree</field>
+			<field name="model">vit.accounting_tpb</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree default_order="state desc" string="Tanda Penerimaan Barang(TPB)" create="false">
+					<field name="name" string="TPB No"/>
+					<field name="po_id" string="PO Number"/>
+					<field name="date" string="Delivery Terms"/>
+					<field name="jo_id" string="Job Order Number"/>
+					<field name="proj_name" string="Project"/>
+					<field name="customer_id" string="Customer Name"/>
+					<field name="notes" string="Notes"/>
+					<field name="state" string="Status"/>
+					<field name="is_qc_tpb_valid" string="QC"/>
+					<field name="product_id" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_vit_accounting_qc_tpb_form" model="ir.ui.view">
+			<field name="name">vit_accounting_tpb_form</field>
+			<field name="model">vit.accounting_tpb</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Tanda Penerimaan Barang(TPB)" create="false" edit="false">
+					<header>
+						<button string="Confirm" type="object" name="action_confirm" states="draft" />
+						<button string="Valid" type="object" name="action_done" states="open" class="oe_highlight" />
+						<button string="Reset to Draft" type="object" name="action_draft" states="open" />
+						<!-- <button string="Valid" type="object" name="action_valid" states="done" class="oe_highlight" attrs="{'invisible': ['|','|',('is_qc_tpb', '=', False),('is_qc_tpb_valid', '=', True)]}" /> -->
+						<field name="state" widget="statusbar" />
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+						</div>
+						<div class="oe_title">
+							<label for="name" class="oe_edit_only" string="TPB No"/>
+							<h1><field name="name"/></h1>
+						</div>
+						<group>
+							<group>
+								<field name="po_id" string="PO No" domain="[('tipe','=','biasa')]"/>
+								<field name="jo_id" string="JO No" options="{'no_create': True, 'no_create_edit':True}"/>
+								<field name="proj_name"/>
+								<field name="date" string="Date"/>
+								<field name="customer_id" string="Customer"/>
+								<field name="is_qc_tpb" invisible="1"/>
+								<field name="is_qc_tpb_valid" invisible="1"/>
+							</group>
+							<group>
+								<field name="code_vendor" string="Vendor Code"/>
+								<field name="vendor_id" string="Vendor Name" options="{'no_create': True, 'no_create_edit':True}"/>
+								<field name="surat_jalan"/>
+								<field name="date_srt_jalan"/>
+								<field name="warehouse"/>
+								<field name="status" string="Status" invisible="1"/>
+								<field name="notes" string="Notes"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Material">
+								<field name="accounting_tpb_line_ids"/>
+							</page>
+							<page string="Document">
+								<field name="doc_tpb_ids"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- action window -->
+		<record id="vit_accounting_tpb.action_vit_accounting_tpb" model="ir.actions.act_window">
+			<field name="name">Tanda Penerimaan Barang(TPB)</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.accounting_tpb</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">kanban,tree,form,graph,calendar</field>
+			<field name="context">{}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Tanda Penerimaan Barang(TPB)
+				</p><p>
+				Click the Create button to add a new Tanda Penerimaan Barang(TPB)
+				</p>
+			</field>
+		</record>
+
+		<menuitem id="menu_account_transaction" name="Transaction" parent="account.menu_finance_entries"/>
+		<menuitem id="vit_accounting_tpb.menu_vit_accounting_tpb" name="Tanda Penerimaan Barang(TPB)" parent="menu_account_transaction" action="vit_accounting_tpb.action_vit_accounting_tpb" sequence="33"/>
+		<menuitem id="menu_account_transaction_line" name="Lines" parent="account.menu_finance_configuration"/>
+
+		<menuitem id="vit_accounting_tpb.menu_vit_inventory_tpb" name="Tanda Penerimaan Barang(TPB)" parent="vit_inventory.vit_inventory_sub_menu" action="vit_accounting_tpb.action_vit_accounting_tpb" sequence="15"/>
+
+		<record id="action_vit_qc_tpb" model="ir.actions.act_window">
+			<field name="name">Material Inspection(TPB)</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.accounting_tpb</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field eval="False" name="view_id"/>
+			<field name="context">{"search_default_inspection":1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Material Inspection(TPB)
+				</p><p>
+				Click the Create button to add a new Material Inspection(TPB)
+				</p>
+			</field>
+		</record>
+
+		<menuitem id="menu_vit_qc_tpb" name="Material Inspection(TPB)" parent="vit_qc.vit_qc_sub_menu_inventory" action="action_vit_qc_tpb" sequence="57"/>		
+
+		<record id="action_vit_qc_tpb_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_vit_accounting_qc_tpb_tree_inherit"/>
+			<field name="act_window_id" ref="action_vit_qc_tpb"/>
+		</record>
+		<record id="action_vit_qc_tpb_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_vit_accounting_qc_tpb_form"/>
+			<field name="act_window_id" ref="action_vit_qc_tpb"/>
+		</record>
+		
+		<record id="view_vit_accounting_tpb_search_new" model="ir.ui.view">
+			<field name="name">vit_accounting_tpb</field>
+			<field name="model">vit.accounting_tpb</field>
+			<field name="inherit_id" ref="vit_accounting_tpb.view_vit_accounting_tpb_search"/>
+			<field name="arch" type="xml">
+				<search string="Accounting tpb">
+					<filter string="Material Inspection(TPB)" name="inspection" context="{'group_by':'state'}" domain="['|',('state','=','open'),('state','=','done')]" />
+				</search>
+			</field>
+		</record>
+	</data>
+</odoo>

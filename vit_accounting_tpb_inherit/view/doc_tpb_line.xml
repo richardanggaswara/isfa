@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- tree view -->
+		<record id="view_vit_doc_tpb_line_tree" model="ir.ui.view">
+			<field name="name">vit_doc_tpb_line_tree</field>
+			<field name="model">vit.doc_tpb_line</field>
+			<field name="inherit_id" ref="vit_accounting_tpb.view_vit_doc_tpb_line_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//tree" position="replace">
+					<tree string="Doc tpb line" editable="bottom">
+						<field name="name" string="Document Name"/>
+						<field name="date" string="Date"/>
+						<field name="desc" string="Description"/>
+						<field name="tpb_id" invisible="1"/>
+					</tree>
+				</xpath>
+			</field>
+		</record>
+		<!-- action window -->
+		<record id="action_vit_doc_tpb_line" model="ir.actions.act_window">
+			<field name="name">Doc tpb line</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.doc_tpb_line</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">kanban,tree,form,calendar,graph</field>
+			<field name="context">{"search_default_fieldname":1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Doc tpb line
+				</p><p>
+				Click the Create button to add a new Doc tpb line
+				</p>
+			</field>
+		</record>
+
+		<menuitem id="vit_accounting_tpb.menu_vit_doc_tpb_line" name="Doc TPB Line" parent="vit_accounting_tpb_inherit.menu_account_transaction_line" action="action_vit_doc_tpb_line" sequence="60"/>
+	</data>
+</odoo>

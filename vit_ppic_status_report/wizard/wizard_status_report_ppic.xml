@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_wizard_ppic_status_report">
+            <field name="name">Project Status Report - All(PPIC)</field>
+            <field name="model">vit.wizard_ppic_status_report</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Project Status Report - All(PPIC)">
+                    <group>
+                        <field name="selection_status"/>
+                        <field name="periode_year" attrs="{'invisible': [('selection_status', 'in', ['date','all_date'])]}"/>
+                        <field name="periode_date_start" attrs="{'invisible': [('selection_status', 'in', ['year','all_date'])]}"/>
+                        <field name="periode_date_end" attrs="{'invisible': [('selection_status', 'in', ['year','all_date'])]}"/>
+                    </group>
+                    <footer>
+                        <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_wizard_ppic_status_report" name="Project Status Report - All(PPIC)" res_model="vit.wizard_ppic_status_report" view_mode="form" target="new"/>
+
+        <menuitem action="action_wizard_ppic_status_report" name="Project Status Report - All (PPIC)" id="menu_wizard_ppic_sub_menu_status_report" sequence="10" parent="vit_ppic_sub_menu_status_report"/>
+    </data>
+</odoo>

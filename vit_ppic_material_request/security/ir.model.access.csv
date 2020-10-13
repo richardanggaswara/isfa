@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_all_vit_ppic_material_request,access_all_vit_ppic_material_request,model_vit_ppic_material_request,,1,0,0,0
+access_admin_vit_ppic_material_request,access_admin_vit_ppic_material_request,model_vit_ppic_material_request,base.group_system,1,1,1,1
+access_all_vit_material_request_line,access_all_vit_material_request_line,model_vit_material_request_line,,1,0,0,0
+access_admin_vit_material_request_line,access_admin_vit_material_request_line,model_vit_material_request_line,base.group_system,1,1,1,1

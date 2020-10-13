@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- tree view -->
+		<record id="view_vit_material_plan_lane_tree" model="ir.ui.view">
+			<field name="name">vit_material_plan_lane_tree</field>
+			<field name="model">vit.material_plan_lane</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Material plan lane">
+					<field name="name" />
+					<field name="qty" />
+					<field name="total_qty" />
+					<field name="book_obj" />
+					<field name="wh_obj" />
+					<field name="to_pr" />
+					<field name="material_plan_id" />
+					<field name="product_id" />
+					<field name="uom_id" />
+				</tree>
+			</field>
+		</record>
+		<!-- form view -->
+		<record id="view_vit_material_plan_lane_form" model="ir.ui.view">
+			<field name="name">vit_material_plan_lane_form</field>
+			<field name="model">vit.material_plan_lane</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Material plan lane">
+					<header>
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+								<!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+								<!--field name="detail_ids" invisible="1"/-->
+							<!--/button-->
+						</div>
+						<div class="oe_title">
+							<label for="name" class="oe_edit_only" string="Material plan lane Name"/>
+							<h1><field name="name"/></h1>
+						</div>
+						<group>
+							<group>
+								<field name="qty" />
+								<field name="total_qty" />
+								<field name="book_obj" />
+								<field name="wh_obj" />
+								<field name="to_pr" />
+							</group>
+							<group>
+								<field name="material_plan_id" />
+								<field name="product_id" />
+								<field name="uom_id" />
+							</group>
+						</group>
+						<notebook>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- search -->
+		<record id="view_vit_material_plan_lane_search" model="ir.ui.view">
+			<field name="name">vit_material_plan_lane</field>
+			<field name="model">vit.material_plan_lane</field>
+			<field name="arch" type="xml">
+				<search string="Material plan lane">
+
+					<filter string="Name" name="filter_by_name" domain="[('name','=','')]" />
+					<filter string="Qty" name="filter_by_qty" domain="[('qty','=','')]" />
+					<filter string="Total qty" name="filter_by_total_qty" domain="[('total_qty','=','')]" />
+					<filter string="Book" name="filter_by_book" domain="[('book','=','')]" />
+					<filter string="Wh" name="filter_by_wh" domain="[('wh','=','')]" />
+					<filter string="To pr" name="filter_by_to_pr" domain="[('to_pr','=','')]" />
+					<field name="name" select="True"/>
+					<field name="qty" select="True"/>
+					<field name="total_qty" select="True"/>
+					<field name="book_obj" select="True"/>
+					<field name="wh_obj" select="True"/>
+					<field name="to_pr" select="True"/>
+					<field name="material_plan_id" select="True"/>
+					<field name="product_id" select="True"/>
+					<field name="uom_id" select="True"/>
+					<group string="Group By..">
+						<filter string="Material plan" domain="[]" name="group_by_material_plan_id" context="{'group_by':'material_plan_id'}"/>
+						<filter string="Product" domain="[]" name="group_by_product_id" context="{'group_by':'product_id'}"/>
+						<filter string="Uom" domain="[]" name="group_by_uom_id" context="{'group_by':'uom_id'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		<!-- kanban , to show image, please add image_small in the model -->
+		<record id="view_vit_material_plan_lane_kanban" model="ir.ui.view" >
+			<field name="name">vit_material_plan_lane</field>
+			<field name="model">vit.material_plan_lane</field>
+			<field name="arch" type="xml">
+				<kanban version="7.0">
+					<field name="id" />
+					<field name="name" />
+					<field name="qty" />
+					<field name="total_qty" />
+					<field name="book_obj" />
+					<field name="wh_obj" />
+					<field name="to_pr" />
+					<field name="material_plan_id" />
+					<field name="product_id" />
+					<field name="uom_id" />
+					<templates>
+						<t t-name="kanban-box">
+							<div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+								<div class="oe_kanban_details">
+									<h4>
+										<a type="open"><field name="name"/></a>
+									</h4>
+									<ul>
+										<li>
+											Field1: <field name="name"></field>
+										</li>
+										<li>
+											Field2: <field name="name"></field>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</t>
+					</templates>
+				</kanban>
+			</field>
+		</record>
+		<!-- calendar if a date field exists -->
+		<!-- graph -->
+		<record id="view_vit_material_plan_lane_graph" model="ir.ui.view">
+			<field name="name">vit_material_plan_lane</field>
+			<field name="model">vit.material_plan_lane</field>
+			<field name="arch" type="xml">
+				<graph string="Material plan lane" type="bar">
+					<field name="material_plan_id"/>
+				</graph>
+			</field>
+		</record>
+		<!-- action window -->
+		<record id="action_vit_material_plan_lane" model="ir.actions.act_window">
+			<field name="name">Material plan lane</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.material_plan_lane</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">kanban,tree,form,graph</field>
+			<field name="context">{"search_default_fieldname":1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Material plan lane
+				</p><p>
+				Click the Create button to add a new Material plan lane
+				</p>
+			</field>
+		</record>
+
+		<menuitem id="menu_vit_material_plan_lane" name="Material plan lane" parent="vit_ppic_material_plan_sub_menu" action="action_vit_material_plan_lane" sequence="20"/>
+	</data>
+</odoo>

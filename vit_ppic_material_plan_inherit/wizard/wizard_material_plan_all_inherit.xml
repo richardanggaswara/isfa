@@ -1,0 +1,46 @@
+<odoo>
+	<data>
+		<record id="view_wizard_material_plan_pr_form_all_inherit" model="ir.ui.view">
+			<field name="name">vit_wizard_material_plan_all_inherit_view</field>
+			<field name="model">vit.wizard_material_plan_all_inherit</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Purchase Request(PR)">
+					<sheet>
+						<group>
+							<field name="material_plan_id" invisible="1"/>
+							<field name="product_id"/>
+						</group>
+
+						<notebook>
+							<page string="PR">
+								<field name="pr_ids" >
+									<tree>
+										<field name="name"/>
+										<field name="date"/>
+										<field name="pr_line_ids" string="Items MTO"/>
+										<field name="state" invisible="1"/>
+									</tree>
+								</field>
+								<!-- </field> -->
+							</page>
+						</notebook>
+					</sheet>
+					<footer>
+						<button string="Create PR" class="oe_inline oe_button btn-success" name="vit_ppic_material_plan_inherit.action_generate_pr" type="action" context="{'default_material_plan_id':material_plan_id}"/>
+						<button special="cancel" type="object" string="Cancel" class="oe_inline oe_button btn-danger"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="action_generate_all_pr">
+			<field name="name">Purchase Request (PR)</field>
+			<field name="res_model">vit.wizard_material_plan_all_inherit</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+	</data>
+</odoo>

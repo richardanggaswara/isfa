@@ -1,0 +1,8 @@
+<odoo>
+	<data>
+		<record id="ppic_material_booking_1" model="stock.location">
+			<field name="name">Booking</field>
+			<field name="usage">transit</field>
+		</record>
+	</data>
+</odoo>

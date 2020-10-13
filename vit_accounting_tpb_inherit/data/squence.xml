@@ -1,0 +1,14 @@
+<odoo>
+	<data noupdate="1">
+
+		<record id="mark_tpb_sequence" model="ir.sequence">
+			<field name="name">Sph squence</field>
+			<field name="code">vit.accounting_tpb</field>
+			<field name="prefix">{{JO}}.TPB-</field>
+			<field name="padding">2</field>
+			<field eval="1" name="number_next"/>
+			<field eval="1" name="number_increment"/>
+		</record>
+		
+	</data>
+</odoo>

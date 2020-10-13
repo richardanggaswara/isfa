@@ -1,0 +1,10 @@
+id,name,code,source,relat
+material_utama,Material Utama,RAP01,Product,Product
+material_bantu,Material Bantu,RAP02,Product,Product
+labour,Labour,RAP03,Account,Account
+overhead,Overhead,RAP04,Account,Account
+sub_cont,Sub Cont,RAP05,Account,Account
+galvanize,Galvanize,RAP06,Account,Account
+cotingensi,Cotingensi,RAP07,Account,Account
+cost_of_money,Cost Of Money,RAP08,Account,Account
+transportation,Transportation,RAP09,Account,Account

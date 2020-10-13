@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- wizard -->
+            <record id="view_wizard_rap_form_inherit" model="ir.ui.view">
+                <field name="name">vit.wizard_rap</field>
+                <field name="model">vit.wizard_rap</field>
+                <field name="type">form</field>
+                <field name="priority" eval="8"/>
+                <field name="arch" type="xml">
+                    <form string="Wizard RAP">
+                    <header>
+                        <button string="Generate" type="object" name="action_import"/>
+                    </header>
+                        <sheet>
+                            <group>
+                                    <field name="mto_ids" domain="[('jo_id','=',jo_id)]">
+                                        <!-- <tree string="MTO">
+                                            <field name="jo_id" />
+                                            <field name="product_id" />
+                                            <field name="name"/>
+                                            <field name="mto_date"/>
+                                            <field name="name_project"/>
+                                            <field name="desc_product"/>
+                                            <field name="notes"/>
+                                            <field name="date_start"/>
+                                            <field name="date_end"/>
+                                            <field name="rfd_bast" />
+                                            <field name="bast" />
+                                            <field name="approved_customer" />
+                                            <field name="total_rab_weight" />
+                                            <field name="total_weight" />
+                                        </tree> -->
+                                    </field>
+                                    <field name="rap_line_id" invisible="1"/>
+                                    <field name="jo_id" invisible="1" />
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+
+        <record model="ir.actions.act_window" id="action_generate_rap">
+            <field name="name">generate rap</field>
+            <field name="res_model">vit.wizard_rap</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- wizard -->
+
+        <!-- inherit form marketing rap-->
+        <record id="view_vit_marketing_rap_form_inherit" model="ir.ui.view">
+            <field name="name">vit_marketing_rap_form_inherit</field>
+            <field name="model">vit.marketing_rap</field>
+            <field name="inherit_id" ref="vit_marketing_rap.view_vit_marketing_rap_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Marketing RAP">
+                        <header>
+                            <button string="Confirm" type="object" name="action_confirm" states="draft" />
+                            <button string="Validate" type="object" name="action_done" states="open" />
+                            <button string="Reset to Draft" type="object" name="action_draft" states="open" />
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                            </div>
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only" string="RAP No :"/>
+                                <h1><field name="name"/></h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="partner_id" domain="[('customer','=',True)]" />
+                                    <field name="jo_id" domain="[('state','=','done'),('partner_id','=',partner_id),('marketing_rap_ids','=', False)]"/>
+                                    <field name="project" />
+                                    <field name="description" />
+                                    <field name="po_no" domain="[('jo_id','=',jo_id)]" />
+                                    <field name="date" />
+                                    
+                                </group>
+                                <group>
+                                    <field name="total_rap" />
+                                    <field name="total_weight" />
+                                    <field name="harga_satuan" />
+                                    <field name="total_price" />
+                                    <p></p>
+                                    <field name="gross_margin" />
+                                    <label for="excepted_gross" class="oe_inline"/>
+                                        <div class="o_col">
+                                            <field name="excepted_gross" class="oe_inline"/>
+                                            <span class="oe_inline">%</span>
+                                        </div>
+                                    <field name="note" />    
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="RAP Detail">
+                                    <field name="rap_line_ids">
+                                        <tree string="RAP Detail">
+                                            <field name="code"/>
+                                            <field name="name"/>
+                                            <field name="cost_rap"/>
+                                            <field name="total_weight" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Document">
+                                    <field name="doc_line_ids">
+                                        <tree string="Document" editable="bottom">
+                                            <field name="doc_name" invisible="1"/>
+                                            <field name="doc" widget="binary" filename="doc_name" />
+                                            <field name="date"/>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- inherit rap line tree -->
+        <record id="view_vit_rap_line_tree_new" model="ir.ui.view">
+            <field name="name">vit_rap_line_tree_new</field>
+            <field name="model">vit.rap_line</field>
+            <field name="inherit_id" ref="vit_marketing_rap.view_vit_rap_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="rap_id" position="replace">
+                    <field name="rap_id" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+                <record id="inherit_product_template_tree_view1" model="ir.ui.view">
+                <field name="name">product.product.inherit.tree</field>
+                <field name="model">product.product</field>
+                <field eval="8" name="priority"/>
+                <field name="arch" type="xml">
+                    <tree string="Contacts">
+                        <field name="default_code"/>
+                        <field name="name"/>
+                        <field name="categ_id"/>
+                        <field name="type"/>
+                        <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
+                    </tree>
+                </field>
+            </record>
+
+        <!-- inherit rap line form -->
+        <record id="view_vit_rap_line_form_new" model="ir.ui.view">
+            <field name="name">vit_rap_line_form_new</field>
+            <field name="model">vit.rap_line</field>
+            <field name="inherit_id" ref="vit_marketing_rap.view_vit_rap_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Rap line">
+                        <header>
+                            <field name="rel" invisible="1"/>
+                            <button string="Generate" name="%(vit_marketing_rap_inherit.action_generate_rap)d" type="action" attrs="{'invisible': ['|',('rel', '!=', 'Product'),('name','=','Material Bantu')]}"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                            </div>
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only" string="Rap line Name"/>
+                                <h1><field name="name"/></h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="code" />
+                                    <field name="cost_rap" />
+                                    <field name="cost_rab" />
+                                </group>
+                                <group>
+                                    <field name="rap_id" invisible="1"/>
+                                    <field name="master_rap_id" />
+                                    <field name="total_weight" invisible="1"/>
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="RAP Detail">
+                                    <field name="product_rap_line_ids">
+                                        <tree string="Product rap lines" editable="bottom">
+                                            <field name="project_desc" invisible="1"/>
+                                            <field name="product_id" attrs="{'readonly': [('rel', '!=', 'Product')]}" context="{'tree_view_ref': 'inherit_product_template_tree_view1'}"/>
+                                            <field name="account_id"/>
+                                            <field name="kode_akun" attrs="{'readonly': [('rel', '!=', 'Account')]}"/>
+                                            <field name="qty" />
+                                            <field name="weight"/>
+                                            <field name="uom_id" />
+                                            <field name="rel" invisible="1"/>
+                                            <field name="total_weight"/>
+                                            <field name="satuan_uom"/>
+                                            <field name="satuan" />
+                                            <field name="sub_total" />
+                                        </tree>
+                                    </field>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2">
+                                        <field name="total_weight"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- inherit product rap line tree -->
+        <record id="view_vit_product_rap_line_tree_new" model="ir.ui.view">
+            <field name="name">view_vit_product_rap_line_tree_new</field>
+            <field name="model">vit.product_rap_line</field>
+            <field name="inherit_id" ref="vit_marketing_rap.view_vit_product_rap_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="rap_line_id" position="replace">
+                    <field name="rap_line_id" invisible="1"/>
+                </field>
+                <field name="product_id" position="after">
+                    <field name="rel" invisible="1"/>
+                </field>
+                <field name="sub_total" position="replace">
+                    <field name="sub_total" />
+                </field>
+                <field name="satuan" position="replace">
+                    <field name="satuan" />
+                </field>
+            </field>
+        </record>
+
+        <!-- inherit product rap line form -->
+        <record id="view_vit_product_rap_line_form_new" model="ir.ui.view">
+            <field name="name">view_vit_product_rap_line_form_new</field>
+            <field name="model">vit.product_rap_line</field>
+            <field name="inherit_id" ref="vit_marketing_rap.view_vit_product_rap_line_form"/>
+            <field name="arch" type="xml">
+                <field name="rap_line_id" position="replace">
+                    <field name="rap_line_id" invisible="1"/>
+                </field>
+                <field name="product_id" position="after">
+                    <field name="rel" invisible="1"/>
+                </field>
+                <field name="sub_total" position="replace">
+                    <field name="sub_total" />
+                </field>
+                <field name="satuan" position="replace">
+                    <field name="satuan" />
+                </field>
+            </field>
+        </record>
+
+        <!-- inherit act window marketing rap -->
+        <record id="vit_marketing_rap.action_vit_marketing_rap" model="ir.actions.act_window">
+            <field name="name">Rencana Anggaran Pelaksanaan (RAP)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.marketing_rap</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Marketing rap
+                </p><p>
+                Click the Create button to add a new Marketing rap
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_rap.menu_vit_marketing_rap" name="Rencana Anggaran Pelaksanaan (RAP)" parent="vit_marketing.vit_marketing_sub_menu" sequence="70"/>
+
+        <!-- inherit act window rap line -->
+        <record id="vit_marketing_rap.action_vit_rap_line" model="ir.actions.act_window">
+            <field name="name">Rap line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.rap_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Rap line
+                </p><p>
+                Click the Create button to add a new Rap line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_rap.menu_vit_rap_line" name="Rap line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="70"/>
+
+        <!-- inherit act window product_rap line -->
+        <record id="vit_marketing_rap.action_vit_product_rap_line" model="ir.actions.act_window">
+            <field name="name">Product rap line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.product_rap_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Product rap line
+                </p><p>
+                Click the Create button to add a new Product rap line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_rap.menu_vit_product_rap_line" name="Product rap line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="80"/>
+
+        <menuitem id="vit_marketing_rap.menu_vit_master_rap_line" name="Master RAP Line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="20"/>
+
+    </data>
+</odoo>

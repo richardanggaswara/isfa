@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- tree view -->
+		<record id="view_vit_accounting_tpb_line_tree" model="ir.ui.view">
+			<field name="name">vit_accounting_tpb_line_tree</field>
+			<field name="model">vit.accounting_tpb_line</field>
+			<field name="inherit_id" ref="vit_accounting_tpb.view_vit_accounting_tpb_line_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//tree" position="replace">
+					<tree string="Material" editable="bottom">
+						<field name="code_accounting" string="Kode Material"/>
+						<field name="product_id" string="Material"/>
+						<field name="qty" string="Qty"/>
+						<field name="uom_id" string="UM"/>	
+						<field name="unit_price" invisible="1"/>
+						<field name="masuk_act" string="Masuk"/>
+						<field name="terima_act" string="Terima"/>
+						<field name="reject_act" string="Reject"/>
+						<field name="accounting_tpb_id" invisible="1"/>
+					</tree>
+				</xpath>
+			</field>
+		</record>
+		<!-- form view -->
+		<!-- action window -->
+		<record id="action_vit_accounting_tpb_line" model="ir.actions.act_window">
+			<field name="name">Accounting tpb line</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.accounting_tpb_line</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">kanban,tree,form,graph</field>
+			<field name="context">{"search_default_fieldname":1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Accounting tpb line
+				</p><p>
+				Click the Create button to add a new Accounting tpb line
+				</p>
+			</field>
+		</record>
+		<menuitem id="vit_accounting_tpb.menu_vit_accounting_tpb_line" name="Accounting TPB Line" parent="vit_accounting_tpb_inherit.menu_account_transaction_line" action="action_vit_accounting_tpb_line" sequence="40"/>
+	</data>
+</odoo>

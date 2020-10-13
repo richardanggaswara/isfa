@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+		<data>
+
+				<record id="paperformat_report_rap" model="report.paperformat">
+						<field name="name">F4 new</field>
+						<field name="default" eval="True" />
+						<field name="format">Folio</field>
+						<field name="page_height">0</field>
+						<field name="page_width">0</field>
+						<field name="orientation">Portrait</field>
+						<field name="margin_top">2</field>
+						<field name="margin_bottom">2</field>
+						<field name="margin_left">2</field>
+						<field name="margin_right">2</field>
+						<field name="header_line" eval="False" />
+						<field name="header_spacing">0</field>
+						<field name="dpi">90</field>
+				</record>
+
+				<report 
+						id="doc_report_marketing_rap"
+						string="Vit - Report Marketing RAP"
+						model="vit.marketing_rap"
+						report_type="qweb-pdf"
+						paperformat="vit_marketing_report_rap.paperformat_report_rap"
+						file="vit_marketing_report_rap.report_marketing_rap" 
+						name="vit_marketing_report_rap.data_report_rap"/>
+
+				
+
+
+				<template id="external_layout_rap">
+					<t t-if="not o" t-set="o" t-value="doc"/>
+
+					<t t-if="not company">
+
+							<t t-if="company_id">
+									<t t-set="company" t-value="company_id"/>
+							</t>
+							<t t-elif="o and 'company_id' in o">
+									<t t-set="company" t-value="o.company_id.sudo()"/>
+							</t>
+							<t t-else="else">
+									<t t-set="company" t-value="res_company"/>
+							</t>
+					</t>
+					<t t-call="vit_marketing_report_rap.external_layout_standard_rap"><t t-raw="0"/></t>
+				</template>
+
+				<template id="external_layout_standard_rap">
+					<div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+						<t t-call="web.address_layout"/>
+						<t t-raw="0"/>
+					</div>
+				</template>
+
+
+				<template id="doc_marketing_rap">
+					<t t-call="vit_marketing_report_rap.external_layout_rap">
+					<div class="page">
+						<t t-foreach="docs" t-as="doc">
+							<table class="table table-condensed" style="height:100%;width: 100%">
+								<thead>
+									<tr>
+										<th style="font-size:9px; border: 1px solid black;" colspan="2" rowspan="2" >
+											<img class="text-center" t-att-src="'/vit_marketing_sph_inherit/static/logo isfa.png'" />
+											<p style="padding-top:30px;">PT INDO SADANG FABRIKATOR</p>
+										</th>
+										<th style="text-align:center;font-size:16px; border: 1px solid black;border-left-style:none;padding-bottom:45px;" colspan="5" rowspan="2">
+											<div>RENCANA ANGGARAN PELAKSANAAN (RAP)</div>
+										</th>
+									</tr>
+										<tr>
+											<th style="text-align:left;font-size:12px; border: 1px solid black;padding-bottom:50px;">
+												<div>NO.CONTRACT/PO</div>
+												<div>NO.RAP</div>
+											</th>
+											<th style="text-align:left;font-size:12px; border: 1px solid black;padding-bottom:50px;">
+												<div><span t-field="doc.po_no"/></div>
+												<div><span t-field="doc.name"/></div>
+											</th>
+										</tr>
+										<!-- <tr>
+											<th style="font-size:9px; border: 1px solid black;height:10%;" class="text-center"></th>
+											<th style="font-size:9px; border: 1px solid black;height:10%;" ></th>
+										</tr> -->
+								</thead>
+									<div>
+										<thead style="border-style:none;">
+												<tr>
+														
+														<th colspan="3" style="font-size:9px;border-style:none;">
+														Job Order : <span t-field="doc.jo_id"/>
+														</th>
+														<th style="font-size:9px;border-style:none; ">
+															Date : 
+															<span t-field="doc.date" t-options='{"format": "MM/dd/yyyy"}'/>
+														</th>
+														<!-- <th style="font-size:9px;border-style:none; ">
+														</th> -->
+												</tr>
+												<tr>
+													<th colspan="3" style="font-size:9px;border-style:none;">
+															Customer : <span t-field="doc.partner_id"/>
+														</th>
+													<!-- <th style="font-size:9px;border-style:none;" colspan="6">
+															
+													</th> -->
+													<th style="font-size:9px;border-style:none;">
+														Total RAB :
+														 <t t-esc="'{:,}'.format(round(doc.jo_id.po_id.sph_id.rab_id.total_rab))"/>
+													</th>
+												 <!--  <th style="font-size:9px;border-style:none;" >
+														
+													</th> -->
+												</tr>
+												<tr>
+													<th colspan="3" style="font-size:9px;border-style:none;">
+														Project : <span t-field="doc.project"/>
+													</th>
+												</tr>
+
+											</thead>
+										</div>
+										</table>
+										<tr>
+											<b>
+												Product Price Detail
+											</b>
+										</tr>
+									 <table class="table table-sm o_main_table table-bordered" style="width: 100%">
+										<thead>
+											<tr>
+												<!-- <th style="font-size:9px; border: 1px solid black;" class="text-center">No</th> -->
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Product</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Uom</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Qty</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Unit Weight(Kg)</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Total Weight(Kg)</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Unit Price</th>
+												<th style="font-size:9px; border: 1px solid black;" >Total Price</th>
+											</tr>
+										</thead>
+									<tbody>
+										<t t-foreach="docs" t-as="doc">
+										<t t-foreach="doc.jo_id.po_id.sph_id.rab_id.rab_product_ids" t-as="o">
+											<tr>
+											
+											<td style="font-size:9px; border: 1px solid black;" class="text-left"><span t-field="o.product_id"/></td>
+											<td style="font-size:9px; border: 1px solid black;" class="text-center"><span t-field="o.uom_id"/></td>
+											<td style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(o.qty_product))"/></td>
+											<td style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(o.unit_weight))"/></td>
+											<td style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(o.total_weight))"/></td>
+											<td style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(o.unit_price))"/></td>
+											<td style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(o.total_price))"/></td>
+											</tr>                    
+										</t>
+									
+
+										<tr>
+											<th style="font-size:12px; border: 1px solid black;" class="text-center" >Total</th>
+											<th style="font-size:9px; border: 1px solid black;"></th>
+											<th style="font-size:9px; border: 1px solid black;" class="text-right">
+												 <t t-esc="'{:,}'.format(round(sum(l.qty_product for l in doc.jo_id.po_id.sph_id.rab_id.rab_product_ids)))"/>
+											</th>
+											<th style="font-size:9px; border: 1px solid black;">
+												
+											</th>
+											<th style="font-size:9px; border: 1px solid black;" class="text-right">
+												<t t-esc="'{:,}'.format(round(sum(l.total_weight for l in doc.jo_id.po_id.sph_id.rab_id.rab_product_ids)))"/>
+											</th>
+											<th style="font-size:9px; border: 1px solid black;">
+												
+											</th>
+											<th style="font-size:9px; border: 1px solid black;" class="text-right">
+												<t t-esc="'{:,}'.format(round(sum(l.total_price for l in doc.jo_id.po_id.sph_id.rab_id.rab_product_ids)))"/>
+											</th>
+										</tr>
+									</t>
+								</tbody>
+							</table>
+
+										<tr>
+											<b>
+											 Detail RAP
+											</b>
+										</tr>
+									 <table class="table table-sm o_main_table table-bordered" style="width: 100%; border: 1px solid black;">
+										<thead>
+											<tr>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Uraian Pekerjaan/Bahan</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Kode Akun</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Kode Barang</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Quantity</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Unit Weight(Kg)</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Uom</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Total Weight(Kg)</th>
+												<th style="font-size:9px; border: 1px solid black;" class="text-center">Unit Price</th>
+												<th style="font-size:9px; border: 1px solid black;" >Total Price</th>
+											</tr>
+										</thead>
+										<tbody style="font-size:9px; border: 1px solid black;">
+											<tr>
+												<t t-foreach="docs.rap_line_ids" t-as="s" style="font-size:9px; border: 1px solid black;">
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-left"><span t-field="s.name"/></td>
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-center"></td>
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-center"></td>
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-center"></td>
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-center"></td>
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-center"></td>
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-center"></td>
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-center"></td>
+													<td style="font-size:9px; border: 1px solid black;font-weight:bold;" class="text-center"></td>
+													<tr>
+													
+													
+														<t t-foreach="s.product_rap_line_ids" t-as="n">
+															<tr>		            
+																<td style="font-size:9px; border: 1px solid black;" class="text-left">
+																	<span t-field="n.product_id"/>
+																</td>
+																<td style="font-size:9px; border: 1px solid black;" class="text-left">
+																	<span t-field="n.account_id"/>
+																</td>
+																<td style="font-size:9px; border: 1px solid black;" class="text-center">
+																	<span t-field="n.product_id.default_code"/>
+																</td>                                        
+																<td style="font-size:9px; border: 1px solid black;"  class="text-right">
+																	<t t-esc="'{:,}'.format(round(n.qty))"/>
+																</td>                   
+																<td style="font-size:9px; border: 1px solid black;"  class="text-right">
+																	<t t-esc="'{:,}'.format(round(n.weight))"/>
+																</td>                   
+																<td style="font-size:9px; border: 1px solid black;"  class="text-center">
+																	<span t-field="n.uom_id"/>
+																</td>                   
+																<td style="font-size:9px; border: 1px solid black;"  class="text-right">
+																	<t t-esc="'{:,}'.format(round(n.total_weight))"/>
+																</td>                   
+																<td style="font-size:9px; border: 1px solid black;"  class="text-right">
+																	<t t-esc="'{:,}'.format(round(n.satuan))"/>
+																</td>                   
+																<td style="font-size:9px; border: 1px solid black;"  class="text-right">
+																	<t t-esc="'{:,}'.format(round(n.sub_total))"/>
+																</td>
+															</tr>
+														</t>
+													</tr>
+													</t>
+												
+												</tr>
+												<tr>
+													<th colspan="5" style="font-size:12px; border: 1px solid black;" class="text-center" >TOTAL COST</th>
+													<th style="font-size:9px; border: 1px solid black;"></th>
+													<th style="font-size:9px; border: 1px solid black;"></th>
+													<th style="font-size:9px; border: 1px solid black;"></th>
+													<th style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(docs.total_rap))"/></th>
+												</tr>
+												 <tr>
+													<th colspan="5" style="font-size:12px; border: 1px solid black;" class="text-center" >CONTRACT PRICE</th>
+													<th style="font-size:9px; border: 1px solid black;"></th>
+													<th style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(docs.total_weight))"/></th>
+													<th style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(docs.harga_satuan))"/></th>
+													<th style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(docs.jo_id.po_id.sph_id.rab_id.total_price))"/></th>
+													
+												</tr>
+												 <tr>
+													<th colspan="5" style="font-size:12px; border: 1px solid black;" class="text-center" >EXPECTED GROSS MARGIN</th>
+													<th colspan="3" style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,.2f}'.format(docs.excepted_gross)"/>%</th>
+													<th style="font-size:9px; border: 1px solid black;" class="text-right"><t t-esc="'{:,}'.format(round(docs.gross_margin))"/></th>
+													
+												</tr>
+								</tbody>
+							</table>
+								 
+							<table class="table table-condensed table-bordered" style="width: 100%">
+								<tbody>
+
+										<tr>
+											<td colspan='4' style="font-size:9px; border: 1px solid black;"><a>Catatan</a>:</td>
+											<td style="font-size:9px; border: 1px solid black;" colspan='2' >Prepared By :</td>
+											<td style="font-size:9px; border: 1px solid black;" colspan='2' >Aproved By :</td>
+											<td style="font-size:9px; border: 1px solid black;" >Aproved By :</td>
+											<td style="font-size:9px; border: 1px solid black;" >Aproved By :</td>
+										</tr>
+										<tr>
+											<td colspan='4' rowspan="2" style="padding-bottom:100px;font-size:9px; border: 1px solid black;"><span t-field="doc.note"/></td>
+											 <td style="padding-bottom:60px;font-size:9px; border: 1px solid black;" colspan='2' ></td>
+											 <td style="padding-bottom:60px;font-size:9px; border: 1px solid black;" colspan='2' ></td>
+											 <td style="padding-bottom:60px;font-size:9px; border: 1px solid black;" ></td>
+											 <td style="padding-bottom:60px;font-size:9px; border: 1px solid black;" ></td>
+										</tr>
+
+										
+											<tr>
+
+												<td colspan ='2' style="font-size:9px; border: 1px solid black;" class="text-center"><b>Project Manager</b></td>
+												<td colspan ='2' style="font-size:9px; border: 1px solid black;" class="text-center"><b>General Manager</b></td>
+												<td style="font-size:9px; border: 1px solid black;" class="text-center"><b>Directure</b></td>
+												<td style="font-size:9px; border: 1px solid black;" class="text-center"><b>Directure</b></td>
+											</tr>
+	
+										</tbody>
+								 </table> 
+
+							</t>
+							</div>
+					</t>
+				</template>
+
+
+				<template id="data_report_rap">
+					<t t-call="web.html_container">
+						<t t-call="vit_marketing_report_rap.doc_marketing_rap"/>
+					</t>
+				</template>
+		</data>
+</odoo>

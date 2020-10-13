@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- report qweb view -->
+        <report id="report_vit_material_booking_menu" string="Vit - Material booking"
+         model="vit.material_booking" report_type="qweb-pdf" 
+         file="vit.material_booking"  name="vit_ppic_material_plan.vit_material_booking_report" />
+
+        <!-- document template -->
+        <template id="vit_ppic_material_plan.vit_material_booking_report_document" >
+            <t t-call="web.external_layout">
+                <t t-set="doc" t-value="doc.with_context({'lang': lang})"/>
+                <div class="page">
+                    <h2>
+                        Material booking: <span t-field="doc.name"/>
+                    </h2>
+                    <div class="row mt32 mb32">
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Material plan line</strong>
+                            <p class="m-0" t-field="doc.material_plan_line_id"/>
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Product</strong>
+                            <p class="m-0" t-field="doc.product_id"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+                <h2>Material bookings</h2>
+                <table class="table table-sm o_main_table" name="material_booking_ids_table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Date</td>
+                            <td>Item mto</td>
+                            <td>Booking</td>
+                            <td>Material booking</td>
+                        </tr>
+                    </thead>
+                    <tbody class="material_booking_ids_tbody">
+                        <tr t-foreach="doc.material_booking_ids" t-as="line">
+                            <td><span t-field="line.name" /></td>
+                            <td><span t-field="line.date" /></td>
+                            <td><span t-field="line.item_mto" /></td>
+                            <td><span t-field="line.booking_id" /></td>
+                            <td><span t-field="line.material_booking_id" /></td>
+                        </tr> <!-- foreach-->
+                    </tbody>
+                </table>
+                <div class="oe_structure"/>
+            </t>
+        </template>
+
+        <!-- main template -->
+        <template id="vit_ppic_material_plan.vit_material_booking_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="lang" t-value="doc.create_uid.lang"/>
+                    <t t-call="vit_ppic_material_plan.vit_material_booking_report_document" />
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- tree view -->
+		<record id="view_vit_ppic_material_request_inherit_tree" model="ir.ui.view">
+			<field name="name">vit_ppic_material_request_inherit</field>
+			<field name="model">vit.ppic_material_request</field>
+			<field name="inherit_id" ref="vit_ppic_material_request.view_vit_ppic_material_request_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//tree" position="replace">
+					<tree string="Material Request(MR)">
+						<field name="name" />
+						<field name="project_des" />
+						<field name="product_des" />
+						<field name="date" />
+						<field name="note" />
+						<field name="state" />
+						<field name="jo_id" />
+						<field name="product_id" />
+					</tree>
+				</xpath>
+			</field>
+		</record>
+		<record id="view_vit_ppic_material_request_inherit_form" model="ir.ui.view">
+			<field name="name">vit_ppic_material_request_inherit_form</field>
+			<field name="model">vit.ppic_material_request</field>
+			<field name="inherit_id" ref="vit_ppic_material_request.view_vit_ppic_material_request_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//form" position="replace">
+					<form string="Material Request(MR)">
+						<header>
+							<button string="Confirm" type="object" name="action_confirm" states="draft" />
+							<button string="Mark as Done" type="object" name="action_done" states="open" />
+							<button string="Reset to Draft" type="object" name="action_draft" states="open,done" />
+							<field name="state" widget="statusbar" />
+						</header>
+						<sheet>
+							<div class="oe_button_box" name="button_box">
+								<!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+									<!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+									<!--field name="detail_ids" invisible="1"/-->
+								<!--/button-->
+							</div>
+							<div class="oe_title">
+								<label for="name" class="oe_edit_only" string="Name"/>
+								<h1><field name="name"/></h1>
+							</div>
+							<group>
+								<group>
+									<field name="jo_id" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="project_des" string="Project Desc" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="product_id" domain="[('jo_id','=',jo_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+									<field name="product_des" string="Product Desc"/>
+									<field name="lot_id" domain="[('product_id','=',product_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+								</group>
+								<group>
+									<field name="date" />
+									<field name="note" />
+								</group>
+							</group>
+							<notebook>
+								<page string="Bundle">
+									<tr style="margin-bottom:100px;">
+										<td><label for="mp_id" string="Import MP No :"/></td>
+										<td><field name="mp_id" domain="[('product_id','=',product_id),('state','=','done')]" options="{'no_create': True, 'no_create_edit':True}"/></td>
+										<td><button type="object" name="action_generate" string="Synchronize" class="oe_inline oe_button btn-success"/></td>
+									</tr>
+									<field name="material_request_line_ids"/>
+								</page>
+							</notebook>
+						</sheet>
+					</form>
+				</xpath>
+			</field>
+		</record>
+		<!-- action window -->
+		<record id="vit_ppic_material_request.action_vit_ppic_material_request" model="ir.actions.act_window">
+			<field name="name">Material Request</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.ppic_material_request</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">kanban,tree,form,calendar,graph</field>
+			<!-- <field name="context">{"search_default_fieldname":1}</field> -->
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Material Request
+				</p><p>
+				Click the Create button to add a new Material Request
+				</p>
+			</field>
+		</record>
+
+		<menuitem id="vit_ppic_material_request.menu_vit_ppic_material_request" name="Material Request(MR)" parent="vit_ppic.vit_ppic_sub_menu_material" action="vit_ppic_material_request.action_vit_ppic_material_request" sequence="75"/>
+
+		<record id="view_vit_ppic_material_request_inherit_tree_inventory" model="ir.ui.view">
+			<field name="name">vit_ppic_material_request_inherit_tree_inventory</field>
+			<field name="model">vit.ppic_material_request</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Material Request(MR)">
+					<field name="name" />
+					<field name="date" />
+					<field name="total_mto"/>
+					<field name="state" widget="statusbar" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_vit_ppic_material_request_inherit_form_inventory" model="ir.ui.view">
+			<field name="name">vit_ppic_material_request_inherit_form_inventory</field>
+			<field name="model">vit.ppic_material_request</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Material Request(MR)" create="false">
+					<header>
+						<button string="Confirm" type="object" name="action_confirm" states="draft" />
+						<button string="Mark as Done" type="object" name="action_done" states="open" />
+						<button string="Reset to Draft" type="object" name="action_draft" states="open,done" />
+						<field name="state" widget="statusbar" />
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+								<!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+								<!--field name="detail_ids" invisible="1"/-->
+							<!--/button-->
+						</div>
+						<div class="oe_title">
+							<label for="name" class="oe_edit_only" string="Name"/>
+							<h1><field name="name"/></h1>
+						</div>
+						<group>
+							<group>
+								<field name="jo_id" options="{'no_create': True, 'no_create_edit':True}" invisible="1"/>
+								<field name="product_id" domain="[('jo_id','=',jo_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+								<field name="date" />	
+							</group>
+						</group>
+						<notebook>
+							<page string="Bundle">
+								<field name="material_request_line_ids">
+									<tree string="Material" editable="bottom">
+										<field name="code"/>
+										<field name="description" string="MTO"/>
+										<field name="mto" string="Qty"/>
+										<field name="status_mr" invisible="1"/>
+										<field name="wo_id" string="WO"/>
+										<field name="bpm_id" string="No BPM"/>
+										<field name="mr" />
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="action_vit_ppic_material_request_inventory" model="ir.actions.act_window">
+			<field name="name">Material Request(MR)</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.ppic_material_request</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field eval="False" name="view_id"/>
+			<!-- <field name="context">{"search_default_fieldname":1}</field> -->
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Material Request(MR)
+				</p><p>
+				Click the Create button to add a new Material Request(MR)
+				</p>
+			</field>
+		</record>
+		<menuitem id="menu_vit_inventory_material_request" name="Material Request(MR)" parent="vit_inventory.vit_inventory_sub_menu" action="action_vit_ppic_material_request_inventory" sequence="62"/>		
+
+		<record id="action_vit_inventory_material_request_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_vit_ppic_material_request_inherit_tree_inventory"/>
+			<field name="act_window_id" ref="action_vit_ppic_material_request_inventory"/>
+		</record>
+		<record id="action_vit_inventory_material_request_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_vit_ppic_material_request_inherit_form_inventory"/>
+			<field name="act_window_id" ref="action_vit_ppic_material_request_inventory"/>
+		</record>
+	</data>
+</odoo>

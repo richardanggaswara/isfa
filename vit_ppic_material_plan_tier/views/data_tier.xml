@@ -1,0 +1,27 @@
+<odoo>
+	<data>
+
+		<record id="data_tier_review_material_plan_1" model="tier.definition">
+			<field name="name">Review 1</field>
+			<field name="model_id" ref="vit_ppic_material_plan.model_vit_material_plan"/>
+			<field name="sequence">30</field>
+			<field name="reviewer_id">2</field>
+			<field name="menu_module">ppic</field>
+		</record>
+		<record id="data_tier_review_material_plan_2" model="tier.definition">
+			<field name="name">Review 2</field>
+			<field name="model_id" ref="vit_ppic_material_plan.model_vit_material_plan"/>
+			<field name="sequence">90</field>
+			<field name="reviewer_id">2</field>
+			<field name="menu_module">ppic</field>
+		</record>
+		<record id="data_tier_review_material_plan_3" model="tier.definition">
+			<field name="name">Review 3</field>
+			<field name="model_id" ref="vit_ppic_material_plan.model_vit_material_plan"/>
+			<field name="sequence">150</field>
+			<field name="reviewer_id">2</field>
+			<field name="menu_module">ppic</field>
+		</record>
+
+	</data>
+</odoo>

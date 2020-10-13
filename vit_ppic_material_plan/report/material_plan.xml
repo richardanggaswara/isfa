@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- report qweb view -->
+        <report id="report_vit_material_plan_menu" string="Vit - Material plan"
+         model="vit.material_plan" report_type="qweb-pdf" 
+         file="vit.material_plan"  name="vit_ppic_material_plan.vit_material_plan_report" />
+
+        <!-- document template -->
+        <template id="vit_ppic_material_plan.vit_material_plan_report_document" >
+            <t t-call="web.external_layout">
+                <t t-set="doc" t-value="doc.with_context({'lang': lang})"/>
+                <div class="page">
+                    <h2>
+                        Material plan: <span t-field="doc.name"/>
+                    </h2>
+                    <div class="row mt32 mb32">
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Description</strong>
+                            <p class="m-0" t-field="doc.description" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Qty lot</strong>
+                            <p class="m-0" t-field="doc.qty_lot" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Schedule start</strong>
+                            <p class="m-0" t-field="doc.schedule_start" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Schedule end</strong>
+                            <p class="m-0" t-field="doc.schedule_end" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Date</strong>
+                            <p class="m-0" t-field="doc.date" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Notes</strong>
+                            <p class="m-0" t-field="doc.notes" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Product</strong>
+                            <p class="m-0" t-field="doc.product_id"/>
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Lot</strong>
+                            <p class="m-0" t-field="doc.lot_id"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+                <h2>Material plan lines</h2>
+                <table class="table table-sm o_main_table" name="material_plan_line_ids_table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Qty</td>
+                            <td>Total qty</td>
+                            <td>Book</td>
+                            <td>Wh</td>
+                            <td>To pr</td>
+                            <td>Material plan</td>
+                            <td>Product</td>
+                            <td>Uom</td>
+                        </tr>
+                    </thead>
+                    <tbody class="material_plan_line_ids_tbody">
+                        <tr t-foreach="doc.material_plan_line_ids" t-as="line">
+                            <td><span t-field="line.name" /></td>
+                            <td><span t-field="line.qty" /></td>
+                            <td><span t-field="line.total_qty" /></td>
+                            <td><span t-field="line.book" /></td>
+                            <td><span t-field="line.wh" /></td>
+                            <td><span t-field="line.to_pr" /></td>
+                            <td><span t-field="line.material_plan_id" /></td>
+                            <td><span t-field="line.product_id" /></td>
+                            <td><span t-field="line.uom_id" /></td>
+                        </tr> <!-- foreach-->
+                    </tbody>
+                </table>
+                <div class="oe_structure"/>
+            </t>
+        </template>
+
+        <!-- main template -->
+        <template id="vit_ppic_material_plan.vit_material_plan_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="lang" t-value="doc.create_uid.lang"/>
+                    <t t-call="vit_ppic_material_plan.vit_material_plan_report_document" />
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

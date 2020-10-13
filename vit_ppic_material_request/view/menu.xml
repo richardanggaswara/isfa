@@ -1,0 +1,6 @@
+<odoo>
+	<data>
+		<menuitem id="vit_ppic_material_request_top_menu" name="Vit ppic material request" sequence="20" web_icon="vit_ppic_material_request,static/description/icon.png" />
+		<menuitem id="vit_ppic_material_request_sub_menu" name="Vit ppic material request" sequence="40" parent="vit_ppic_material_request_top_menu" web_icon="vit_ppic_material_request,static/description/icon.png" />
+	</data>
+</odoo>

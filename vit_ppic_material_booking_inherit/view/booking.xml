@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- form -->
+                <record id="view_vit_ppic_material_booking_line_tree_inherit" model="ir.ui.view">
+            <field name="name">vit_ppic_material_booking_line_tree</field>
+            <field name="model">vit.ppic_material_booking_line</field>
+            <field name="inherit_id" ref="vit_ppic_material_booking.view_vit_ppic_material_booking_line_tree"/>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                <tree string="Material Booking Line">
+                    <field name="code_material"/>
+                    <field name="product_id" />
+                    <field name="qty" />
+                    <field name="weight"/>
+                </tree>
+            </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_vit_ppic_material_booking_form_inherit" model="ir.ui.view">
+            <field name="name">vit_ppic_material_booking_form</field>
+            <field name="model">vit.ppic_material_booking</field>
+            <field name="inherit_id" ref="vit_ppic_material_booking.view_vit_ppic_material_booking_form"/>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//form" position="replace">
+                    <form string="Booking">
+                        <header>
+                            <button string="Confirm" type="object" name="action_confirm" states="draft" />
+                            <button string="Mark as Done" type="object" name="action_done" states="open" />
+                            <button string="Reset to Draft" type="object" name="action_draft" states="open,done" />
+                            <field name="state" widget="statusbar" />
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                                <!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+                                    <!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+                                    <!--field name="detail_ids" invisible="1"/-->
+                                <!--/button-->
+                            </div>
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only" string="Booking No"/>
+                                <h1><field name="name"/></h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="product_id" />
+                                    <field name="date" />
+                                    <field name="mp_id" />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Booking lines">
+                                    <field name="booking_line_ids" >
+                                    <tree string="Rab product line" editable="bottom" >
+                                            <field name="code_material"/>
+                                            <field name="product_id" string="Description"/>
+                                            <field name="qty" />
+                                            <field name="weight"/>
+                                    </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+            </xpath>
+            </field>
+        </record>
+
+                <!-- action window -->
+        <record id="vit_ppic_material_booking.action_vit_ppic_material_booking" model="ir.actions.act_window">
+            <field name="name">Material Booking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.ppic_material_booking</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Ppic material_booking
+                </p><p>
+                Click the Create button to add a new Ppic material_booking
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="vit_ppic_material_booking.menu_vit_ppic_material_booking" name="Material Booking" parent="vit_inventory.vit_inventory_sub_menu" sequence="60"/>
+
+                <!-- action window -->
+        <record id="vit_ppic_material_booking.action_vit_ppic_material_booking_line" model="ir.actions.act_window">
+            <field name="name">material booking line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.ppic_material_booking_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new material_booking line
+                </p><p>
+                Click the Create button to add a new material_booking line
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="vit_ppic_material_booking.menu_vit_ppic_material_booking_line" name="material_booking line" parent="vit_inventory_inherit.vit_inventory_sub_menu_settings" sequence="60" />
+    </data>
+</odoo>

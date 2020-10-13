@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+		<data>
+
+				<record id="paperformat_report_sow" model="report.paperformat">
+						<field name="name">F4 new</field>
+						<field name="default" eval="True" />
+						<field name="format">Folio</field>
+						<field name="page_height">0</field>
+						<field name="page_widtd">0</field>
+						<field name="orientation">Portrait</field>
+						<field name="margin_top">2</field>
+						<field name="margin_bottom">30</field>
+						<field name="margin_left">2</field>
+						<field name="margin_right">2</field>
+						<field name="header_line" eval="False" />
+						<field name="header_spacing">0</field>
+						<field name="dpi">90</field>
+				</record>
+
+				<report 
+						id="doc_report_marketing_sow"
+						string="Vit - Report Marketing RPO SOW"
+						model="vit.purchase_order"
+						report_type="qweb-pdf"
+						paperformat="vit_marketing_rpo_report_sow.paperformat_report_sow"
+						file="vit_marketing_rpo_report_sow.report_marketing_sow" 
+						name="vit_marketing_rpo_report_sow.data_report_sow"/>
+
+				<template id="external_layout_sow">
+					<t t-if="not o" t-set="o" t-value="doc"/>
+
+					<t t-if="not company">
+
+							<t t-if="company_id">
+									<t t-set="company" t-value="company_id"/>
+							</t>
+							<t t-elif="o and 'company_id' in o">
+									<t t-set="company" t-value="o.company_id.sudo()"/>
+							</t>
+							<t t-else="else">
+									<t t-set="company" t-value="res_company"/>
+							</t>
+					</t>
+					<t t-call="vit_marketing_rpo_report_sow.external_layout_standard_sow"><t t-raw="0"/></t>
+				</template>
+
+				<template id="external_layout_standard_sow">
+					<div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+						<t t-call="web.address_layout"/>
+						<t t-raw="0"/>
+					</div>
+
+					
+				</template>
+
+				<template id="doc_marketing_sow">
+					<t t-call="vit_marketing_rpo_report_sow.external_layout_sow">
+					<div class="header">
+										<table>
+												<tbody>
+														<tr>
+																<td style="padding-right:200px;"><img t-att-src="'/vit_marketing_rpo_report_sow/static/logo isfa.png'" /></td>
+
+																<td style="text-align:left;"><h4>RECEIVED PO</h4>
+																<h4>SCOPE OF WORK</h4>
+															</td>
+
+														</tr>
+												</tbody>
+										</table>
+								</div>
+					<div class="page" style="padding-top:80px;">
+						<t t-foreach="docs" t-as="doc">
+						 
+									<br/>
+									<br/>
+									 <table class="table table-sm table-borderless o_main_table" style="width: 100%;">
+									 	<tbody style="font-size:12px;">
+											<tr>
+												<td style="margin-right:70px;">PO No</td>
+												<td>:</td>
+												<td><span t-field="doc.name"/></td>
+												<td style="padding-right:40px;"></td>
+												<td>Type</td>
+												<td>:</td>
+												<td><t t-if="doc.type_tower == True">
+														<input type="checkbox" checked="True"/> Tower
+													</t>
+													<t t-elif="doc.type_tower == False">
+														<input type="checkbox"/> Tower
+													</t></td>
+											</tr>
+											<tr>
+												<td style="margin-right:70px;">Contract/Po No</td>
+												<td>:</td>
+												<td><span t-field="doc.contract"/>
+												</td><td style="padding-right:40px;"></td><td></td><td></td>
+												<td><t t-if="doc.type_bridge == True">
+													<input type="checkbox" checked="True"/> Bridge
+												</t>
+												<t t-elif="doc.type_bridge == False">
+													<input type="checkbox"/> Bridge
+												</t></td>
+											</tr>
+											<tr>
+												<td style="margin-right:70px;">PO CustomerDate</td>
+												<td>:</td>
+												<td><span t-field="doc.po_date" t-options='{"format": "MM/dd/yyyy"}'/></td>
+												<td style="padding-right:40px;"></td><td></td><td></td>
+												<td><t t-if="doc.type_steel == True">
+													<input type="checkbox" checked="True"/> General Steel Structure
+												</t>
+												<t t-elif="doc.type_steel == False">
+													<input type="checkbox"/> General Steel Structure
+												</t></td>
+											</tr>
+											<tr>
+												<td style="margin-right:70px;">Additional PO</td>
+												<td>:</td>
+												<td><span t-field="doc.is_additional"/></td>
+												<td style="padding-right:40px;"></td><td></td><td></td>
+												<td><t t-if="doc.type_other == True">
+													<input type="checkbox" checked="True"/> Others
+												</t>
+												<t t-elif="doc.type_other == False">
+													<input type="checkbox"/> Others
+												</t></td>
+											</tr>
+											<tr>
+												<td style="margin-right:70px;">SPH No/Source PO</td>
+												<td>:</td>
+												<td><span t-field="doc.sph_id.name"/></td>
+												<td style="padding-right:40px;"></td>
+												<td style="margin-right:70px;">Total Weight (Kg)</td>
+												<td>:</td>
+												<td><span t-field="doc.weight"/></td>
+											</tr>
+											<tr>
+												<td style="margin-right:70px;">Job Order</td>
+												<td>:</td>
+												<td><span t-field="doc.job_order.name"/></td>
+												<td style="padding-right:40px;"></td>
+												<td style="margin-right:70px;">Attn</td>
+												<td>:</td>
+												<td><span t-field="doc.attn"/></td>
+											</tr>
+											<tr>
+												<td style="margin-right:70px;">Customer</td>
+												<td>:</td>
+												<td><span t-field="doc.partner_id.name"/></td>
+												<td style="padding-right:40px;"></td>
+												<td style="margin-right:70px;">VAT</td>
+												<td>:</td>
+												<td><span t-field="doc.vat"/></td>
+											</tr>
+											<tr>
+												<td style="margin-right:70px;">Project Name</td>
+												<td>:</td>
+												<td><span t-field="doc.project"/></td>
+												<td style="padding-right:40px;"></td>
+												<td style="margin-right:70px;">Sub Total</td>
+												<td>:</td>
+												<td><span t-field="doc.sub_total"/></td>
+											</tr>
+											<tr>
+												<td style="padding-right:40px;">Project Description</td>
+												<td>:</td>
+												<td><span t-field="doc.description"/></td>
+												<td style="padding-right:40px;"></td>
+												<td style="margin-right:70px;">Notes</td>
+												<td>:</td>
+												<td><span t-field="doc.note"/></td>
+											</tr>
+
+										</tbody>
+										</table>
+									<br/>
+									<br/>
+									<table class="table table-sm o_main_table table-bordered" style="width: 100%;">
+										<thead style="border: 1px solid black;">
+											<tr class="bg-info">
+												<td style="text-align:center;border: 1px solid black;">
+													<h6>SCOPE OF WORK</h6>
+												</td>
+											</tr>
+										</thead>
+										<tbody style="border: 1px solid black;">
+											<t t-foreach="docs.scope_line_ids" t-as="line" style="border: 1px solid black;">
+												<tr>
+													<td style="font-size:13px; border: 1px solid black;" class="text-left"><span t-field="line.scope_po_id"/></td>
+												</tr>
+											</t>
+										</tbody>
+									</table>
+
+							</t>
+							</div>
+							<div class="footer">
+								<table>
+									<tbody>
+										<td colspan="4"><p style="font-size:12px;"><span t-field="res_company.partner_id.street"/></p></td>
+										<tr>
+											<td style="padding-right:60px;font-size:12px;">Phone</td>
+											<td style="padding-right:60px;font-size:12px;">: <span t-field="res_company.partner_id.phone"/></td>
+											<td style="padding-right:60px;font-size:12px;">Email</td>
+											<td style="padding-right:60px;font-size:12px;">: <span t-field="res_company.partner_id.email"/></td>
+										</tr>
+										<tr>
+											<td style="padding-right:60px;font-size:12px;">Fax</td>
+											<td style="padding-right:60px;font-size:12px;">: <span t-field="res_company.partner_id.phone"/></td>
+											<td style="padding-right:60px;font-size:12px;">Web</td>
+											<td style="padding-right:60px;font-size:12px;">: <span t-field="res_company.partner_id.website"/></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</t>
+				</template>
+
+
+				<template id="data_report_sow">
+					<t t-call="web.html_container">
+						<t t-call="vit_marketing_rpo_report_sow.doc_marketing_sow"/>
+					</t>
+				</template>
+		</data>
+</odoo>

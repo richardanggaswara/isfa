@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_all_vit_material_plan,access_all_vit_material_plan,model_vit_material_plan,,1,0,0,0
+access_admin_vit_material_plan,access_admin_vit_material_plan,model_vit_material_plan,base.group_system,1,1,1,1
+access_all_vit_material_plan_lane,access_all_vit_material_plan_lane,model_vit_material_plan_lane,,1,0,0,0
+access_admin_vit_material_plan_lane,access_admin_vit_material_plan_lane,model_vit_material_plan_lane,base.group_system,1,1,1,1

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+
+        <!-- wizard -->
+            <record id="view_wizard_material_booking_form_inherit" model="ir.ui.view">
+                <field name="name">vit.wizard_material_booking</field>
+                <field name="model">vit.wizard_material_booking</field>
+                <field name="type">form</field>
+                <field name="priority" eval="8"/>
+                <field name="arch" type="xml">
+                    <form string="Wizard RAP">
+                    <header>
+                        <!-- <button string="Generate" type="object" name="action_import"/> -->
+                    </header>
+                        <sheet>
+                            <group>
+                                    <field name="material_plan_id" invisible='1'/>
+                                    <field name="name"/>
+                                    <field name="product_id"/>
+                            </group>
+                            <notebook>
+                                <page string="Booking lines">
+                                    <field name="wizard_booking_add_line_ids" />
+                                    <!-- <tree string="Wizard Booking Line" editable="bottom" >
+                                            <field name="name" />
+                                            <field name="product_id"/>
+                                            <field name="qty" />
+                                            <field name="uom_id" invisible='1'/>
+                                            <field name="weight" />
+                                    </tree>
+                                    </field> -->
+                                </page>
+                            </notebook>
+                        </sheet>
+                        <footer>
+                            <button name="confirm" type="object" string="Save" class="oe_inline oe_button btn-success"/>
+                            <!-- <button string="Back" class="oe_inline oe_button btn-info" name="vit_ppic_material_plan_inherit.action_generate_all_booking" type="action" context="{'default_material_plan_id':material_plan_id}"/> -->
+                            <button special="cancel" type="object" string="Cancel" class="oe_inline oe_button btn-danger"/>
+                        </footer>
+                    </form>
+                </field>
+            </record>
+
+
+        <record model="ir.actions.act_window" id="action_generate_booking">
+            <field name="name">Generate Booking</field>
+            <field name="res_model">vit.wizard_material_booking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- wizard -->
+
+        <record id="view_vit_material_plan_form_inherit_wizard" model="ir.ui.view">
+            <field name="name">view_vit_material_plan_form_inherit_wizard</field>
+            <field name="model">vit.material_plan</field>
+            <field name="inherit_id" ref="vit_ppic_material_plan_inherit.view_vit_material_plan_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page/group/tr/td[6]" position="replace">
+                    <td>
+                        <button string="Booking" class="oe_inline oe_button btn-success" name="vit_ppic_material_plan_inherit.action_generate_all_booking" type="action"/>
+                        
+                    </td>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

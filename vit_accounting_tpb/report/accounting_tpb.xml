@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- report qweb view -->
+		<report id="report_vit_accounting_tpb_menu" string="Vit - Accounting tpb"
+		 model="vit.accounting_tpb" report_type="qweb-pdf" 
+		 file="vit.accounting_tpb"  name="vit_accounting_tpb.vit_accounting_tpb_report" />
+
+		<!-- document template -->
+		<template id="vit_accounting_tpb.vit_accounting_tpb_report_document" >
+			<t t-call="web.external_layout">
+				<t t-set="doc" t-value="doc.with_context({'lang': lang})"/>
+				<div class="page">
+					<h2>
+						Accounting tpb: <span t-field="doc.name"/>
+					</h2>
+					<div class="row mt32 mb32">
+						<div class="col-auto mw-100 mb-2">
+							<strong>Status</strong>
+							<p class="m-0" t-field="doc.status" />
+						</div>
+						<div class="col-auto mw-100 mb-2">
+							<strong>Date</strong>
+							<p class="m-0" t-field="doc.date" />
+						</div>
+						<div class="col-auto mw-100 mb-2">
+							<strong>Notes</strong>
+							<p class="m-0" t-field="doc.notes" />
+						</div>
+						<div class="col-auto mw-100 mb-2">
+							<strong>Jo</strong>
+							<p class="m-0" t-field="doc.jo_id"/>
+						</div>
+						<div class="col-auto mw-100 mb-2">
+							<strong>Product</strong>
+							<p class="m-0" t-field="doc.product_id"/>
+						</div>
+						<div class="col-auto mw-100 mb-2">
+							<strong>Vendor</strong>
+							<p class="m-0" t-field="doc.vendor_id"/>
+						</div>
+						<div class="col-auto mw-100 mb-2">
+							<strong>Po</strong>
+							<p class="m-0" t-field="doc.po_id"/>
+						</div>
+					</div>
+				</div>
+				<div class="oe_structure"/>
+				<h2>Accounting tpb lines</h2>
+				<table class="table table-sm o_main_table" name="accounting_tpb_line_ids_table">
+					<thead>
+						<tr>
+							<td>Name</td>
+							<td>Qty</td>
+							<td>Total qty</td>
+							<td>Code accounting</td>
+							<td>Masuk act</td>
+							<td>Terima act</td>
+							<td>Reject act</td>
+							<td>Accounting tpb</td>
+							<td>Uom</td>
+							<td>Product</td>
+						</tr>
+					</thead>
+					<tbody class="accounting_tpb_line_ids_tbody">
+						<tr t-foreach="doc.accounting_tpb_line_ids" t-as="line">
+							<td><span t-field="line.name" /></td>
+							<td><span t-field="line.qty" /></td>
+							<td><span t-field="line.total_qty" /></td>
+							<td><span t-field="line.code_accounting" /></td>
+							<td><span t-field="line.masuk_act" /></td>
+							<td><span t-field="line.terima_act" /></td>
+							<td><span t-field="line.reject_act" /></td>
+							<td><span t-field="line.accounting_tpb_id" /></td>
+							<td><span t-field="line.uom_id" /></td>
+							<td><span t-field="line.product_id" /></td>
+						</tr> <!-- foreach-->
+					</tbody>
+				</table>
+				<div class="oe_structure"/>
+				<h2>Doc tpbs</h2>
+				<table class="table table-sm o_main_table" name="doc_tpb_ids_table">
+					<thead>
+						<tr>
+							<td>Name</td>
+							<td>Date</td>
+							<td>Desc</td>
+							<td>Tpb</td>
+						</tr>
+					</thead>
+					<tbody class="doc_tpb_ids_tbody">
+						<tr t-foreach="doc.doc_tpb_ids" t-as="line">
+							<td><span t-field="line.name" /></td>
+							<td><span t-field="line.date" /></td>
+							<td><span t-field="line.desc" /></td>
+							<td><span t-field="line.tpb_id" /></td>
+						</tr> <!-- foreach-->
+					</tbody>
+				</table>
+				<div class="oe_structure"/>
+			</t>
+		</template>
+
+		<!-- main template -->
+		<template id="vit_accounting_tpb.vit_accounting_tpb_report">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-set="lang" t-value="doc.create_uid.lang"/>
+					<t t-call="vit_accounting_tpb.vit_accounting_tpb_report_document" />
+				</t>
+			</t>
+		</template>
+
+	</data>
+</odoo>

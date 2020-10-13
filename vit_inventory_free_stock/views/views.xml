@@ -1,0 +1,23 @@
+<odoo>
+  <data>
+    <record id="view_product_template_purchase_buttons_from_order_quant" model="ir.ui.view">
+      <field name="name">product.product.procurement</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="stock.product_form_view_procurement_button"/>
+      <field name="arch" type="xml">
+        <button name="action_view_stock_move_lines" position="before">
+          <button class="oe_stat_button" name="get_free_stock"
+            type="object" icon="fa-building-o" help="Free Stock">
+            <div class="o_field_widget o_stat_info">
+              <span class="o_stat_value">
+                <field name="free_stock" widget="statinfo" nolabel="1" class="mr4"/>
+                <field name="uom_name"/>
+              </span>
+              <span class="o_stat_text">Free Stock</span>
+            </div>
+          </button>
+        </button>
+      </field>
+    </record>
+  </data>
+</odoo>

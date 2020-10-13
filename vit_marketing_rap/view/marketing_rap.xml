@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tree view -->
+        <record id="view_vit_marketing_rap_tree" model="ir.ui.view">
+            <field name="name">vit_marketing_rap_tree</field>
+            <field name="model">vit.marketing_rap</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Marketing rap">
+                    <field name="name" />
+                    <field name="project" />
+                    <field name="description" />
+                    <field name="rap_no" />
+                    <field name="po_no" />
+                    <field name="date" />
+                    <field name="total_rap" />
+                    <field name="total_weight" />
+                    <field name="harga_satuan" />
+                    <field name="total_price" />
+                    <field name="gross_margin" />
+                    <field name="note" />
+                    <field name="state" />
+                    <field name="excepted_gross" />
+                    <field name="jo_id" />
+                </tree>
+            </field>
+        </record>
+        <!-- form view -->
+        <record id="view_vit_marketing_rap_form" model="ir.ui.view">
+            <field name="name">vit_marketing_rap_form</field>
+            <field name="model">vit.marketing_rap</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Marketing rap">
+                    <header>
+                        <button string="Confirm" type="object" name="action_confirm" states="draft" />
+                        <button string="Mark as Done" type="object" name="action_done" states="open" />
+                        <button string="Reset to Draft" type="object" name="action_draft" states="open,done" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+                                <!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+                                <!--field name="detail_ids" invisible="1"/-->
+                            <!--/button-->
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Marketing rap Name"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project" />
+                                <field name="description" />
+                                <field name="rap_no" />
+                                <field name="po_no" />
+                                <field name="date" />
+                                <field name="total_rap" />
+                                <field name="total_weight" />
+                                <field name="harga_satuan" />
+                                <field name="total_price" />
+                                <field name="gross_margin" />
+                                <field name="note" />
+                                <field name="excepted_gross" />
+                            </group>
+                            <group>
+                                <field name="jo_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Rap lines">
+                                <field name="rap_line_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_vit_marketing_rap_search" model="ir.ui.view">
+            <field name="name">vit_marketing_rap</field>
+            <field name="model">vit.marketing_rap</field>
+            <field name="arch" type="xml">
+                <search string="Marketing rap">
+
+                    <filter string="Name" name="filter_by_name" domain="[('name','=','')]" />
+                    <filter string="Project" name="filter_by_project" domain="[('project','=','')]" />
+                    <filter string="Description" name="filter_by_description" domain="[('description','=','')]" />
+                    <filter string="Rap no" name="filter_by_rap_no" domain="[('rap_no','=','')]" />
+                    <filter string="Po no" name="filter_by_po_no" domain="[('po_no','=','')]" />
+                    <filter string="Date" name="filter_by_date" domain="[('date','=','')]" />
+                    <filter string="Total rap" name="filter_by_total_rap" domain="[('total_rap','=','')]" />
+                    <filter string="Total weight" name="filter_by_total_weight" domain="[('total_weight','=','')]" />
+                    <filter string="Harga satuan" name="filter_by_harga_satuan" domain="[('harga_satuan','=','')]" />
+                    <filter string="Total price" name="filter_by_total_price" domain="[('total_price','=','')]" />
+                    <filter string="Gross margin" name="filter_by_gross_margin" domain="[('gross_margin','=','')]" />
+                    <filter string="Note" name="filter_by_note" domain="[('note','=','')]" />
+                    <filter string="State" name="filter_by_state" domain="[('state','=','')]" />
+                    <filter string="Excepted gross" name="filter_by_excepted_gross" domain="[('excepted_gross','=','')]" />
+                    <field name="name" select="True"/>
+                    <field name="project" select="True"/>
+                    <field name="description" select="True"/>
+                    <field name="rap_no" select="True"/>
+                    <field name="po_no" select="True"/>
+                    <field name="date" select="True"/>
+                    <field name="total_rap" select="True"/>
+                    <field name="total_weight" select="True"/>
+                    <field name="harga_satuan" select="True"/>
+                    <field name="total_price" select="True"/>
+                    <field name="gross_margin" select="True"/>
+                    <field name="note" select="True"/>
+                    <field name="state" select="True"/>
+                    <field name="excepted_gross" select="True"/>
+                    <field name="jo_id" select="True"/>
+                    <group string="Group By..">
+                        <filter string="Jo" domain="[]" name="group_by_jo_id" context="{'group_by':'jo_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- kanban , to show image, please add image_small in the model -->
+        <record id="view_vit_marketing_rap_kanban" model="ir.ui.view" >
+            <field name="name">vit_marketing_rap</field>
+            <field name="model">vit.marketing_rap</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0">
+                    <field name="id" />
+                    <field name="name" />
+                    <field name="project" />
+                    <field name="description" />
+                    <field name="rap_no" />
+                    <field name="po_no" />
+                    <field name="date" />
+                    <field name="total_rap" />
+                    <field name="total_weight" />
+                    <field name="harga_satuan" />
+                    <field name="total_price" />
+                    <field name="gross_margin" />
+                    <field name="note" />
+                    <field name="state" />
+                    <field name="excepted_gross" />
+                    <field name="jo_id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            Field1: <field name="name"></field>
+                                        </li>
+                                        <li>
+                                            Field2: <field name="name"></field>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- calendar if a date field exists -->
+        <record id="view_vit_marketing_rap_cal" model="ir.ui.view">
+            <field name="name">vit_marketing_rap_cal</field>
+            <field name="model">vit.marketing_rap</field>
+            <field name="arch" type="xml">
+                <calendar string="Marketing rap" date_start="date">
+                    <field name="name" />
+                </calendar>
+            </field>
+        </record>
+        <!-- graph -->
+        <record id="view_vit_marketing_rap_graph" model="ir.ui.view">
+            <field name="name">vit_marketing_rap</field>
+            <field name="model">vit.marketing_rap</field>
+            <field name="arch" type="xml">
+                <graph string="Marketing rap" type="bar">
+                    <field name="jo_id"/>
+                </graph>
+            </field>
+        </record>
+        <!-- action window -->
+        <record id="action_vit_marketing_rap" model="ir.actions.act_window">
+            <field name="name">Marketing rap</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.marketing_rap</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Marketing rap
+                </p><p>
+                Click the Create button to add a new Marketing rap
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_vit_marketing_rap" name="Marketing rap" parent="vit_marketing_rap_sub_menu" action="action_vit_marketing_rap" sequence="20"/>
+    </data>
+</odoo>

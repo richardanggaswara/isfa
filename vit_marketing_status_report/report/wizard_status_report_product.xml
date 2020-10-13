@@ -1,0 +1,306 @@
+<odoo>
+	<data>
+		<record model="report.paperformat" id="paperformat_product_status_report">
+			<field name="name">paperformat.product.status.report</field>
+			<field name="default" eval="True"/>
+			<field name="format">A3</field>
+			<field name="page_width">0</field>
+			<field name="page_width">0</field>
+			<field name="orientation">Landscape</field>
+			<field name="margin_top">30</field>
+			<field name="margin_right">5</field>
+			<field name="margin_bottom">10</field>
+			<field name="margin_left">5</field>
+			<field name="header_line" eval="False"/>
+			<field name="header_spacing">20</field>
+			<field name="dpi">90</field>
+		</record>
+
+		<report id="product_status_report"
+				model="vit.wizard_product_status_report"
+				string="Job Order Status Report - (Product)"
+				report_type="qweb-pdf"
+				name="vit_marketing_status_report.product_view"
+				paperformat="paperformat_product_status_report"
+				menu="False"/>
+
+		<template id="product_view">
+			<t t-call="web.html_container">
+				<div class="header" style="border-bottom: 2px solid black">
+					<h3 class="text-right">
+						<tr>
+							<td><strong>Job Order Status Report - Product</strong></td>
+						</tr>
+						</h3>
+					<h4 class="text-right">
+						<tr>
+							<td>
+								<strong>Periode :</strong> 
+								<t t-if="selection_status == 'date'">
+									<t t-esc="periode_date_start"/>
+									<strong>/</strong>
+									<t t-esc="periode_date_start"/>
+								</t>
+								<t t-if="selection_status == 'all_date'">
+									<t>Seluruh Pekerjaan</t>
+								</t>
+								<t t-if="selection_status == 'year'">
+									<t t-esc="periode_year"/>
+								</t>
+							</td>
+							<td>
+								<strong>Date-Time</strong>
+								<span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+							</td>
+						</tr>
+					</h4>
+				</div>
+				<div class="article">
+					<table class="table table-condensed table-bordered" style="width: 100%;">
+						<thead style="border: 1px solid black;">
+							<tr>
+								<th rowspan="2" class="text-center" style="width: 4%;border: 1px solid black;">JO No.</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Date</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">PO/Kontrak No.</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Customer</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Project</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Project Owner</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Scope of Work</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Delivery Date</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Product Type</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Qty</th>
+								<th colspan="2" class="text-center" style="width: 10%;border: 1px solid black;padding: 0;margin: 0;">
+									Weight
+								</th>
+								<th colspan="4" class="text-center" style="width: 20%;border: 1px solid black;padding: 0;margin: 0;">
+									RFD Status
+								</th>
+								<th rowspan="2" class="text-center" style="width: 5%;border: 1px solid black;">Remark</th>
+							</tr>
+							<tr>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Unit</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Total</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Date</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Qty</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">Weight</th>
+								<th class="text-center" style="width: 5%;border: 1px solid black;">%</th>
+							</tr>
+						</thead>
+						<tbody style="border: 1px solid black;">
+							<t t-if="selection_status == 'all_date'">
+								<t t-foreach="request.env['vit.marketing_jo'].search([],order='id asc')" t-as="doc">
+									<tr>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.name"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.date"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.po_id.name"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.partner_id.name"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.project_name"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.project_manager"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.sow_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<t t-foreach="request.env['vit.scopeof_work'].search([('id','=',document.scope_id.id)])" t-as="scope">
+													<div><span t-esc="scope.name"/></div>
+												</t>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.delivery_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<div><span t-esc="document.delivery_time"/></div>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<t t-if="doc.type_tower == true">
+		                                            <div>
+		                                            	<span t-esc="document.name"/><t> - Tower </t>
+		                                            </div>
+                                        		</t>
+		                                        <t t-if="doc.type_bridge == true">
+		                                            <div>
+		                                            	<span t-esc="document.name"/><t> - Bridge </t>
+		                                            </div>
+		                                        </t>
+		                                        <t t-if="doc.type_steel == true">
+		                                            <div>
+		                                            	<span t-esc="document.name"/><t> - General Steel Structure </t>
+		                                            </div>
+		                                        </t>
+		                                        <t t-if="doc.type_others == true">
+		                                            <div>
+		                                            	<span t-esc="document.name"/><t> - Others </t>
+		                                            </div>
+		                                        </t>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<div><span t-esc="document.set"/></div>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<div><span t-esc="document.weight"/></div>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<div><span t-esc="document.weight * document.set"/></div>
+											</t>
+										</td>
+                                	</tr>
+                                	<tr>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span><strong>SUB TOTAL</strong></span>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="sum(document.set for document in request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)]))"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="sum(document.weight for document in request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)]))"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="sum((document.set * document.weight) for document in request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)]))"/>
+                                		</td>
+                                	</tr>
+								</t>
+							</t>
+							<t t-if="selection_status == 'date'">
+                                <t t-foreach="request.env['vit.marketing_jo'].search([('date','&gt;=',periode_date_start),('date','&lt;=',periode_date_end)], order='id asc')" t-as="doc">
+                                	<tr>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.name"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.date"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.po_id.name"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.partner_id.name"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.project_name"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="doc.project_manager"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.sow_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<t t-foreach="request.env['vit.scopeof_work'].search([('id','=',document.scope_id.id)])" t-as="scope">
+													<div><span t-esc="scope.name"/></div>
+												</t>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.delivery_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<div><span t-esc="document.delivery_time"/></div>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<t t-if="doc.type_tower == true">
+		                                            <div>
+		                                            	<span t-esc="document.name"/><t> - Tower </t>
+		                                            </div>
+                                        		</t>
+		                                        <t t-if="doc.type_bridge == true">
+		                                            <div>
+		                                            	<span t-esc="document.name"/><t> - Bridge </t>
+		                                            </div>
+		                                        </t>
+		                                        <t t-if="doc.type_steel == true">
+		                                            <div>
+		                                            	<span t-esc="document.name"/><t> - General Steel Structure </t>
+		                                            </div>
+		                                        </t>
+		                                        <t t-if="doc.type_others == true">
+		                                            <div>
+		                                            	<span t-esc="document.name"/><t> - Others </t>
+		                                            </div>
+		                                        </t>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<div><span t-esc="document.set"/></div>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<div><span t-esc="document.weight"/></div>
+											</t>
+										</td>
+										<td style="border: 1px solid black;">
+											<t t-foreach="request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)])" t-as="document">
+												<div><span t-esc="document.weight * document.set"/></div>
+											</t>
+										</td>
+                                	</tr>
+                                	<tr>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span><strong>SUB TOTAL</strong></span>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="sum(document.set for document in request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)]))"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="sum(document.weight for document in request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)]))"/>
+                                		</td>
+                                		<td style="border: 1px solid black;">
+                                			<span t-esc="sum((document.set * document.weight) for document in request.env['vit.product_jo_line'].search([('jo_id','=',doc.id)]))"/>
+                                		</td>
+                                	</tr>
+                                </t>
+                            </t>
+						</tbody>
+					</table>
+				</div>
+			</t>
+		</template>
+	</data>
+</odoo>

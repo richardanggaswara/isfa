@@ -1,0 +1,126 @@
+<odoo>
+	<data>
+		<record id="view_vit_master_rab_rap_rel_tree" model="ir.ui.view">
+			<field name="name">vit_master_rab_rap_rel_tree</field>
+			<field name="model">vit.master_rab_rap_rel</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Master Rab Rap Rel" editable="bottom">
+					<field name="code" />
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		<record id="view_vit_rab_line_form_inherit" model="ir.ui.view">
+			<field name="name">vit_rab_line_form_new_inherit</field>
+			<field name="model">vit.rab_line</field>
+			<field name="inherit_id" ref="vit_marketing_rab.view_vit_rab_line_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//sheet/group/group[2]/field[@name='categ_id']" position="after">
+					<field name="select_master_rabrap_rel" invisible="1"/>
+				</xpath>
+				<xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="replace">
+					<field name="product_id" attrs="{'readonly': [('rel', '!=', 'Product')]}"  context="{'tree_view_ref': 'inherit_product_template_tree_view'}"/>
+				</xpath>
+				<xpath expr="//field[@name='line_ids']/tree/field[@name='account_id']" position="replace">
+					<field name="account_id" invisible="1"/>
+					<field name="master_name" domain="[('id','like', parent.select_master_rabrap_rel)]"/>
+					<field name="beban"/>
+				</xpath>
+
+			</field>
+		</record>
+		<record id="view_vit_rap_line_form_inherit" model="ir.ui.view">
+			<field name="name">vit_rap_line_form_new_inherit</field>
+			<field name="model">vit.rap_line</field>
+			<field name="inherit_id" ref="vit_marketing_rap.view_vit_rap_line_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//sheet/group/group[2]/field[@name='master_rap_id']" position="after">
+					<field name="select_master_rabrap_rel" invisible="1"/>
+				</xpath>
+				<xpath expr="//field[@name='product_rap_line_ids']/tree/field[@name='product_id']" position="replace">
+					<field name="product_id" attrs="{'readonly': [('rel', '!=', 'Product')]}" context="{'tree_view_ref': 'inherit_product_template_tree_view1'}" />
+				</xpath>
+				<xpath expr="//field[@name='product_rap_line_ids']/tree/field[@name='account_id']" position="replace">
+						<field name="account_id" domain="[('select_master_rabrap_rel','like', parent.select_master_rabrap_rel)]"/>
+				</xpath>
+			</field>
+		</record>
+		<record id="view_vit_master_rab_rap_rel_tree" model="ir.ui.view">
+			<field name="name">vit_master_rab_rap_rel_tree</field>
+			<field name="model">vit.master_rab_rap_rel</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Master RAB">
+					<field name="name" />
+					<field name="code" />
+				</tree>
+			</field>
+		</record>
+		<!-- form view -->
+		<record id="view_vit_master_rab_rap_rel_form" model="ir.ui.view">
+			<field name="name">vit_master_rab_rap_rel_form</field>
+			<field name="model">vit.master_rab_rap_rel</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Master RAB/RAP">
+					<header>
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+								<!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+								<!--field name="detail_ids" invisible="1"/-->
+							<!--/button-->
+						</div>
+						<div class="oe_title">
+							<label for="name" class="oe_edit_only" string="Master RAB/RAP Name"/>
+							<h1><field name="name"/></h1>
+						</div>
+						<group>
+							<group>
+								<field name="code" />
+							</group>
+							<group>
+							</group>
+						</group>
+						<notebook>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- action window -->
+		<record id="action_vit_master_rab_rap_rel" model="ir.actions.act_window">
+			<field name="name">Master rab rap rel</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.master_rab_rap_rel</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{"search_default_fieldname":1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Master rab rap rel
+				</p><p>
+				Click the Create button to add a new Master rab rap rel
+				</p>
+			</field>
+		</record>
+
+		<menuitem id="menu_vit_master_rab_rap_rel" name="Master RAB/RAP" parent="vit_marketing.vit_marketing_sub_menu_settings" action="action_vit_master_rab_rap_rel" sequence="28"/>
+
+		<record id="view_account_form_inherit" model="ir.ui.view">
+			<field name="name">account.account.form</field>
+			<field name="model">account.account</field>
+			<field name="inherit_id" ref="account.view_account_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//sheet/group/group/field[@name='currency_id']" position="after">
+					<field name="select_master_rabrap_rel"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

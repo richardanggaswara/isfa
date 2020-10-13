@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tree view -->
+        <record id="view_vit_material_request_line_inherit_tree" model="ir.ui.view">
+            <field name="name">vit_material_request_line_inherit_tree</field>
+            <field name="model">vit.material_request_line</field>
+            <field name="inherit_id" ref="vit_ppic_material_request.view_vit_material_request_line_tree"/>
+            <!-- <field name="priority" eval="8"/> -->
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree string="Material request line" editable="bottom">
+                        <field name="wo_id"/>
+                        <field name="code"/>
+                        <field name="description"/>
+                        <field name="mto" />
+                        <field name="nesting" />
+                        <field name="mr" />
+                        <!-- <field name="bpm_id"/> -->
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+        <!-- form view -->
+        
+    </data>
+</odoo>

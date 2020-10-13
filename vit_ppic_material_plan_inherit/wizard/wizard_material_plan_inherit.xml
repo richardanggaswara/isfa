@@ -1,0 +1,54 @@
+
+<odoo>
+	<data>
+	  <record id="view_wizard_material_plan_pr_form_inherit" model="ir.ui.view">
+			<field name="name">vit_wizard_material_plan_inherit_view</field>
+			<field name="model">vit.wizard_material_plan_inherit</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Purchase Request(PR) PR">
+				<header>
+					<!-- <button string="Generate" type="object" name="action_import"/> -->
+				</header>
+					<sheet>
+						<group>
+								<field name="material_plan_id" invisible='1'/>
+								<!-- <field name="name"/> -->
+								<field name="product_id"/>
+								<field name="date"/>
+								
+						</group>
+						<notebook>
+							<page string="PR lines">
+								<field name="wizard_pr_add_line_ids" />
+								<!-- <tree string="Wizard PR Line" editable="bottom" >
+										<field name="pr_bool" nolabel="1"/>
+										<field name="code_material" />
+										<field name="product_id"/>
+										<field name="qty" />
+										<field name="uom_id" invisible='1'/>
+										<field name="weight" />
+								</tree> -->
+								<!-- </field> -->
+							</page>
+						</notebook>
+					</sheet>
+					<footer>
+						<button name="confirm" type="object" string="Save" class="oe_inline oe_button btn-success"/>
+						<!-- <button string="Back" class="oe_inline oe_button btn-info" name="vit_ppic_material_plan_inherit.action_generate_all_pr" type="action" context="{'default_material_plan_id':material_plan_id}"/> -->
+						<button special="cancel" type="object" string="Cancel" class="oe_inline oe_button btn-danger"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="action_generate_pr">
+			<field name="name">Purchase Request (PR)</field>
+			<field name="res_model">vit.wizard_material_plan_inherit</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<report id="vit_marketing_inquery.report_vit_marketing_inquery_menu" string="Vit - Marketing inquery" model="vit.marketing_inquery" report_type="qweb-pdf" file="vit.marketing_inquery"  name="vit_marketing_inquery.vit_marketing_inquery_report" menu="False" />
+		<report id="vit_marketing_sph.report_vit_marketing_inquery_menu" string="Vit - Inquery"
+		model="vit.marketing_inquery" report_type="qweb-pdf" file="vit.marketing_inquery"
+		name="vit_marketing_sph.vit_marketing_inquery_report" menu="False" />
+		<report id="vit_marketing_rab.report_vit_marketing_inquery_menu" string="Vit - Marketing inquery" model="vit.marketing_inquery" report_type="qweb-pdf" file="vit.marketing_inquery"  name="vit_marketing_rab.vit_marketing_inquery_report" menu="False"/>
+		<report id="vit_marketing_sph.report_vit_marketing_rab_menu" string="Vit - Rab"
+		model="vit.marketing_rab" report_type="qweb-pdf" file="vit.marketing_rab" name="vit_marketing_sph.vit_marketing_rab_report" menu="False"/>
+		<report id="vit_marketing_rab.report_vit_marketing_rab_menu" string="Vit - Marketing rab"
+		model="vit.marketing_rab" report_type="qweb-pdf" file="vit.marketing_rab" name="vit_marketing_rab.vit_marketing_rab_report" menu="False"/>
+		<report id="vit_marketing_sph.report_vit_marketing_sph_menu" string="Vit - Marketing sph"
+		model="vit.marketing_sph" report_type="qweb-pdf" file="vit.marketing_sph" name="vit_marketing_sph.vit_marketing_sph_report" menu="False"/>
+		<report id="vit_marketing_po.report_vit_marketing_sph_menu" string="Vit - Sph" model="vit.marketing_sph" report_type="qweb-pdf" file="vit.marketing_sph" name="vit_marketing_po.vit_marketing_sph_report" menu="False"/>
+		<report id="vit_marketing_po.report_vit_purchase_order_menu" string="Vit - Purchase order"
+		model="vit.purchase_order" report_type="qweb-pdf" file="vit.purchase_order" name="vit_marketing_po.vit_purchase_order_report" menu="False"/>
+		<report id="vit_marketing_jo.report_vit_purchase_order_menu" string="Vit - Marketing po" model="vit.purchase_order" report_type="qweb-pdf" file="vit.purchase_order" name="vit_marketing_jo.vit_purchase_order_report" menu="False"/>
+		<report id="vit_marketing_jo.report_vit_marketing_jo_menu" string="Vit - Marketing jo"
+		model="vit.marketing_jo" report_type="qweb-pdf" file="vit.marketing_jo" name="vit_marketing_jo.vit_marketing_jo_report" menu="False"/>
+		<report id="vit_marketing_rap.report_vit_marketing_jo_menu" string="Vit - Marketing jo"
+		model="vit.marketing_jo" report_type="qweb-pdf" file="vit.marketing_jo" name="vit_marketing_rap.vit_marketing_jo_report" menu="False"/>
+		<report id="vit_enginering_assemblylist.report_vit_marketing_jo_menu" string="Vit - Jo assemblylist" model="vit.marketing_jo" report_type="qweb-pdf" file="vit.marketing_jo"  name="vit_enginering_assemblylist.vit_marketing_jo_report" menu="False"/>
+		<report id="vit_enginering_boltnut.report_vit_marketing_jo_menu" string="Vit - Jo boltnut" model="vit.marketing_jo" report_type="qweb-pdf" file="vit.marketing_jo" name="vit_enginering_boltnut.vit_marketing_jo_report" menu="False"/>
+		<report id="vit_enginering_mto.report_vit_marketing_jo_menu" string="Vit - Jo mto" model="vit.marketing_jo" report_type="qweb-pdf" file="vit.marketing_jo" name="vit_enginering_mto.vit_marketing_jo_report" menu="False"/>
+		<report id="vit_enginering_partlist.report_vit_marketing_jo_menu" string="Vit - Jo partlist" model="vit.marketing_jo" report_type="qweb-pdf" file="vit.marketing_jo" name="vit_enginering_partlist.vit_marketing_jo_report" menu="False"/>
+		<report id="vit_enginering_packing_list.report_vit_marketing_jo_menu" string="Vit - Job order" model="vit.marketing_jo" report_type="qweb-pdf" file="vit.marketing_jo" name="vit_enginering_packing_list.vit_marketing_jo_report" menu="False"/>
+		<report id="vit_ppic_schedule.report_vit_marketing_jo_menu" string="Vit - Job order" model="vit.marketing_jo" report_type="qweb-pdf" file="vit.marketing_jo" name="vit_ppic_schedule.vit_marketing_jo_report" menu="False"/>
+	</data>
+</odoo>

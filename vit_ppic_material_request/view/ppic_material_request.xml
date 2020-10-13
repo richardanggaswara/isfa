@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tree view -->
+        <record id="view_vit_ppic_material_request_tree" model="ir.ui.view">
+            <field name="name">vit_ppic_material_request_tree</field>
+            <field name="model">vit.ppic_material_request</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Material Request">
+                    <field name="name" />
+                    <field name="project_des" />
+                    <field name="product_des" />
+                    <field name="date" />
+                    <field name="note" />
+                    <field name="state" />
+                    <field name="jo_id" />
+                    <field name="product_id" />
+                </tree>
+            </field>
+        </record>
+        <!-- form view -->
+        <record id="view_vit_ppic_material_request_form" model="ir.ui.view">
+            <field name="name">vit_ppic_material_request_form</field>
+            <field name="model">vit.ppic_material_request</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Material Request">
+                    <header>
+                        <button string="Confirm" type="object" name="action_confirm" states="draft" />
+                        <button string="Mark as Done" type="object" name="action_done" states="open" />
+                        <button string="Reset to Draft" type="object" name="action_draft" states="open,done" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+                                <!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+                                <!--field name="detail_ids" invisible="1"/-->
+                            <!--/button-->
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Material Request Name"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="jo_id" />
+                                <field name="project_des" />
+                                <field name="product_id" />
+                                <field name="product_des" />
+                            </group>
+                            <group>
+                                <field name="date" />
+                                <field name="note" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Bundle">
+                                <field name="material_request_line_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_vit_ppic_material_request_search" model="ir.ui.view">
+            <field name="name">vit_ppic_material_request</field>
+            <field name="model">vit.ppic_material_request</field>
+            <field name="arch" type="xml">
+                <search string="Material Request">
+
+                    <filter string="Name" name="filter_by_name" domain="[('name','=','')]" />
+                    <filter string="Project des" name="filter_by_project_des" domain="[('project_des','=','')]" />
+                    <filter string="Product des" name="filter_by_product_des" domain="[('product_des','=','')]" />
+                    <filter string="Date" name="filter_by_date" domain="[('date','=','')]" />
+                    <filter string="Note" name="filter_by_note" domain="[('note','=','')]" />
+                    <filter string="State" name="filter_by_state" domain="[('state','=','')]" />
+                    <field name="name" select="True"/>
+                    <field name="project_des" select="True"/>
+                    <field name="product_des" select="True"/>
+                    <field name="date" select="True"/>
+                    <field name="note" select="True"/>
+                    <field name="state" select="True"/>
+                    <field name="jo_id" select="True"/>
+                    <field name="product_id" select="True"/>
+                    <group string="Group By..">
+                        <filter string="Jo" domain="[]" name="group_by_jo_id" context="{'group_by':'jo_id'}"/>
+                        <filter string="Product" domain="[]" name="group_by_product_id" context="{'group_by':'product_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- kanban , to show image, please add image_small in the model -->
+        <record id="view_vit_ppic_material_request_kanban" model="ir.ui.view" >
+            <field name="name">vit_ppic_material_request</field>
+            <field name="model">vit.ppic_material_request</field>
+            <field name="arch" type="xml">
+                <kanban version="7.0">
+                    <field name="id" />
+                    <field name="name" />
+                    <field name="project_des" />
+                    <field name="product_des" />
+                    <field name="date" />
+                    <field name="note" />
+                    <field name="state" />
+                    <field name="jo_id" />
+                    <field name="product_id" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            Field1: <field name="name"></field>
+                                        </li>
+                                        <li>
+                                            Field2: <field name="name"></field>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- calendar if a date field exists -->
+        <record id="view_vit_ppic_material_request_cal" model="ir.ui.view">
+            <field name="name">vit_ppic_material_request_cal</field>
+            <field name="model">vit.ppic_material_request</field>
+            <field name="arch" type="xml">
+                <calendar string="Material Request" date_start="date">
+                    <field name="name" />
+                </calendar>
+            </field>
+        </record>
+        <!-- graph -->
+        <record id="view_vit_ppic_material_request_graph" model="ir.ui.view">
+            <field name="name">vit_ppic_material_request</field>
+            <field name="model">vit.ppic_material_request</field>
+            <field name="arch" type="xml">
+                <graph string="Material Request" type="bar">
+                    <field name="jo_id"/>
+                </graph>
+            </field>
+        </record>
+        <!-- action window -->
+        <record id="action_vit_ppic_material_request" model="ir.actions.act_window">
+            <field name="name">Material Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.ppic_material_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Material Request
+                </p><p>
+                Click the Create button to add a new Material Request
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_vit_ppic_material_request" name="Material Request" parent="vit_ppic.vit_ppic_sub_menu" action="action_vit_ppic_material_request" sequence="68"/>
+    </data>
+</odoo>

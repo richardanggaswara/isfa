@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- report qweb view -->
+        <report id="report_vit_marketing_rap_menu" string="Vit - Marketing rap"
+         model="vit.marketing_rap" report_type="qweb-pdf" 
+         file="vit.marketing_rap"  name="vit_marketing_rap.vit_marketing_rap_report" />
+
+        <!-- document template -->
+        <template id="vit_marketing_rap.vit_marketing_rap_report_document" >
+            <t t-call="web.external_layout">
+                <t t-set="doc" t-value="doc.with_context({'lang': lang})"/>
+                <div class="page">
+                    <h2>
+                        Marketing rap: <span t-field="doc.name"/>
+                    </h2>
+                    <div class="row mt32 mb32">
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Project</strong>
+                            <p class="m-0" t-field="doc.project" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Description</strong>
+                            <p class="m-0" t-field="doc.description" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Rap no</strong>
+                            <p class="m-0" t-field="doc.rap_no" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Po no</strong>
+                            <p class="m-0" t-field="doc.po_no" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Date</strong>
+                            <p class="m-0" t-field="doc.date" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Total rap</strong>
+                            <p class="m-0" t-field="doc.total_rap" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Total weight</strong>
+                            <p class="m-0" t-field="doc.total_weight" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Harga satuan</strong>
+                            <p class="m-0" t-field="doc.harga_satuan" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Total price</strong>
+                            <p class="m-0" t-field="doc.total_price" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Gross margin</strong>
+                            <p class="m-0" t-field="doc.gross_margin" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Note</strong>
+                            <p class="m-0" t-field="doc.note" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>State</strong>
+                            <p class="m-0" t-field="doc.state" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Excepted gross</strong>
+                            <p class="m-0" t-field="doc.excepted_gross" />
+                        </div>
+                        <div class="col-auto mw-100 mb-2">
+                            <strong>Jo</strong>
+                            <p class="m-0" t-field="doc.jo_id"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+                <h2>Rap lines</h2>
+                <table class="table table-sm o_main_table" name="rap_line_ids_table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Code</td>
+                            <td>Cost rap</td>
+                            <td>Cost rab</td>
+                            <td>Total weight</td>
+                            <td>Rap</td>
+                            <td>Master rap</td>
+                        </tr>
+                    </thead>
+                    <tbody class="rap_line_ids_tbody">
+                        <tr t-foreach="doc.rap_line_ids" t-as="line">
+                            <td><span t-field="line.name" /></td>
+                            <td><span t-field="line.code" /></td>
+                            <td><span t-field="line.cost_rap" /></td>
+                            <td><span t-field="line.cost_rab" /></td>
+                            <td><span t-field="line.total_weight" /></td>
+                            <td><span t-field="line.rap_id" /></td>
+                            <td><span t-field="line.master_rap_id" /></td>
+                        </tr> <!-- foreach-->
+                    </tbody>
+                </table>
+                <div class="oe_structure"/>
+            </t>
+        </template>
+
+        <!-- main template -->
+        <template id="vit_marketing_rap.vit_marketing_rap_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="lang" t-value="doc.create_uid.lang"/>
+                    <t t-call="vit_marketing_rap.vit_marketing_rap_report_document" />
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- form -->
+        <record id="view_vit_marketing_sph_form_inherit" model="ir.ui.view">
+            <field name="name">vit_marketing_sph_form_inherit</field>
+            <field name="model">vit.marketing_sph</field>
+            <field name="inherit_id" ref="vit_marketing_sph.view_vit_marketing_sph_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Marketing SPH">
+                        <header>
+                            <button string="Confirm" type="object" name="action_confirm" states="draft" />
+                            <button string="Validate" type="object" name="action_done" states="open" />
+                            <button string="Reset to Draft" type="object" name="action_draft" states="open" />
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                            </div>
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only" string="SPH No :"/>
+                                <h1><field name="name"/></h1>
+                            </div>
+                            <group>
+                                <group>                                
+                                    <field name="date" />
+                                    <field name="partner_id" domain="[('customer','=',True)]" />
+                                    <field name="inquery_id" domain="[('state','=','done'),('partner_id','=',partner_id)]"/>
+                                    <field name="rab_id" domain="[('state','=','done'),('partner_id','=',partner_id)]"/>
+                                </group>
+                                <group>
+                                    <field name="project" />
+                                    <field name="description" />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="BOQ">
+                                    <field name="boq_ids">
+                                        <tree string="BOQ" editable="bottom">
+                                            <field name="product_id"/>
+                                            <field name="uom_id"/>
+                                            <field name="qty" sum="Total Qty"/>
+                                            <field name="unit_weight_sph"/>
+                                            <field name="total_weight_sph" sum="Total Weight"/>
+                                            <field name="unit_price" />
+                                            <field name="total" sum="Total Price"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Term and Condition Of Payment">
+                                    <field name="term_ids">
+                                        <tree string="Term of Payment" editable="bottom">
+                                            <field name="name"/>
+                                            <field name="persen"/>
+                                            <field name="description_term"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Document">
+                                    <field name="doc_ids">
+                                        <tree string="Document" editable="bottom">
+                                            <field name="doc_name" invisible="1"/>
+                                            <field name="doc" widget="binary" filename="doc_name" />
+                                            <field name="date"/>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+
+        <!--  inherit action window marketing sph -->
+        <record id="vit_marketing_sph.action_vit_marketing_sph" model="ir.actions.act_window">
+            <field name="name">Surat Penawaran Harga (SPH)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.marketing_sph</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create"> 
+                Click to add a new Marketing sph 
+                </p><p> 
+                Click the Create button to add a new Marketing sph 
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_sph.menu_vit_marketing_sph" name="Surat Penawaran Harga (SPH)" parent="vit_marketing.vit_marketing_sub_menu" sequence="40"/>
+
+        <!--  inherit action window boq sph line -->
+        <record id="vit_marketing_sph.action_vit_boq_sph_line" model="ir.actions.act_window">
+            <field name="name">Boq sph line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.boq_sph_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Boq sph line
+                </p><p>
+                Click the Create button to add a new Boq sph line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_sph.menu_vit_boq_sph_line" name="Boq sph line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="40"/>
+
+        <!--  inherit action window term sph line -->
+        <record id="vit_marketing_sph.action_vit_term_sph_line" model="ir.actions.act_window">
+            <field name="name">Term sph line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.term_sph_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Term sph line
+                </p><p>
+                Click the Create button to add a new Term sph line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_sph.menu_vit_term_sph_line" name="Term sph line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="50"/>
+
+        <!-- inherit boq doc sph line -->
+        <record id="vit_marketing_sph.action_vit_doc_sph_line" model="ir.actions.act_window">
+            <field name="name">Doc sph line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">vit.doc_sph_line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form,calendar,graph</field>
+            <field name="context">{"search_default_fieldname":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to add a new Doc sph line
+                </p><p>
+                Click the Create button to add a new Doc sph line
+                </p>
+            </field>
+        </record>
+        <menuitem id="vit_marketing_sph.menu_vit_doc_sph_line" name="Doc sph line" parent="vit_marketing.vit_marketing_sub_menu_settings" sequence="60"/>
+
+        <!-- inherit boq sph line tree -->
+        <record id="view_vit_boq_sph_line_tree_new" model="ir.ui.view">
+            <field name="name">view_vit_boq_sph_line_tree</field>
+            <field name="model">vit.boq_sph_line</field>
+            <field name="inherit_id" ref="vit_marketing_sph.view_vit_boq_sph_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="name" invisible="1"/>
+                </field>
+                <field name="total" position="replace">
+                    <field name="total"/>
+                </field>
+                <field name="qty" position="before">
+                    <field name="product_id"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- inherit boq sph line form -->
+        <record id="view_vit_boq_sph_line_form_new" model="ir.ui.view">
+            <field name="name">view_vit_boq_sph_line_form</field>
+            <field name="model">vit.boq_sph_line</field>
+            <field name="inherit_id" ref="vit_marketing_sph.view_vit_boq_sph_line_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <div class="oe_title">
+                        <h1><field name="name" invisible="1"/></h1>
+                    </div>
+                </field>
+                <field name="total" position="replace">
+                    <field name="total"/>
+                </field>
+                <field name="qty" position="before">
+                    <field name="product_id"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_vit_marketing_sph_kanban" model="ir.ui.view" >
+            <field name="name">vit_marketing_sph</field>
+            <field name="model">vit.marketing_sph</field>
+            <field name="inherit_id" ref="vit_marketing_sph.view_vit_marketing_sph_kanban" />
+            <field name="arch" type="xml">
+                <templates position="replace">
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <h4>
+                                        <a type="open"><field name="name"/></a>
+                                    </h4>
+                                    <ul>
+                                        <li>
+                                            <span class='text-muted'>Date</span> <field name="date"></field>
+                                        </li>
+                                        <li>
+                                            <span class='text-muted'>Customer</span> <field name="partner_id"></field>
+                                        </li>
+                                        <li>
+                                            <span class='text-muted'>Project</span> <field name="project"></field>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </templates>
+            
+            </field>
+        </record>        
+
+    </data>
+</odoo>

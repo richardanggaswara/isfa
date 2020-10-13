@@ -1,0 +1,5 @@
+<odoo>
+  <data>
+    <menuitem id="vit_ppic_sub_menu_status_report" name="Status Report" sequence="50" parent="vit_ppic.vit_ppic_top_menu"/>
+  </data>
+</odoo>
