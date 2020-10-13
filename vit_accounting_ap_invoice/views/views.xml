@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- tree view -->
+		<record id="view_vit_account_invoice_tree" model="ir.ui.view">
+			<field name="name">vit_account_invoice_tree</field>
+			<field name="model">account.invoice</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Account invoice">
+					<field name="name_ap" />
+					<field name="inv_rekan_no" />
+					<field name="tpb_date" />
+					<field name="tpb_po_id" />
+					<field name="tpb_po_date" />
+					<field name="tpb_jo_id" />
+					<field name="tpb_jo_name" />
+					<field name="reference_vendor" />
+					<field name="partner_id" />
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		<!-- form view -->
+		<record id="view_vit_account_invoice_form" model="ir.ui.view">
+			<field name="name">vit_account_invoice_form</field>
+			<field name="model">account.invoice</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Account invoice">
+					<header>
+						<button name="action_invoice_open" type="object" states="draft" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
+						<button name="account.action_account_invoice_payment" type="action" states="open" string="Register Payment" groups="account.group_account_invoice" class="oe_highlight"/>
+						<button name="account.action_account_invoice_refund" type='action' string='Ask for a Credit Note' groups="account.group_account_invoice" attrs="{'invisible': ['|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"/>
+						<button name="action_invoice_draft" states="cancel" string="Set to Draft" type="object" groups="account.group_account_invoice"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,open,paid" />
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<!--button type="object" name="action_view_detail" class="oe_stat_button" icon="fa-pencil-square-o"-->
+								<!--field name="detail_count" widget="statinfo" string="Detail(s)"/-->
+								<!--field name="detail_ids" invisible="1"/-->
+							<!--/button-->
+						</div>
+						<div class="oe_title">
+							<label for="name_ap" class="oe_edit_only" string="Invoice ID"/>
+							<h1><field name="name_ap"/></h1>
+						</div>
+						<field name="has_outstanding" invisible="1"/>
+						<field name="type" invisible="1"/>
+						<field name="sent" invisible="1"/>
+						<group>
+							<group>
+								<field name="tpb_id" required="1"/>
+								<field name="date_invoice"/>
+								<field name="inv_rekan_no" />
+								<field name="date_due" string="Inv Rekanan Date"/>
+								<field name="tpb_id_name" string="TPB No"/>
+								<field name="tpb_date" />
+								<field name="tpb_po_id" />
+								<field name="tpb_po_date" />
+								<field name="tpb_jo_id" />
+								<field name="tpb_jo_name" />
+								<field name="reference_vendor" />
+								<field name="partner_id" string="Vendor Name"/>
+							</group>
+							<group>
+								
+								<field name="payment_term_id"/>
+								<field name="total_po"/>
+								<field name="amount_untaxed"/>
+								<field name="amount_tax"/>
+								<field name="amount_total"/>
+								<field name="payments_widget" nolabel="1" widget="payment"/>
+								<field name="residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+								<field name="reconciled" invisible="1"/>
+								<field name="outstanding_credits_debits_widget" nolabel="1" widget="payment" attrs="{'invisible': [('state', 'not in', 'open')]}"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Product">
+								<field name="invoice_line_ids">
+									<tree string="Invoice Lines" editable="bottom">
+										<field name="product_id"/>
+										<field name="name" invisible="1"/>
+										<field name="account_id"/>
+										<field name="quantity"/>
+										<field name="price_unit"/>
+										<field name="invoice_line_tax_ids" widget="many2many_tags"/>
+										<field name="price_subtotal" string="Amount"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Document">
+								<field name="doc_ap_ids"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+	
+		
+		<record id="action_vit_account_invoice" model="ir.actions.act_window">
+			<field name="name">Account invoice</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field eval="False" name="view_id"/>
+			<field name="domain">[('type','=','in_invoice')]</field>
+			<field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Account invoice
+				</p><p>
+				Click the Create button to add a new Account invoice
+				</p>
+			</field>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_account_ap_inv_tree_view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_vit_account_invoice_tree"/>
+			<field name="act_window_id" ref="action_vit_account_invoice"/>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_account_ap_inv_form_view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_vit_account_invoice_form"/>
+			<field name="act_window_id" ref="action_vit_account_invoice"/>
+		</record>
+		<menuitem id="menu_vit_ap_invoice" name="AP Invoice" parent="vit_accounting_tpb_inherit.menu_account_transaction" action="action_vit_account_invoice" sequence="305"/>
+	</data>
+</odoo>

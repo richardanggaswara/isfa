@@ -1,0 +1,135 @@
+<odoo>
+	<data>
+		<record id="vit_accounting_invoice_marketing_tree" model="ir.ui.view">
+			<field name="name">vit_accounting_invoice_marketing_tree</field>
+			<field name="model">account.invoice</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Account Invoice">
+					<field name="number" string="Invoice No"/>
+					<field name="date" string="Date"/>
+					<field name="bast_id" string="BAST No"/>
+					<field name="project" string="Project"/>
+					<field name="po_id" string="PO No"/>
+					<!-- <field name="total_price" string="Total Price"/> -->
+					<!-- <field name="status" string="Status"/> -->
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		<record id="vit_accounting_invoice_marketing_form" model="ir.ui.view">
+			<field name="name">vit_accounting_invoice_marketing_form</field>
+			<field name="model">account.invoice</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Account Invoice">
+					<header>
+						<button name="action_invoice_open" type="object" states="draft" string="Validate" class="oe_highlight o_invoice_validate" groups="account.group_account_invoice"/>
+						<button name="account.action_account_invoice_payment" id="account_invoice_payment_btn" type="action" attrs="{'invisible': [('state', '!=', 'open')]}" string="Register Payment" groups="account.group_account_invoice" class="oe_highlight"/>
+						<button name="account.action_account_invoice_refund" type='action' string='Ask for a Credit Note' groups="account.group_account_invoice" attrs="{'invisible': ['|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"/>
+						<button name="action_invoice_draft" states="cancel" string="Set to Draft" type="object" groups="account.group_account_invoice"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,open,paid"/>
+					</header>
+					<sheet>
+						<span class="o_form_label" attrs="{'invisible': ['|',('state','=','draft'), ('type','!=','out_refund')]}">Credit Note</span>
+						<h1 class="mt0">
+							<div attrs="{'invisible': [('sequence_number_next_prefix','!=',False)]}">
+									<label for="number" string="Draft Invoice" attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','!=','out_invoice')]}"/>
+									<label for="number" string="Draft Credit Note" attrs="{'invisible': ['|',('state','not in',('draft',)), ('type','!=','out_refund')]}"/>
+									<field name="number" readonly="1" class="oe_inline" attrs="{'invisible': [('state','in',('draft'))]}"/>
+							</div>
+							<div attrs="{'invisible': [('sequence_number_next_prefix','=',False)]}">
+									<label for="sequence_number_next_prefix" string="Invoice Number:" /><br/>
+									<field name="sequence_number_next_prefix" class="oe_inline" attrs="{'invisible': [('state','in',('draft'))]}"/>
+									<field name="sequence_number_next" class="oe_inline" attrs="{'invisible': [('state','in',('draft'))]}"/>
+							</div>
+						</h1>
+						<field name="has_outstanding" invisible="1"/>
+						<field name="type" invisible="1"/>
+						<field name="sent" invisible="1"/>
+						<field name="company_id" invisible="1" groups="base.group_multi_company"/>
+						<group>
+							<group>
+								<field name="date_invoice" string="Invoice Date"/>
+								<field name="bast_id" string="BAST No" required="1"/>
+								<field name="jo_id" string="Job Order No"/>
+								<field name="project" string="Project"/>
+								<field name="account_id" required="1"/>
+								<field name="po_id" string="PO No"/>
+								<field name="customer_code" string="Customer No"/>
+								<field name="partner_id" string="Customer Name" readonly="1"/>
+								<field name="delivery_address" string="Address"/>
+							</group>
+							<group>
+								
+								<!-- <field name="payment_term_id"/> -->
+								<field name="transfer_rek" string="Transfer To"/>
+								<field name="amount_untaxed"/>
+								<field name="amount_tax"/>
+								<field name="amount_total"/>
+								<field name="payments_widget" nolabel="1" widget="payment"/>
+								<field name="residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+								<field name="reconciled" invisible="1"/>
+								<field name="outstanding_credits_debits_widget" nolabel="1" widget="payment" attrs="{'invisible': [('state', 'not in', 'open')]}"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Product">
+								<field name="invoice_line_ids">
+									<tree string="Invoice Lines" editable="bottom">
+										<field name="product_id" string="Description"/>
+										<field name="name" string="Name"/>
+										<field name="account_id"/>
+										<field name="quantity" string="Unit"/>
+										<field name="price_unit" string="Unit Price"/>
+										<field name="company_id" invisible="1"/>
+										<field name="origin" invisible="1"/>
+										<field name="is_rounding_line" invisible="1"/>
+										<field name="display_type" invisible="1"/>
+										<field name="currency_id" invisible="1"/>
+										<field name="invoice_line_tax_ids" widget="many2many_tags"/>
+											<!-- <field name="account_tax_id" invisible="1"/> -->
+										<!-- </field> -->
+										<field name="price_subtotal" string="Amount"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="action_vit_accounting_invoice_marketing" model="ir.actions.act_window">
+			<field name="name">Account Invoice</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.invoice</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field eval="False" name="view_id"/>
+			<field name="domain">[('type','=','out_invoice')]</field>
+			<field name="context">{'type':'out_invoice', 'journal_type': 'sale'}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Account invoice
+				</p><p>
+				Click the Create button to add a new Account invoice
+				</p>
+			</field>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_accounting_invoice_marketing_tree_view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="vit_accounting_invoice_marketing_tree"/>
+			<field name="act_window_id" ref="action_vit_accounting_invoice_marketing"/>
+		</record>
+		<record model="ir.actions.act_window.view" id="act_accounting_invoice_marketing_form_view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="vit_accounting_invoice_marketing_form"/>
+			<field name="act_window_id" ref="action_vit_accounting_invoice_marketing"/>
+		</record>
+		<menuitem id="menu_vit_accounting_invoice_marketing" name="Invoice" parent="vit_accounting_tpb_inherit.menu_account_transaction" action="action_vit_accounting_invoice_marketing" sequence="304"/>
+	</data>
+</odoo>

@@ -1,0 +1,69 @@
+<odoo>
+	<data>
+		<record id="view_vit_accounting_bast_tree" model="ir.ui.view">
+			<field name="name">vit_accounting_bast_tree</field>
+			<field name="model">vit.ppic_bast</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Ppic bast">
+					<field name="jo_id" string="JO"/>
+					<field name="project_dest" string="Project"/>
+					<field name="product_id" string="Product ID"/>
+					<field name="product_dest" string="Product"/>
+					<field name="weight" string="Weight(KG)"/>
+					<field name="name" string="BAST"/>
+					<field name="date"/>
+					<field name="states" string="Status"/>
+					<!-- <button string="Unposted" type="object" name="action_unposted" class="oe_highlight" states="Unposted"/>
+					<button string="Finish" type="object" name="action_posted" class="oe_highlight" states="posted" /> -->
+					<field name="state" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_vit_accounting_bast_search" model="ir.ui.view">
+			<field name="name">vit_accounting_bast_search</field>
+			<field name="model">vit.ppic_bast</field>
+			<field name="arch" type="xml">
+				<search string="BAST">
+					<filter string="Unposted" name="filter_by_state_unposted" domain="[('states','=','unposted')]" />
+					<filter string="Posted" name="filter_by_state_posted" domain="[('states','=','posted')]" />
+				</search>
+			</field>
+		</record>
+		<record id="action_unposted_run" model="ir.actions.server">
+			<field name="name">Posting</field>
+			<field name="model_id" ref="model_vit_ppic_bast"/>
+			<field name="binding_model_id" ref="model_vit_ppic_bast"/>
+			<field name="state">code</field>
+			<field name="code">
+					for rec in records:
+							rec.action_state_unposted_posted()
+			</field>
+		</record>
+		<record id="action_vit_accounting_bast" model="ir.actions.act_window">
+			<field name="name">BAST</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.ppic_bast</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field eval="False" name="view_id"/>
+			<!-- <field name="context">{"search_default_fieldname":1}</field> -->
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Accounting BAST
+				</p><p>
+				Click the Create button to add a new Accounting BAST
+				</p>
+			</field>
+		</record>
+		<menuitem id="menu_vit_accounting_bast" name="BAST" parent="vit_accounting_tpb_inherit.menu_account_transaction" action="action_vit_accounting_bast" sequence="66"/>		
+
+		<record id="action_vit_accounting_bast_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_vit_accounting_bast_tree"/>
+			<field name="act_window_id" ref="action_vit_accounting_bast"/>
+		</record>
+	</data>
+</odoo>

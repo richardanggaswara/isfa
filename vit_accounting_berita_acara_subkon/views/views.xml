@@ -1,0 +1,174 @@
+<odoo>
+	<data>
+		<record id="view_vit_accounting_berita_acara_subkon_tree" model="ir.ui.view">
+			<field name="name">vit_accounting_berita_acara_subkon_tree</field>
+			<field name="model">vit.accounting_berita_acara_subkon</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Berita Acara Subkon">
+					<field name="name"/>
+					<field name="po_id"/>
+					<field name="notes"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_vit_accounting_berita_acara_subkon_form" model="ir.ui.view">
+			<field name="name">vit_accounting_berita_acara_subkon_form</field>
+			<field name="model">vit.accounting_berita_acara_subkon</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Berita Acara Subkon">
+					<header>
+						<button string="Confirm" type="object" name="action_confirm" states="draft" />
+							<button string="Mark as Done" type="object" name="action_done" states="open" />
+							<button string="Account Pay" type="object" name="action_pay" states="open" />
+							<button string="Reset to Draft" type="object" name="action_draft" states="open,done" />
+							<field name="state" widget="statusbar" />
+					</header>
+					<sheet>
+						<div>
+						</div>
+						<div>
+							<label for="name" class="oe_edit_only" string="ID BA Subkon"/>
+							<h1><field name="name"/></h1>
+						</div>
+						<group>
+							<group>
+								<field name="po_id" domain="[('tipe','=','subkon')]"/>
+								<field name="jo_id"/>
+								<field name="cost_center"/>
+								<field name="total_po"/>
+							</group>
+							<group>
+								<field name="vendor_code"/>
+								<field name="vendor_id"/>
+								<field name="is_completed"/>
+								<field name="notes"/>
+								<field name="sisa_progress" invisible="1"/>
+								<field name="type_tower" invisible="1"/>
+								<field name="type_steel" invisible="1"/>
+								<field name="type_bridge" invisible="1"/>
+								<field name="type_others" invisible="1"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="BA Line">
+								<field name="berita_acara_subkon_lines"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_vit_accounting_berita_acara_subkon_line_tree" model="ir.ui.view">
+			<field name="name">vit_accounting_berita_acara_subkon_line_tree</field>
+			<field name="model">vit.accounting_berita_acara_subkon_line</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<tree string="Berita Acara Subkon Line">
+					<field name="name"/>
+					<field name="date"/>
+					<field name="progress"/>
+					<field name="notes"/>
+					<field name="diserahkan"/>
+					<field name="diterima"/>
+					<field name="data" invisible="1"/>
+					<field name="name_doc" string="Document" widget="binary" filename="data"/>
+					<field name="date_doc" invisible="1"/>
+					<field name="desc_doc" invisible="1"/>
+					<field name="berita_acara_subkon_id" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_vit_accounting_berita_acara_subkon_line_form" model="ir.ui.view">
+			<field name="name">vit_accounting_berita_acara_subkon_line_form</field>
+			<field name="model">vit.accounting_berita_acara_subkon_line</field>
+			<field name="type">form</field>
+			<field name="priority" eval="8"/>
+			<field name="arch" type="xml">
+				<form string="Berita Acara Subkon Line">
+					<header>
+					</header>
+					<sheet>
+						<div>
+						</div>
+						<div>
+						</div>
+						<group>
+							<group>
+								<field name="name" readonly="1"/>
+								<field name="date"/>
+								<field name="progress"/>
+								<field name="notes"/>
+								<field name="diserahkan"/>
+								<field name="diterima"/>
+								<field name="data" invisible="1"/>
+								<field name="name_doc" string="Document" widget="binary" filename="data"/>
+								<field name="date_doc" invisible="1"/>
+								<field name="desc_doc" invisible="1"/>
+								<field name="berita_acara_subkon_id" invisible="1"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_vit_accounting_berita_acara_subkon_search" model="ir.ui.view">
+			<field name="name">vit_accounting_berita_acara_subkon_search</field>
+			<field name="model">vit.accounting_berita_acara_subkon</field>
+			<field name="arch" type="xml">
+				<search string="Berita Acara Subkon">
+
+					<filter string="ID Berita Acara Subkon" name="filter_by_name" domain="[('name','=','')]" />
+					<filter string="PO No" name="filter_by_date" domain="[('po_id','=','')]" />
+					<filter string="Notes" name="filter_by_notes" domain="[('notes','=','')]" />
+					<field name="name" select="True"/>
+					<field name="po_id" select="True"/>
+					<field name="notes" select="True"/>
+					<field name="jo_id" select="True"/>
+					<group string="Group By..">
+						<filter string="Jo" domain="[]" name="group_by_jo_id" context="{'group_by':'jo_id'}"/>
+						<filter string="Vendor" domain="[]" name="group_by_vendor_id" context="{'group_by':'vendor_id'}"/>
+						<filter string="Po" domain="[]" name="group_by_po_id" context="{'group_by':'po_id'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		<record id="action_vit_accounting_berita_acara_subkon" model="ir.actions.act_window">
+			<field name="name">Berita Acara Subkon</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.accounting_berita_acara_subkon</field>
+			<field name="view_type">form</field>
+			<field name="viwe_mode">tree,form</field>
+			<field name="context">{"search_default_fieldname":1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Berita Acara Subkon
+				</p><p>
+				Click the Create button to add a new Berita Acara Subkon
+				</p>
+			</field>
+		</record>
+		<record id="action_vit_accounting_berita_acara_subkon_line" model="ir.actions.act_window">
+			<field name="name">Berita Acara Subkon Line</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">vit.accounting_berita_acara_subkon_line</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{"search_default_fieldname":1}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+				Click to add a new Berita Acara Subkon Line
+				</p><p>
+				Click the Create button to add a new Berita Acara Subkon Line
+				</p>
+			</field>
+		</record>
+
+		<menuitem id="menu_vit_accounting_berita_acara_subkon" name="Berita Acara Subkon" parent="vit_ppic.vit_ppic_sub_menu_other" action="action_vit_accounting_berita_acara_subkon" sequence="180"/>
+	</data>
+</odoo>

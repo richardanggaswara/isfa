@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_all_account_payment,access_all_account_payment,model_account_payment,,1,0,0,0
+access_admin_account_payment,access_admin_account_payment,model_account_payment,base.group_system,1,1,1,1
+access_all_vit_doc_ap_payment_line,access_all_vit_doc_ap_payment_line,model_vit_doc_ap_payment_line,,1,0,0,0
+access_admin_vit_doc_ap_payment_line,access_admin_vit_doc_ap_payment_line,model_vit_doc_ap_payment_line,base.group_system,1,1,1,1

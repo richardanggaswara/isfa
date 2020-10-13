@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_all_vit_accounting_berita_acara_subkon,access_all_vit_accounting_berita_acara_subkon,model_vit_accounting_berita_acara_subkon,,1,0,0,0
+access_admin_vit_accounting_berita_acara_subkon,access_admin_vit_accounting_berita_acara_subkon,model_vit_accounting_berita_acara_subkon,base.group_system,1,1,1,1
+access_all_vit_accounting_berita_acara_subkon_line,access_all_vit_accounting_berita_acara_subkon_line,model_vit_accounting_berita_acara_subkon_line,,1,0,0,0
+access_admin_vit_accounting_berita_acara_subkon_line,access_admin_vit_accounting_berita_acara_subkon_line,model_vit_accounting_berita_acara_subkon_line,base.group_system,1,1,1,1

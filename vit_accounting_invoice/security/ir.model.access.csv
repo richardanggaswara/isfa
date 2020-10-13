@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vit_accounting_invoice_vit_accounting_invoice,vit_accounting_invoice.vit_accounting_invoice,model_vit_accounting_invoice_vit_accounting_invoice,,1,0,0,0
